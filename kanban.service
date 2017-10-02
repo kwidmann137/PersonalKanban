@@ -1,0 +1,14 @@
+[Unit]
+Description=kanban
+
+[Service]
+ExecStart=/var/www/kanban/node_modules/.bin/nodemon --watch app --watch bootstrap --watch config --watch .env -x node server.js
+Restart=always
+User=ubuntu
+Group=ubuntu
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/var/www/kanban
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,58 @@
+{
+  "name": "adonis-app",
+  "version": "3.2.1",
+  "main": "server.js",
+  "scripts": {
+    "serve:dev": "nodemon --watch app --watch bootstrap --watch config --watch .env -x node server.js",
+    "serve": "node server.js",
+    "lint": "standard",
+    "babel": "babel --presets es2015",
+    "start": "http-server",
+    "webpack": "webpack --display-error-details"
+  },
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "adonis-ace": "^3.0.7",
+    "adonis-auth": "^1.0.5",
+    "adonis-commands": "^2.1.5",
+    "adonis-fold": "^3.0.3",
+    "adonis-framework": "^3.0.10",
+    "adonis-lucid": "^3.0.14",
+    "adonis-middleware": "^1.0.11",
+    "adonis-validation-provider": "^3.0.5",
+    "adonis-websocket": "^1.0.3",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "material-ui": "^0.19.2",
+    "mysql": "^2.14.1",
+    "npm-cli": "^0.1.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "youch": "^2.0.4"
+  },
+  "standard": {
+    "global": [
+      "use",
+      "make"
+    ]
+  },
+  "autoload": {
+    "App": "./app"
+  },
+  "devDependencies": {
+    "axios": "^0.16.2",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "lovefield": "^2.1.12",
+    "nodemon": "^1.11.0",
+    "standard": "^10.0.1",
+    "webpack": "^3.6.0"
+  }
+}
