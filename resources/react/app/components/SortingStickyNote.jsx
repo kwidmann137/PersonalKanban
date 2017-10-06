@@ -2,17 +2,19 @@ import React from 'react';
 import Paper from 'material-ui/Paper';
 
 let style = {
-  height: 300,
-  width: 300,
+  height: 150,
+  width: 150,
   margin: '10px auto',
   padding: '15px',
   backgroundColor: '#FAEE76',
   position: 'relative',
   fontFamily: 'Architects Daughter, cursive',
-  fontSize: 18
+  fontSize: 14,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis'
 };
 
-export default class StickyNote extends React.Component{
+export default class SortingStickyNote extends React.Component{
 
   constructor(props){
     super(props);
@@ -34,8 +36,6 @@ export default class StickyNote extends React.Component{
     return(
       <Paper style={style} zDepth={1}>
         <p>{this.props.data.text}</p>
-        <p>{this.props.data.dueDate}</p>
-        <p>{this.props.data.category}</p>
         <div>
 
         </div>

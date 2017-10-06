@@ -1,18 +1,35 @@
 import React from 'react';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import Paper from 'material-ui/Paper';
+import ProgressBar from "Components/ProgressBar";
+import AddCircle from 'material-ui/svg-icons/content/add-circle'
 
-const barStyle = {
-  backgroundColor: '#fff',
-  height: 'auto',
-};
-
-const style = {
-  height: 80,
-  width: 80,
-  margin: 10,
-  textAlign: 'center',
-  display: 'inline-block',
+const style={
+  bar:{
+    backgroundColor: '#fff',
+    height: 'auto',
+  },
+  paper:{
+    height: 80,
+    width: 80,
+    margin: 10,
+    textAlign: 'center',
+    backgroundColor: '#FAEE76',
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  icon:{
+    height: 80,
+    width: 80,
+    padding: 15,
+  },
+  addIcon:{
+    color: 'green',
+    width: '60%',
+    height: 'auto',
+  },
 };
 
 export default class TopMenu extends React.Component{
@@ -22,18 +39,26 @@ export default class TopMenu extends React.Component{
 
   }
 
+  updateView = (view) => {
+    this.props.updateView(view);
+  };
+
   render(){
     return (
-      <Toolbar style={barStyle}>
-        <ToolbarGroup>
-
+      <Toolbar style={style.bar}>
+        <ToolbarGroup style={{width: '100%'}}>
+          <ProgressBar/>
         </ToolbarGroup>
-        <ToolbarGroup>
-          <Paper style={style} zDepth={1}>
-            <p>All Items</p>
-          </Paper>
-          <Paper style={style} zDepth={1} />
-          <Paper style={style} zDepth={1} />
+        <ToolbarGroup className="hover-group">
+          <div onClick={() => this.updateView('sortItems')} >
+            <img src="/assets/SortIcon.svg" alt="Schedule Icon" style={style.icon}/>
+          </div>
+          <div onClick={() => this.updateView('schedule')} >
+            <img src="/assets/ScheduleIcon.svg" alt="Schedule Icon" style={style.icon}/>
+          </div>
+          <div onClick={() => this.props.addItem()} >
+            <img src="/assets/AddItemIcon.svg" alt="Schedule Icon" style={style.icon}/>
+          </div>
         </ToolbarGroup>
       </Toolbar>
     )

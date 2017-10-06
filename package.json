@@ -8,7 +8,8 @@
     "lint": "standard",
     "babel": "babel --presets es2015",
     "start": "http-server",
-    "webpack": "webpack --display-error-details"
+    "build:dev": "webpack --display-error-details --config webpack.dev.js",
+    "build:prod": "webpack --config webpack.prod.js"
   },
   "author": "",
   "license": "MIT",
@@ -31,9 +32,12 @@
     "mysql": "^2.14.1",
     "npm-cli": "^0.1.0",
     "react": "^15.6.1",
+    "react-beautiful-dnd": "^2.4.0",
+    "react-dnd": "^2.5.3",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "youch": "^2.0.4"
   },
   "standard": {
@@ -53,6 +57,7 @@
     "lovefield": "^2.1.12",
     "nodemon": "^1.11.0",
     "standard": "^10.0.1",
-    "webpack": "^3.6.0"
+    "webpack": "^3.6.0",
+    "webpack-merge": "^4.1.0"
   }
 }

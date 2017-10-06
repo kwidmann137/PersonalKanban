@@ -1,6 +1,6 @@
 let nextTodoId = 0
 
-export const addTodo = text => {
+export const addItem = (text, category, dueDate, ) => {
   return {
     type: 'ADD_TODO',
     id: nextTodoId++,

@@ -1,5 +1,4 @@
 var path = require('path');
-var webpack = require('webpack');
 
 module.exports = {
   entry: {
@@ -33,9 +32,6 @@ module.exports = {
     },
     extensions: [".js", ".jsx"]
   },
-  stats: {
-    colors: true
-  },
-  devtool: 'source-map',
-  watch: true
+  watch: true,
 };
+
