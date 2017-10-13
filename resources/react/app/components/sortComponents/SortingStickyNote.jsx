@@ -24,7 +24,6 @@ export default class SortingStickyNote extends React.Component{
         textOverflow: 'ellipsis',
         transform: 'rotate(' + (Math.random() * (2 - -2) + -2).toString() + 'deg)',
         left: (Math.random() * (10 - -10) + -10).toString() + 'px',
-        backgroundColor: colors[this.props.data.category],
       }
     };
   }
@@ -32,9 +31,10 @@ export default class SortingStickyNote extends React.Component{
   render(){
 
     return(
-      <Paper style={this.state.style} zDepth={1}>
+      <Paper style={Object.assign({}, {backgroundColor: colors[this.props.data.category]}, this.state.style)} zDepth={1}>
         <p>{this.props.data.text}</p>
         <p>{this.props.data.category}</p>
+        <p>{this.state.style.backgroundColor}</p>
         <div>
 
         </div>

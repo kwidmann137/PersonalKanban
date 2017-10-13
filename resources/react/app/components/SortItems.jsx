@@ -68,33 +68,33 @@ export default class SortItems extends React.Component{
 
 // a little function to help us with reordering the result
 const reorder =  (list, startColumn, startIndex, endColumn, endIndex) => {
-  console.log(startColumn);
-  console.log(endColumn);
-  console.log(list);
+  // console.log(startColumn);
+  // console.log(endColumn);
+  // console.log(list);
   let newList = list;
-  console.log(newList);
+  // console.log(newList);
   let srcArray = Array.from(list[startColumn]);
   let destArray = null;
   if(startColumn != endColumn){
-    console.log("DIFF COLUMNS");
+    // console.log("DIFF COLUMNS");
     destArray = Array.from(list[endColumn]);
   }else{
     destArray = srcArray;
   }
 
   const removed = srcArray.splice(startIndex, 1)[0];
-  console.log(removed);
-  console.log("SRC");
-  console.log(srcArray);
+  // console.log(removed);
+  // console.log("SRC");
+  // console.log(srcArray);
   destArray.splice(endIndex, 0, removed);
-  console.log("DEST");
-  console.log(destArray);
+  // console.log("DEST");
+  // console.log(destArray);
   newList[startColumn] = srcArray.slice();
   newList[endColumn] = destArray.slice();
-  console.log("LIST");
-  console.log(newList[startColumn]);
-  console.log(newList[endColumn]);
-  console.log(newList);
+  // console.log("LIST");
+  // console.log(newList[startColumn]);
+  // console.log(newList[endColumn]);
+  // console.log(newList);
   return newList;
 };
 

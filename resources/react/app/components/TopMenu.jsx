@@ -50,14 +50,26 @@ export default class TopMenu extends React.Component{
           <ProgressBar/>
         </ToolbarGroup>
         <ToolbarGroup className="hover-group">
-          <div onClick={() => this.updateView('sortItems')} >
-            <img src="/assets/SortIcon.svg" alt="Schedule Icon" style={style.icon}/>
-          </div>
-          <div onClick={() => this.updateView('schedule')} >
-            <img src="/assets/ScheduleIcon.svg" alt="Schedule Icon" style={style.icon}/>
-          </div>
+          {
+            this.props.activeView != 'sortItems' &&
+            <div onClick={() => this.updateView('sortItems')} >
+              <img src="/assets/SortIcon.png" alt="Schedule Icon" style={style.icon}/>
+            </div>
+          }
+          {
+            this.props.activeView != 'schedule' &&
+            <div onClick={() => this.updateView('schedule')} >
+              <img src="/assets/ScheduleIcon.png" alt="Schedule Icon" style={style.icon}/>
+            </div>
+          }
+          {
+            this.props.activeView != 'personalBoard' &&
+            <div onClick={() => this.updateView('personalBoard')} >
+              <img src="/assets/YourBoardIcon.png" alt="Schedule Icon" style={style.icon}/>
+            </div>
+          }
           <div onClick={() => this.props.addItem()} >
-            <img src="/assets/AddItemIcon.svg" alt="Schedule Icon" style={style.icon}/>
+            <img src="/assets/AddItemIcon.png" alt="Schedule Icon" style={style.icon}/>
           </div>
         </ToolbarGroup>
       </Toolbar>

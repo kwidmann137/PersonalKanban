@@ -5,6 +5,8 @@ import FontIcon from 'material-ui/FontIcon';
 import PermIdentity from 'material-ui/svg-icons/action/perm-identity';
 import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account';
 import ViewModule from 'material-ui/svg-icons/action/view-module';
+import AccountInfoPane from "./accountComponents/AccountInfoPane";
+import CategoryInfoPane from "./accountComponents/CategoryInfoPane";
 
 const style = {
   default:{
@@ -43,16 +45,14 @@ export default class Account extends React.Component{
               icon={<PermIdentity/>}
               label="ACCOUNT"
             >
-              <div style={style.tabContent}>
-                <h2>Account Info</h2>
-              </div>
+              <AccountInfoPane style={style.tabContent}/>
             </Tab>
             <Tab
               icon={<ViewModule />}
               label="CATEGORIES"
             >
               <div style={style.tabContent}>
-                <h2>Categories</h2>
+                <CategoryInfoPane/>
               </div>
             </Tab>
             <Tab

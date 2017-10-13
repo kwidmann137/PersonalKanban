@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import SortingStickyNote from 'Components/SortingStickyNote';
+import SortingStickyNote from 'Components/sortComponents/SortingStickyNote';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 const borderStyle = {

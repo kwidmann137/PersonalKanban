@@ -24,6 +24,6 @@ body {
   cursor: pointer;
 }
 
-.schedule-header{
-
+body .vis-item .vis-item-content{
+  padding: 0;
 }

@@ -10,7 +10,7 @@ export default class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      activeView: 'personalBoard',
+      activeView: 'account',
       addingItem: false,
     }
   }
@@ -27,10 +27,10 @@ export default class App extends React.Component{
       <MuiThemeProvider>
         <div>
           <SideMenu updateView={this.updateView}/>
-          <TopMenu updateView={this.updateView} addItem={this.addItem}/>
+          <TopMenu activeView={this.state.activeView} updateView={this.updateView} addItem={this.addItem}/>
           <ActiveView activeView={this.state.activeView}/>
           {this.state.addingItem &&
-            <AddItem onClick={() => this.addItem()}/>
+            <AddItem addItem={this.addItem}/>
           }
         </div>
       </MuiThemeProvider>

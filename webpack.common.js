@@ -20,6 +20,10 @@ module.exports = {
           presets: ['react', 'es2015'],
           plugins: ["transform-object-rest-spread", "transform-class-properties"]
         }
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style-loader', 'css-loader']
       }
     ]
   },
