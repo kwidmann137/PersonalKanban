@@ -43,7 +43,7 @@ export default class EditableItem extends React.Component{
 
   saveItem = () => {
     let state = this.state;
-    this.props.dispatch(addItem(state.title, state.category, state.estimatedTime, state.dueDate));
+    this.props.addItem(state.title, state.category, state.estimatedTime, state.dueDate);
     this.props.toggleAddItem();
   };
 

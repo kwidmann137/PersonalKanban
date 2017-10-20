@@ -1,18 +1,39 @@
 import { connect } from 'react-redux';
 import React from 'react';
+import PropTypes from 'prop-types'
 import LoaderBackground from 'Components/LoaderBackground';
 import EditableItem from 'Components/EditableItem';
+import { addItem } from 'Actions/index';
 
-let AddItem = ({dispatch, toggleAddItem}) => {
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    toggleAddItem: () => ownProps.toggleAddItem(),
+    addItem: (text, category, estimatedTime, dueDate) => dispatch(addItem(text, category, estimatedTime, dueDate))
+  };
+};
+
+let AddItem = ({toggleAddItem, addItem}) => {
   return (
     <div>
       <LoaderBackground>
-        <EditableItem dispatch={dispatch} toggleAddItem={toggleAddItem}/>
+        <EditableItem addItem={addItem} toggleAddItem={toggleAddItem}/>
       </LoaderBackground>
     </div>
   )
 };
 
-AddItem = connect()(AddItem);
+AddItem.propTypes = {
+  toggleAddItem: PropTypes.func.isRequired,
+  addItem: PropTypes.func.isRequired
+};
+
+AddItem = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AddItem);
 
 export default AddItem;

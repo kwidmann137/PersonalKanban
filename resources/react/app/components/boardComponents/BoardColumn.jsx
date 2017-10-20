@@ -12,8 +12,8 @@ const borderStyle = {
 };
 
 const BoardColumn = ({title, items, style}) => (
-
   <div style={columnStyle}>
+    {console.log("Rendering board column")}
     <h1 style={{textAlign: 'center'}}>{title}</h1>
     <div style={Object.assign({}, borderStyle, style)}>
       {items.map((item, index) => (
