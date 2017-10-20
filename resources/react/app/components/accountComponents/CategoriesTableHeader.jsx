@@ -9,7 +9,6 @@ const style = {
     minWidth: '30%',
   },
   dayColumn: {
-    textAlign: 'center',
     flexGrow: 1
   }
 };
@@ -26,6 +25,7 @@ export default class CategoriesTableHeader extends Component{
         <div style={style.titleColumn}>
 
         </div>
+        <div style={style.dayColumn}>Color</div>
         <div style={style.dayColumn}>Mon</div>
         <div style={style.dayColumn}>Tu</div>
         <div style={style.dayColumn}>Wed</div>

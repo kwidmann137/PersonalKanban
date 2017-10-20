@@ -68,7 +68,7 @@ export default class TopMenu extends React.Component{
               <img src="/assets/YourBoardIcon.png" alt="Schedule Icon" style={style.icon}/>
             </div>
           }
-          <div onClick={() => this.props.addItem()} >
+          <div onClick={() => this.props.toggleAddItem()} >
             <img src="/assets/AddItemIcon.png" alt="Schedule Icon" style={style.icon}/>
           </div>
         </ToolbarGroup>

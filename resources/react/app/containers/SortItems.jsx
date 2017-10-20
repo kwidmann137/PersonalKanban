@@ -9,21 +9,20 @@ const style = {
   }
 };
 
+const columns = [
+  { title: 'Not Sorted'},
+  { title: '1'},
+  { title: '2'},
+  { title: '3'},
+  { title: '5'},
+  { title: '8'},
+  { title: '13'},
+  { title: '12'}
+];
+
 export default class SortItems extends React.Component{
   constructor(props){
     super(props);
-    this.state = {
-      items: {
-        notSorted: shuffleArray(items.slice()),
-        one: shuffleArray(items.slice()),
-        two: shuffleArray(items.slice()),
-        three: shuffleArray(items.slice()),
-        five: shuffleArray(items.slice()),
-        eight: shuffleArray(items.slice()),
-        thirteen: shuffleArray(items.slice()),
-        twentyOne: shuffleArray(items.slice()),
-      }
-    };
 
     this.onDragEnd = this.onDragEnd.bind(this);
   }

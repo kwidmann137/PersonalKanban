@@ -1,23 +1,61 @@
-let nextTodoId = 0
 
-export const addItem = (text, category, dueDate, ) => {
+export const addItem = (text, category, estimatedTime, dueDate, ) => {
   return {
-    type: 'ADD_TODO',
-    id: nextTodoId++,
-    text
+    type: 'ADD_ITEM',
+    text,
+    category,
+    estimatedTime,
+    dueDate
   }
-}
+};
 
-export const setVisibilityFilter = filter => {
+export const toggleAddItem = () => {
   return {
-    type: 'SET_VISIBILITY_FILTER',
-    filter
+    type: "TOGGLE_ADD_ITEM"
   }
-}
+};
 
-export const toggleTodo = id => {
+export const updateItem = (id, text, category,  estimatedTime, dueDate) => {
   return {
-    type: 'TOGGLE_TODO',
-    id
+    type: 'UPDATE_ITEM',
+    id,
+    text,
+    category,
+    estimatedTime,
+    dueDate
   }
-}
+};
+
+export const updateItemStage = (item, stage) => {
+  return {
+    type: 'UPDATE_ITEM_STAGE',
+    item,
+    stage
+  }
+};
+
+export const updateItemPriority =  (list, startColumn, startIndex, endColumn, endIndex) => {
+  return {
+    type: 'UPDATE_ITEM_PRIORITY',
+    list,
+    startColumn,
+    startIndex,
+    endColumn,
+    endIndex
+  }
+};
+
+export const updateUser = (firstName, lastName, email) => {
+  return {
+    type: 'UPDATE_USER',
+    firstName,
+    lastName,
+    email
+  }
+};
+
+export const addCategory = () => {
+  return {
+    type: 'ADD_CATEGORY',
+  }
+};

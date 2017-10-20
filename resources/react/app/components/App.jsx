@@ -2,8 +2,8 @@ import React from 'react'
 import SideMenu from 'Components/SideMenu';
 import TopMenu from 'Components/TopMenu';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import ActiveView from "Components/ActiveView";
-import AddItem from './AddItem';
+import ActiveView from "Containers/ActiveView";
+import AddItem from 'Containers/AddItem';
 
 export default class App extends React.Component{
 
@@ -19,7 +19,7 @@ export default class App extends React.Component{
     this.setState({activeView: view});
   };
 
-  addItem = () => this.setState({addingItem: !this.state.addingItem});
+  toggleAddItem = () => this.setState({addingItem: !this.state.addingItem});
 
   render(){
 
@@ -27,10 +27,10 @@ export default class App extends React.Component{
       <MuiThemeProvider>
         <div>
           <SideMenu updateView={this.updateView}/>
-          <TopMenu activeView={this.state.activeView} updateView={this.updateView} addItem={this.addItem}/>
+          <TopMenu activeView={this.state.activeView} updateView={this.updateView} toggleAddItem={this.toggleAddItem}/>
           <ActiveView activeView={this.state.activeView}/>
           {this.state.addingItem &&
-            <AddItem addItem={this.addItem}/>
+            <AddItem toggleAddItem={this.toggleAddItem}/>
           }
         </div>
       </MuiThemeProvider>

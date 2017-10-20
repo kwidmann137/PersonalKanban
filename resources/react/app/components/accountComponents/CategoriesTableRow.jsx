@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import TextField from 'material-ui/TextField';
+import ColorPickerDropDown from './ColorPickerDropDown';
 
 const style = {
   row:{
@@ -6,10 +8,9 @@ const style = {
     borderBottom: '1px dotted #eee',
   },
   titleColumn: {
-    minWidth: '30%',
+    minWidth: '25%',
   },
   dayColumn: {
-    textAlign: 'center',
     flexGrow: 1
   }
 };
@@ -20,17 +21,31 @@ export default class CategoriesTableRow extends Component{
     super(props);
   }
 
+  updateColor = (color, evt) => {
+      console.log(evt);
+      console.log(color);
+  };
+
   render(){
+    console.log(this.props);
     return(
       <div style={style.row}>
         <div style={style.titleColumn}>
-          {this.props.category}
+          {this.props.category.title}
+        </div>
+        <div>
+          <ColorPickerDropDown color={this.props.category.color} updateColor={this.updateColor}/>
         </div>
         {
-          this.props.hours.map((hours, index) => (
-            <div key={index} style={style.dayColumn}>
-              {hours}
-            </div>
+          this.props.category.hours.map((hours, index) => (
+            <TextField
+              key={index}
+              style={style.dayColumn}
+              onChange={this.props.updateInput}
+              name={index.toString()}
+              value={hours}
+              // errorText={this.props.errors.firstName}
+            />
           ))
         }
       </div>

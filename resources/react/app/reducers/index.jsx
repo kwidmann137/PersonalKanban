@@ -1,10 +1,14 @@
-import { combineReducers } from 'redux'
-import todos from './todos'
-import visibilityFilter from './visibilityFilter'
+import { combineReducers } from 'redux';
+import items from './items';
+import activeView from './activeView';
+import categories from './categories';
+import user from './user';
 
-const todoApp = combineReducers({
-  todos,
-  visibilityFilter
-})
+const AppStore = combineReducers({
+  user,
+  items,
+  activeView,
+  categories,
+});
 
-export default todoApp
+export default AppStore

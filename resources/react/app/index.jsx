@@ -2,10 +2,10 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import todoApp from './reducers/index'
+import AppStore from './reducers/index'
 import App from './components/App'
 
-let store = createStore(todoApp)
+let store = createStore(AppStore);
 
 render(
   <Provider store={store}>
@@ -13,4 +13,3 @@ render(
   </Provider>,
   document.getElementById('root')
 );
-

@@ -17,11 +17,11 @@ export default class StickyNote extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      colors: {
-        home: '#FAEE76',
-        work: '#FD892C',
-        school: '#86CBFB',
-      }
+      colors: [
+        '#FAEE76',
+        '#FD892C',
+        '#86CBFB',
+      ]
     }
   }
 
@@ -35,7 +35,6 @@ export default class StickyNote extends React.Component{
       <Paper style={style} zDepth={1}>
         <p>{this.props.data.text}</p>
         <p>{this.props.data.dueDate}</p>
-        <p>{this.props.data.category}</p>
         <div>
 
         </div>

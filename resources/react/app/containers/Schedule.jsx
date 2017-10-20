@@ -48,13 +48,6 @@ const colors = {
 export default class Schedule extends React.Component{
   constructor(props){
     super(props);
-    this.state = {
-      colors: {
-        home: '#FAEE76',
-        work: '#FD892C',
-        school: '#86CBFB',
-      }
-    }
   }
 
   componentWillMount(){

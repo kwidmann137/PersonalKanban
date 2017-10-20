@@ -1,8 +1,8 @@
 import React from 'react';
-import Account from "Components/Account";
-import Schedule from "Components/Schedule";
-import SortItems from "Components/SortItems";
-import PersonalBoard from "Components/PersonalBoard";
+import Account from "Components/pages/Account";
+import Schedule from "Containers/Schedule";
+import SortItems from "Containers/SortItems";
+import PersonalBoard from "Containers/PersonalBoard";
 
 export default class ActiveView extends React.Component{
 
