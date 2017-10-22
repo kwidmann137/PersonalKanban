@@ -6,9 +6,6 @@ const defaultUser = {
 };
 
 const user = (state = defaultUser, action) => {
-  console.log("IN USER REDUCER");
-  console.log(state);
-  console.log(action);
   switch(action.type){
     case "UPDATE_USER":
       return {

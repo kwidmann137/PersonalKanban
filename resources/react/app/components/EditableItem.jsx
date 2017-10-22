@@ -5,7 +5,6 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-import {addItem, toggleAddItem} from 'Actions';
 
 const style = {
   height: 400,

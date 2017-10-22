@@ -29,25 +29,13 @@ const styles = {
   }
 };
 
-export default class ProgressBar extends React.Component{
+const ProgressBar = ({children}) => (
+  <div style={{width: '100%', textAlign: 'center'}}>
+    <p>Your Progress</p>
+    <div style={styles.default}>
+      {children}
+    </div>
+  </div>
+);
 
-  constructor(props){
-    super(props);
-  }
-
-  render(){
-
-    let donePercent = 20 + '%';
-    let inProgressPercent = 50 + '%';
-
-    return(
-      <div style={{width: '100%', textAlign: 'center'}}>
-        <p>Your Progress</p>
-        <div style={styles.default}>
-          <div style={Object.assign({}, styles.done, {width: donePercent})}/>
-          <div  style={Object.assign({}, styles.inProgress, {width: inProgressPercent})}/>
-        </div>
-      </div>
-    )
-  }
-}
+export default ProgressBar;

@@ -6,7 +6,6 @@ const boardStyle = {
 };
 
 const Board = ({children}) => {
-  console.log(children);
   return (
     <div style={boardStyle}>
       {children}

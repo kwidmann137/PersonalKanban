@@ -5,7 +5,7 @@ import { createStore } from 'redux'
 import AppStore from './reducers/index'
 import App from './components/App'
 
-let store = createStore(AppStore);
+const store = createStore(AppStore);
 
 render(
   <Provider store={store}>
@@ -13,3 +13,5 @@ render(
   </Provider>,
   document.getElementById('root')
 );
+
+export default store;

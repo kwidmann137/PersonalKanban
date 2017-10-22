@@ -1,3 +1,4 @@
+import store from '../index';
 
 export const addItem = (text, category, estimatedTime, dueDate, ) => {
   return {
@@ -6,6 +7,17 @@ export const addItem = (text, category, estimatedTime, dueDate, ) => {
     category,
     estimatedTime,
     dueDate
+  }
+};
+
+export const stickyNoteDragged = (result) => {
+
+  const { stages } = store.getState();
+
+  return {
+    type: "STICKY_NOTE_DRAGGED",
+    result,
+    stages
   }
 };
 

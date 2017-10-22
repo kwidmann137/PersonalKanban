@@ -1,8 +1,6 @@
 import React from 'react';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
-import Paper from 'material-ui/Paper';
-import ProgressBar from "Components/ProgressBar";
-import AddCircle from 'material-ui/svg-icons/content/add-circle'
+import CurrentProgressBar from "Containers/CurrentProgressBar";
 
 const style={
   bar:{
@@ -47,7 +45,7 @@ export default class TopMenu extends React.Component{
     return (
       <Toolbar style={style.bar}>
         <ToolbarGroup style={{width: '100%'}}>
-          <ProgressBar/>
+          <CurrentProgressBar />
         </ToolbarGroup>
         <ToolbarGroup className="hover-group">
           {
