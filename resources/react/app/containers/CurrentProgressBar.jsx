@@ -4,8 +4,8 @@ import ProgressBar from 'Components/ProgressBar';
 import ProgressBarSection from "../components/ProgressBarSection";
 
 const sectionColors = [
-  '50B762',
-  'FCD74C'
+  '33b440',
+  'f0c537'
 ];
 
 const mapStateToProps = (state) => {

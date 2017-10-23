@@ -1,12 +1,12 @@
 const initialStages = [
   {name: "Not Sorted"},
-  {name: "One"},
-  {name: "Two"},
-  {name: "Three"},
-  {name: "Five"},
-  {name: "Eight"},
-  {name: "Thirteen"},
-  {name: "Twenty-One"},
+  {name: "1"},
+  {name: "2"},
+  {name: "3"},
+  {name: "5"},
+  {name: "8"},
+  {name: "13"},
+  {name: "21"},
 ];
 
 

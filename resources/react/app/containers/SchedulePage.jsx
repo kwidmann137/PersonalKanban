@@ -1,10 +1,11 @@
+import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Schedule from 'Components/Schedule';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
   return {
-    items: formatItems(state.items)
+    items: formatItems(state.items, state.categories)
   }
 };
 
@@ -12,42 +13,58 @@ export default connect(
   mapStateToProps
 )(Schedule)
 
-const formatItems = (items) => {
+const formatItems = (items, categories) => {
   let newItems = [];
   let newItem;
+  let currentDate = new Date();
   items.forEach((item) => {
+    let endDate = new Date(item.dueDate);
+    endDate.setDate(endDate.getDate() + 1);
     newItem = {};
-    newItem.start = getItemStartDate(item);
-    newItem.end = new Date(item.dueDate);
-    newItem.content = item.text;
+    newItem.start = getItemStartDate(item, endDate);
+    newItem.end = endDate;
+    newItem.status = getItemStatus(newItem.start, newItem.end, currentDate);
+    newItem.content = getItemContent(item, newItem.status, categories);
     newItems.push(newItem);
   });
-
-  console.log(newItems);
 
   return newItems;
 };
 
-const getItemStartDate = (item) => {
-  let endDate = new Date(item.dueDate);
-  let numDaysToComplete = item.estimatedTime / 2;
-  endDate.setDate(endDate.getDate() - numDaysToComplete);
-  return endDate;
+const getItemStartDate = (item, endDate) => {
+  let startDate = new Date(endDate);
+  let numDaysToComplete = Math.ceil(item.estimatedTime / 2);
+  startDate.setDate(startDate.getDate() - numDaysToComplete);
+  return startDate;
 };
 
-const itemContent = (item) => {
-  return (
+const getItemContent = (item, status, categories) => {
+  let itemStyle = {
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: categories[item.category].color + '77',
+    border: '3px solid ' + colors.status[status]
+  };
+
+  return ReactDOMServer.renderToString(
     <div>
-      <div style={Object.assign({}, style.mainContent, {backgroundColor: colors.mainContent[item.category]})}>{item.text}</div>
-      <div style={Object.assign({}, {backgroundColor: colors.status[item.status]}, style.status)}/>
+      <div style={itemStyle}>{item.text}</div>
     </div>
   );
 };
 
-const getItemStyle = (item) => {
-  return {
-    padding: 10,
-    border: '2px solid ' + colors.status[item.status]
+const getItemStatus = (startDate, endDate, currentDate) => {
+  let totalDiffMs = (endDate - startDate);
+  let currentDiffMs = (endDate - currentDate);
+  let percentDone = currentDiffMs / totalDiffMs;
+  switch(true){
+    case (percentDone < .33):
+      return 'late';
+    case (percentDone < .66):
+      return 'startNow';
+    default:
+      return 'early';
+
   }
 };
 

@@ -21,25 +21,29 @@ const mapDispatchToProps = (dispatch) => {
 
 const SortPage= ({itemsByStage, categories, stages, onDragEnd}) => {
   return (
-    <DragDropBoard onDragEnd={onDragEnd}>
-      {
-        stages.map((stage, stageIndex) => (
-            <DroppableColumn key={stageIndex} id={stageIndex} title={stage.name} style={{}}>
-              {
-                itemsByStage[stageIndex].map((note, noteIndex) => (
-                  <DraggableStickyNote
-                    key={noteIndex}
-                    id={stageIndex + '-' + noteIndex}
-                    note={note}
-                    style={getNoteStyle(categories[note.category].color)}
-                  />
-                ))
-              }
-            </DroppableColumn>
+    <div>
+      <h1 className="text-center"> Priority</h1>
+      <DragDropBoard onDragEnd={onDragEnd}>
+
+        {
+          stages.map((stage, stageIndex) => (
+              <DroppableColumn key={stageIndex} id={stageIndex} title={stage.name} style={{}}>
+                {
+                  itemsByStage[stageIndex].map((note, noteIndex) => (
+                    <DraggableStickyNote
+                      key={noteIndex}
+                      id={stageIndex + '-' + noteIndex}
+                      note={note}
+                      style={getNoteStyle(categories[note.category].color)}
+                    />
+                  ))
+                }
+              </DroppableColumn>
+            )
           )
-        )
-      }
-    </DragDropBoard>
+        }
+      </DragDropBoard>
+    </div>
   )
 };
 

@@ -46879,7 +46879,7 @@ var _ProgressBarSection2 = _interopRequireDefault(_ProgressBarSection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var sectionColors = ['50B762', 'FCD74C'];
+var sectionColors = ['33b440', 'f0c537'];
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
@@ -57940,7 +57940,7 @@ exports.default = boardStages;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var initialStages = [{ name: "Not Sorted" }, { name: "One" }, { name: "Two" }, { name: "Three" }, { name: "Five" }, { name: "Eight" }, { name: "Thirteen" }, { name: "Twenty-One" }];
+var initialStages = [{ name: "Not Sorted" }, { name: "1" }, { name: "2" }, { name: "3" }, { name: "5" }, { name: "8" }, { name: "13" }, { name: "21" }];
 
 var sortingStages = function sortingStages() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialStages;
@@ -58010,22 +58010,31 @@ var SortPage = function SortPage(_ref) {
       onDragEnd = _ref.onDragEnd;
 
   return _react2.default.createElement(
-    _DragDropBoard2.default,
-    { onDragEnd: onDragEnd },
-    stages.map(function (stage, stageIndex) {
-      return _react2.default.createElement(
-        _DroppableColumn2.default,
-        { key: stageIndex, id: stageIndex, title: stage.name, style: {} },
-        itemsByStage[stageIndex].map(function (note, noteIndex) {
-          return _react2.default.createElement(_DraggableStickyNote2.default, {
-            key: noteIndex,
-            id: stageIndex + '-' + noteIndex,
-            note: note,
-            style: getNoteStyle(categories[note.category].color)
-          });
-        })
-      );
-    })
+    'div',
+    null,
+    _react2.default.createElement(
+      'h1',
+      { className: 'text-center' },
+      ' Priority'
+    ),
+    _react2.default.createElement(
+      _DragDropBoard2.default,
+      { onDragEnd: onDragEnd },
+      stages.map(function (stage, stageIndex) {
+        return _react2.default.createElement(
+          _DroppableColumn2.default,
+          { key: stageIndex, id: stageIndex, title: stage.name, style: {} },
+          itemsByStage[stageIndex].map(function (note, noteIndex) {
+            return _react2.default.createElement(_DraggableStickyNote2.default, {
+              key: noteIndex,
+              id: stageIndex + '-' + noteIndex,
+              note: note,
+              style: getNoteStyle(categories[note.category].color)
+            });
+          })
+        );
+      })
+    )
   );
 };
 
@@ -58261,6 +58270,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
 var _server = __webpack_require__(651);
 
 var _server2 = _interopRequireDefault(_server);
@@ -58275,54 +58288,70 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    items: formatItems(state.items)
+    items: formatItems(state.items, state.categories)
   };
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(_Schedule2.default);
 
 
-var formatItems = function formatItems(items) {
+var formatItems = function formatItems(items, categories) {
   var newItems = [];
   var newItem = void 0;
+  var currentDate = new Date();
   items.forEach(function (item) {
+    var endDate = new Date(item.dueDate);
+    endDate.setDate(endDate.getDate() + 1);
     newItem = {};
-    newItem.start = getItemStartDate(item);
-    newItem.end = new Date(item.dueDate);
-    newItem.content = item.text;
+    newItem.start = getItemStartDate(item, endDate);
+    newItem.end = endDate;
+    newItem.status = getItemStatus(newItem.start, newItem.end, currentDate);
+    newItem.content = getItemContent(item, newItem.status, categories);
     newItems.push(newItem);
   });
-
-  console.log(newItems);
 
   return newItems;
 };
 
-var getItemStartDate = function getItemStartDate(item) {
-  var endDate = new Date(item.dueDate);
-  var numDaysToComplete = item.estimatedTime / 2;
-  endDate.setDate(endDate.getDate() - numDaysToComplete);
-  return endDate;
+var getItemStartDate = function getItemStartDate(item, endDate) {
+  var startDate = new Date(endDate);
+  var numDaysToComplete = Math.ceil(item.estimatedTime / 2);
+  startDate.setDate(startDate.getDate() - numDaysToComplete);
+  return startDate;
 };
 
-var itemContent = function itemContent(item) {
-  return React.createElement(
+var getItemContent = function getItemContent(item, status, categories) {
+  var itemStyle = {
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: categories[item.category].color + '77',
+    border: '3px solid ' + colors.status[status]
+  };
+
+  return _server2.default.renderToString(_react2.default.createElement(
     'div',
     null,
-    React.createElement(
+    _react2.default.createElement(
       'div',
-      { style: Object.assign({}, style.mainContent, { backgroundColor: colors.mainContent[item.category] }) },
+      { style: itemStyle },
       item.text
-    ),
-    React.createElement('div', { style: Object.assign({}, { backgroundColor: colors.status[item.status] }, style.status) })
-  );
+    )
+  ));
 };
 
-var getItemStyle = function getItemStyle(item) {
-  return {
-    padding: 10,
-    border: '2px solid ' + colors.status[item.status]
-  };
+var getItemStatus = function getItemStatus(startDate, endDate, currentDate) {
+  var totalDiffMs = endDate - startDate;
+  var currentDiffMs = endDate - currentDate;
+  var percentDone = currentDiffMs / totalDiffMs;
+  switch (true) {
+    case percentDone < .33:
+      return 'late';
+    case percentDone < .66:
+      return 'startNow';
+    default:
+      return 'early';
+
+  }
 };
 
 var colors = {
