@@ -14,7 +14,6 @@ const style = {
   },
   paper: {
     minHeight: 400,
-    maxHeight: 500,
     maxWidth: 600,
     margin: ' 30px auto',
   },

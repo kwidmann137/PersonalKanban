@@ -21,19 +21,22 @@ export default class CategoriesTableRow extends Component{
     super(props);
   }
 
-  updateColor = (color, evt) => {
-      console.log(evt);
-      console.log(color);
-  };
+  updateColor = (color, evt) => this.props.updateColor(color, this.props.categoryIndex);
 
   render(){
     return(
       <div style={style.row}>
         <div style={style.titleColumn}>
-          {this.props.category.name}
+          <TextField
+            onChange={this.props.updateInput}
+            name="categoryName"
+            value={this.props.category.name}
+            style={{width: 'auto'}}
+            // errorText={this.props.errors.firstName}
+          />
         </div>
-        <div>
-          <ColorPickerDropDown color={this.props.category.color} updateColor={this.updateColor}/>
+        <div style={style.dayColumn}>
+          <ColorPickerDropDown color={this.props.category.color} onChange={this.updateColor}/>
         </div>
         {
           this.props.category.hours.map((hours, index) => (

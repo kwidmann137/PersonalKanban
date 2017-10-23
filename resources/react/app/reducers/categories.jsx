@@ -23,6 +23,8 @@ const initialCategories = [
 ];
 
 const categories = (state = initialCategories, action) => {
+  console.log('ADD CAT ACTION');
+  console.log(action);
   switch(action.type){
     case "ADD_CATEGORY":
       return [
@@ -35,6 +37,10 @@ const categories = (state = initialCategories, action) => {
           ]
         }
       ];
+    case 'UPDATE_CATEGORY_COLOR':
+      let newState = [...state];
+      newState[action.category].color = action.color.hex;
+      return newState;
     default:
       return state;
   }

@@ -1,9 +1,17 @@
 import React from 'react';
 import { GithubPicker } from 'react-color';
 
-const ColorPicker = (props) => {
+const style={
+  border: 'none',
+  boxShadow: 'none',
+};
+
+const ColorPicker = ({onChange}) => {
   return (
-    <GithubPicker onChnageComplete={props.updateColor}/>
+    <GithubPicker
+      // triangle='hide'
+      // style={style}
+      onChange={onChange}/>
   );
 };
 

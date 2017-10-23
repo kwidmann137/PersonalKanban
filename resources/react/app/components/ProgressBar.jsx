@@ -13,7 +13,7 @@ const styles = {
 
 const ProgressBar = ({children}) => (
   <div style={{width: '100%', textAlign: 'center'}}>
-    <p>Your Progress</p>
+    <p>Today's Progress</p>
     <div style={styles.default}>
       {children}
     </div>

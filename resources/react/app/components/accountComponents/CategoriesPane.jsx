@@ -1,40 +1,30 @@
-import React, {Component} from 'react';
+import React from 'react';
 import CategoriesTableHeader from "./CategoriesTableHeader";
 import CategoriesTableRow from "./CategoriesTableRow";
+import RaisedButton from 'material-ui/RaisedButton';
 
-export default class CategoriesPane extends Component{
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      categories: props.categories,
+const CategoriesPane =({categories, updateColor, updateHours, addCategory}) => (
+  <div>
+    <h2>Categories</h2>
+    <CategoriesTableHeader/>
+    {
+      categories.map((category, index) => (
+        <CategoriesTableRow key={index}
+                            category={category}
+                            categoryIndex={index}
+                            updateColor={updateColor}
+                            updateHours={updateHours}
+        />
+      ))
     }
-  }
+    <div className="text-right">
+      <RaisedButton
+        label="Add Category"
+        default={true}
+        onClick={addCategory}
+      />
+    </div>
+  </div>
+);
 
-  updateInput = (evt, value) => {
-    console.log(evt, value);
-    if(value >= 0){
-
-    }
-  };
-
-  render(){
-    return(
-      <div>
-        <h2>Categories</h2>
-        <CategoriesTableHeader/>
-        {
-          this.state.categories.map((category, index) => (
-            <CategoriesTableRow key={index}
-                                category={category}
-                                updateInput={this.updateInput}
-            />
-          ))
-        }
-        <div>
-          Add Category
-        </div>
-      </div>
-    );
-  }
-}
+export default CategoriesPane;

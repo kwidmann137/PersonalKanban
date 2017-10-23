@@ -12,17 +12,22 @@ const menuStyle = {
   boxShadow: 'none'
 };
 
-const ColorPickerDropDown = ({color, updateColor}) => {
-  console.log(updateColor);
+const anchorOrigin = {
+  vertical: 'center',
+  horizontal: 'left'
+};
+
+const ColorPickerDropDown = ({color, onChange}) => {
   return (
     <DropDownMenu
       className="color-picker-dropdown"
       iconButton={<div/>}
       iconStyle={Object.assign({}, style, {backgroundColor: color})}
       menuStyle={menuStyle}
+      anchorOrigin={anchorOrigin}
       value={color}
     >
-      <ColorPicker onChange={() => updateColor()}/>
+      <ColorPicker onChange={onChange}/>
     </DropDownMenu>
   )
 };

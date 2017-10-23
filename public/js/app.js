@@ -10228,7 +10228,7 @@ exports.default = (0, _memoizeOne2.default)(function (droppable, draggables) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addCategory = exports.updateUser = exports.updateItemPriority = exports.updateItemStage = exports.updateItem = exports.toggleAddItem = exports.updateStickyNoteSorting = exports.updateStickyNoteStage = exports.addItem = undefined;
+exports.updateCategoryHours = exports.updateCategoryColor = exports.addCategory = exports.updateUser = exports.updateItemPriority = exports.updateItemStage = exports.updateItem = exports.toggleAddItem = exports.updateStickyNoteSorting = exports.updateStickyNoteStage = exports.addItem = undefined;
 
 var _index = __webpack_require__(467);
 
@@ -10316,6 +10316,22 @@ var updateUser = exports.updateUser = function updateUser(firstName, lastName, e
 var addCategory = exports.addCategory = function addCategory() {
   return {
     type: 'ADD_CATEGORY'
+  };
+};
+
+var updateCategoryColor = exports.updateCategoryColor = function updateCategoryColor(color, category) {
+  return {
+    type: 'UPDATE_CATEGORY_COLOR',
+    color: color,
+    category: category
+  };
+};
+
+var updateCategoryHours = exports.updateCategoryHours = function updateCategoryHours(hours, category) {
+  return {
+    type: 'UPDATE_CATEGORY_HOURS',
+    hours: hours,
+    category: category
   };
 };
 
@@ -47236,6 +47252,8 @@ var categories = function categories() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialCategories;
   var action = arguments[1];
 
+  console.log('ADD CAT ACTION');
+  console.log(action);
   switch (action.type) {
     case "ADD_CATEGORY":
       return [].concat(_toConsumableArray(state), [{
@@ -47243,6 +47261,10 @@ var categories = function categories() {
         color: '#FAEE76',
         hours: [0, 0, 0, 0, 0, 0, 0]
       }]);
+    case 'UPDATE_CATEGORY_COLOR':
+      var newState = [].concat(_toConsumableArray(state));
+      newState[action.category].color = action.color.hex;
+      return newState;
     default:
       return state;
   }
@@ -50413,7 +50435,7 @@ var ProgressBar = function ProgressBar(_ref) {
     _react2.default.createElement(
       'p',
       null,
-      'Your Progress'
+      'Today\'s Progress'
     ),
     _react2.default.createElement(
       'div',
@@ -60693,7 +60715,6 @@ var style = {
   },
   paper: {
     minHeight: 400,
-    maxHeight: 500,
     maxWidth: 600,
     margin: ' 30px auto'
   },
@@ -61861,8 +61882,6 @@ var _CategoriesPane2 = _interopRequireDefault(_CategoriesPane);
 
 var _Actions = __webpack_require__(137);
 
-var _Actions2 = _interopRequireDefault(_Actions);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -61873,9 +61892,14 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    dispatch: dispatch,
-    addCateogry: function addCateogry() {
-      dispatch((0, _Actions2.default)());
+    addCategory: function addCategory() {
+      return dispatch((0, _Actions.addCategory)());
+    },
+    updateColor: function updateColor(color, category) {
+      return dispatch((0, _Actions.updateCategoryColor)(color, category));
+    },
+    updateHours: function updateHours(hours, category) {
+      return dispatch((0, _Actions.updateCategoryHours)(hours, category));
     }
   };
 };
@@ -61895,8 +61919,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -61909,64 +61931,45 @@ var _CategoriesTableRow = __webpack_require__(774);
 
 var _CategoriesTableRow2 = _interopRequireDefault(_CategoriesTableRow);
 
+var _RaisedButton = __webpack_require__(192);
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CategoriesPane = function (_Component) {
-  _inherits(CategoriesPane, _Component);
-
-  function CategoriesPane(props) {
-    _classCallCheck(this, CategoriesPane);
-
-    var _this = _possibleConstructorReturn(this, (CategoriesPane.__proto__ || Object.getPrototypeOf(CategoriesPane)).call(this, props));
-
-    _this.updateInput = function (evt, value) {
-      console.log(evt, value);
-      if (value >= 0) {}
-    };
-
-    _this.state = {
-      categories: props.categories
-    };
-    return _this;
-  }
-
-  _createClass(CategoriesPane, [{
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        "div",
-        null,
-        _react2.default.createElement(
-          "h2",
-          null,
-          "Categories"
-        ),
-        _react2.default.createElement(_CategoriesTableHeader2.default, null),
-        this.state.categories.map(function (category, index) {
-          return _react2.default.createElement(_CategoriesTableRow2.default, { key: index,
-            category: category,
-            updateInput: _this2.updateInput
-          });
-        }),
-        _react2.default.createElement(
-          "div",
-          null,
-          "Add Category"
-        )
-      );
-    }
-  }]);
-
-  return CategoriesPane;
-}(_react.Component);
+var CategoriesPane = function CategoriesPane(_ref) {
+  var categories = _ref.categories,
+      updateColor = _ref.updateColor,
+      updateHours = _ref.updateHours,
+      addCategory = _ref.addCategory;
+  return _react2.default.createElement(
+    "div",
+    null,
+    _react2.default.createElement(
+      "h2",
+      null,
+      "Categories"
+    ),
+    _react2.default.createElement(_CategoriesTableHeader2.default, null),
+    categories.map(function (category, index) {
+      return _react2.default.createElement(_CategoriesTableRow2.default, { key: index,
+        category: category,
+        categoryIndex: index,
+        updateColor: updateColor,
+        updateHours: updateHours
+      });
+    }),
+    _react2.default.createElement(
+      "div",
+      { className: "text-right" },
+      _react2.default.createElement(_RaisedButton2.default, {
+        label: "Add Category",
+        "default": true,
+        onClick: addCategory
+      })
+    )
+  );
+};
 
 exports.default = CategoriesPane;
 
@@ -62128,8 +62131,7 @@ var CategoriesTableRow = function (_Component) {
     var _this = _possibleConstructorReturn(this, (CategoriesTableRow.__proto__ || Object.getPrototypeOf(CategoriesTableRow)).call(this, props));
 
     _this.updateColor = function (color, evt) {
-      console.log(evt);
-      console.log(color);
+      return _this.props.updateColor(color, _this.props.categoryIndex);
     };
 
     return _this;
@@ -62146,12 +62148,18 @@ var CategoriesTableRow = function (_Component) {
         _react2.default.createElement(
           'div',
           { style: style.titleColumn },
-          this.props.category.name
+          _react2.default.createElement(_TextField2.default, {
+            onChange: this.props.updateInput,
+            name: 'categoryName',
+            value: this.props.category.name,
+            style: { width: 'auto' }
+            // errorText={this.props.errors.firstName}
+          })
         ),
         _react2.default.createElement(
           'div',
-          null,
-          _react2.default.createElement(_ColorPickerDropDown2.default, { color: this.props.category.color, updateColor: this.updateColor })
+          { style: style.dayColumn },
+          _react2.default.createElement(_ColorPickerDropDown2.default, { color: this.props.category.color, onChange: this.updateColor })
         ),
         this.props.category.hours.map(function (hours, index) {
           return _react2.default.createElement(_TextField2.default, {
@@ -62207,11 +62215,15 @@ var menuStyle = {
   boxShadow: 'none'
 };
 
+var anchorOrigin = {
+  vertical: 'center',
+  horizontal: 'left'
+};
+
 var ColorPickerDropDown = function ColorPickerDropDown(_ref) {
   var color = _ref.color,
-      updateColor = _ref.updateColor;
+      onChange = _ref.onChange;
 
-  console.log(updateColor);
   return _react2.default.createElement(
     _DropDownMenu2.default,
     {
@@ -62219,11 +62231,10 @@ var ColorPickerDropDown = function ColorPickerDropDown(_ref) {
       iconButton: _react2.default.createElement('div', null),
       iconStyle: Object.assign({}, style, { backgroundColor: color }),
       menuStyle: menuStyle,
+      anchorOrigin: anchorOrigin,
       value: color
     },
-    _react2.default.createElement(_ColorPicker2.default, { onChange: function onChange() {
-        return updateColor();
-      } })
+    _react2.default.createElement(_ColorPicker2.default, { onChange: onChange })
   );
 };
 
@@ -63119,8 +63130,18 @@ var _reactColor = __webpack_require__(781);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ColorPicker = function ColorPicker(props) {
-  return _react2.default.createElement(_reactColor.GithubPicker, { onChnageComplete: props.updateColor });
+var style = {
+  border: 'none',
+  boxShadow: 'none'
+};
+
+var ColorPicker = function ColorPicker(_ref) {
+  var onChange = _ref.onChange;
+
+  return _react2.default.createElement(_reactColor.GithubPicker
+  // triangle='hide'
+  // style={style}
+  , { onChange: onChange });
 };
 
 exports.default = ColorPicker;

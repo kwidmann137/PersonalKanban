@@ -81,3 +81,19 @@ export const addCategory = () => {
     type: 'ADD_CATEGORY',
   }
 };
+
+export const updateCategoryColor = (color, category) => {
+  return {
+    type: 'UPDATE_CATEGORY_COLOR',
+    color,
+    category
+  }
+};
+
+export const updateCategoryHours = (hours, category) => {
+  return {
+    type: 'UPDATE_CATEGORY_HOURS',
+    hours,
+    category
+  }
+};
