@@ -83,14 +83,14 @@ export default class AccountInfoPane extends Component{
             <div className="col-6">
               <RaisedButton
                 label="Change Password"
-                primary={true}
+                default={true}
                 onClick={this.changePassword}
               />
             </div>
             <div className="col-6">
               <RaisedButton
                 label="Change Avatar"
-                primary={true}
+                default={true}
                 onClick={this.changeAvatar}
               />
             </div>

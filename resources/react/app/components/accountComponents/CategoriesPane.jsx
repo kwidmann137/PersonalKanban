@@ -19,8 +19,6 @@ export default class CategoriesPane extends Component{
   };
 
   render(){
-    console.log(this.state);
-
     return(
       <div>
         <h2>Categories</h2>

@@ -6,7 +6,9 @@ import EditableStickyNote from 'Components/EditableStickyNote';
 import { addItem } from 'Actions/index';
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    categories: state.categories,
+  };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -16,11 +18,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-let AddItem = ({toggleAddItem, addItem}) => {
+let AddItem = ({toggleAddItem, addItem, categories}) => {
   return (
     <div>
       <LoaderBackground>
-        <EditableStickyNote addItem={addItem} toggleAddItem={toggleAddItem}/>
+        <EditableStickyNote
+          categories={categories}
+          addItem={addItem}
+          toggleAddItem={toggleAddItem}/>
       </LoaderBackground>
     </div>
   )

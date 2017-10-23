@@ -15,8 +15,9 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  backgroundColor: '#FAEE76',
 };
+
+const formatDate = (date) => date.toDateString();
 
 export default class EditableStickyNote extends React.Component{
 
@@ -47,8 +48,11 @@ export default class EditableStickyNote extends React.Component{
   };
 
   render(){
+
+    let backgroundColor = (this.state.category === "") ? '#FAEE76' : this.props.categories[this.state.category].color;
+
     return(
-      <Paper style={style} zDepth={3}>
+      <Paper style={Object.assign({}, {backgroundColor: backgroundColor}, style)} zDepth={3}>
         <TextField
           hintText="Title"
           floatingLabelText="Title"
@@ -65,7 +69,9 @@ export default class EditableStickyNote extends React.Component{
           value={this.state.dueDate}
           floatingLabelText="Due Date"
           fullWidth={true}
-          onChange={this.updateDate}/>
+          onChange={this.updateDate}
+          formatDate={formatDate}
+        />
 
         <SelectField
           floatingLabelText="Estimated Time"
@@ -97,9 +103,11 @@ export default class EditableStickyNote extends React.Component{
           fullWidth={true}
           onChange={this.updateCategory}
         >
-          <MenuItem value={0} primaryText="Home" />
-          <MenuItem value={1} primaryText="Work" />
-          <MenuItem value={2} primaryText="School" />
+          {
+            this.props.categories.map((category, index) => (
+              <MenuItem key={index} value={index} primaryText={category.name} />
+            ))
+          }
         </SelectField>
 
         <div className="text-right">

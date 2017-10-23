@@ -81,18 +81,20 @@ const items = ( state = itemsArray, action) => {
       ];
     case "UPDATE_STICKY_NOTE_STAGE":
 
+      if(!action.result.destination) return state;
+
       //check if source == dest, if so just update index
       fromStage = parseInt(action.result.source.droppableId);
       fromIndex = action.result.source.index;
       toStage = parseInt(action.result.destination.droppableId);
       toIndex = action.result.destination.index;
 
+      sortedItems = [];
+
       action.boardStages.map((stage, stageIndex) => {
         sortedItems[stageIndex] = state.filter((item) => (item.stage === stageIndex));
         sortedItems[stageIndex].sort((a, b) => (a.stageIndex - b.stageIndex));
       });
-
-      sortedItems = [];
 
       note = sortedItems[fromStage].slice(fromIndex, fromIndex + 1)[0];
       sortedItems[fromStage].splice(fromIndex, 1);
@@ -109,6 +111,9 @@ const items = ( state = itemsArray, action) => {
 
       return newItems;
     case "UPDATE_STICKY_NOTE_SORTING":
+
+      if(!action.result.destination) return state;
+
       //ToDo: Refactor to remove duplicate code from update stage
       //check if source == dest, if so just update index
       fromStage = parseInt(action.result.source.droppableId);

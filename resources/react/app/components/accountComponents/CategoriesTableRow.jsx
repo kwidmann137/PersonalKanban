@@ -27,11 +27,10 @@ export default class CategoriesTableRow extends Component{
   };
 
   render(){
-    console.log(this.props);
     return(
       <div style={style.row}>
         <div style={style.titleColumn}>
-          {this.props.category.title}
+          {this.props.category.name}
         </div>
         <div>
           <ColorPickerDropDown color={this.props.category.color} updateColor={this.updateColor}/>

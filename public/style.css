@@ -29,3 +29,7 @@ body .vis-item.vis-range, body .vis-item .vis-item-content {
   border: none;
   background-color: transparent;
 }
+
+.color-picker-dropdown button + div{
+  display: none;
+}

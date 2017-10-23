@@ -66,7 +66,7 @@ export default class SideMenu extends React.Component {
             <MenuItem onClick={() => this.updateView('account')}>Account</MenuItem>
             <MenuItem onClick={() => this.updateView('personalBoard')}>Personal Board</MenuItem>
             <MenuItem onClick={() => this.updateView('schedule')}>Schedule</MenuItem>
-            <MenuItem onClick={() => this.updateView('allItems')}>All Items</MenuItem>
+            <MenuItem onClick={() => this.updateView('sortItems')}>Sort Items</MenuItem>
             <MenuItem onClick={() => this.updateView('categories')}>Categories</MenuItem>
             <MenuItem onClick={() => this.handleClose}>Logout</MenuItem>
           </Drawer>
