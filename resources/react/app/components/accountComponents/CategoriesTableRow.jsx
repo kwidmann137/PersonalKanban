@@ -21,15 +21,30 @@ export default class CategoriesTableRow extends Component{
     super(props);
   }
 
-  updateColor = (color, evt) => this.props.updateColor(color, this.props.categoryIndex);
+  updateColor = (color) => {
+    this.props.updateColor(color.hex, this.props.categoryIndex);
+  };
+
+  updateInput = (evt, value) => {
+    this.props.updateName(value, this.props.categoryIndex);
+  };
+
+  updateHours = (evt, value) => {
+    if(value > 0 || value === ''){
+      if(value === '') value = 0;
+      let newHours = [...this.props.category.hours];
+      newHours[evt.target.name] = value;
+      this.props.updateHours(newHours, this.props.categoryIndex);
+    }
+  };
 
   render(){
     return(
       <div style={style.row}>
         <div style={style.titleColumn}>
           <TextField
-            onChange={this.props.updateInput}
-            name="categoryName"
+            onChange={this.updateInput}
+            name="name"
             value={this.props.category.name}
             style={{width: 'auto'}}
             // errorText={this.props.errors.firstName}
@@ -41,11 +56,14 @@ export default class CategoriesTableRow extends Component{
         {
           this.props.category.hours.map((hours, index) => (
             <TextField
+              className="center-placeholder"
               key={index}
               style={style.dayColumn}
-              onChange={this.props.updateInput}
+              inputStyle={{textAlign: 'center'}}
+              onChange={this.updateHours}
               name={index.toString()}
-              value={hours}
+              hintText="0"
+              value={(hours === 0 ? '' : hours)}
               // errorText={this.props.errors.firstName}
             />
           ))

@@ -15,3 +15,26 @@ render(
 );
 
 export default store;
+
+//
+// let currentValue;
+//
+// function select(state) {
+//   return state.categories
+// }
+//
+// function listenForChange() {
+//   let previousValue = currentValue
+//   currentValue = select(store.getState())
+//
+//   if (previousValue !== currentValue) {
+//     console.log(
+//       'Categories changed',
+//       previousValue,
+//       'to',
+//       currentValue
+//     )
+//   }
+// }
+//
+// let unsubscribe = store.subscribe(listenForChange)

@@ -6,10 +6,11 @@ const style = {
     borderBottom: '1px solid #ccc',
   },
   titleColumn: {
-    minWidth: '30%',
+    minWidth: '25%',
   },
   dayColumn: {
-    flexGrow: 1
+    flexGrow: 1,
+    textAlign: 'center'
   }
 };
 

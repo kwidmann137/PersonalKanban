@@ -1,35 +1,64 @@
-import React from 'react';
-import DropDownMenu from 'material-ui/DropDownMenu';
+import React, {Component} from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import Popover from 'material-ui/Popover';
 import ColorPicker from "./ColorPicker";
 
 const style = {
   height: 30,
   width: 30,
+  margin: 10
 };
 
-const menuStyle = {
-  background: 'transparent',
-  boxShadow: 'none'
-};
+export default class ColorPickerDropDown extends Component{
 
-const anchorOrigin = {
-  vertical: 'center',
-  horizontal: 'left'
-};
+  constructor(props){
+    super(props);
+    this.state = {
+      open: false
+    }
+  }
 
-const ColorPickerDropDown = ({color, onChange}) => {
-  return (
-    <DropDownMenu
-      className="color-picker-dropdown"
-      iconButton={<div/>}
-      iconStyle={Object.assign({}, style, {backgroundColor: color})}
-      menuStyle={menuStyle}
-      anchorOrigin={anchorOrigin}
-      value={color}
-    >
-      <ColorPicker onChange={onChange}/>
-    </DropDownMenu>
-  )
-};
+  handleUpdate = (color, evt) => {
+    console.log(color, evt);
+    this.props.onChange(color);
+    this.handleRequestClose();
+  };
 
-export default ColorPickerDropDown;
+  handleTouchTap = (event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
+
+  render(){
+    console.log(this.props.color);
+    return (
+      <div>
+        <RaisedButton
+          onClick={this.handleTouchTap}
+          label=" "
+          buttonStyle={Object.assign({}, style, {backgroundColor: this.props.color})}
+          style={{minWidth: 30, boxShadow: 'none'}}
+        />
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          onRequestClose={this.handleRequestClose}
+        >
+          <ColorPicker onChange={this.handleUpdate}/>
+        </Popover>
+      </div>
+    )
+  }
+};

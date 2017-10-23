@@ -23,8 +23,9 @@ const initialCategories = [
 ];
 
 const categories = (state = initialCategories, action) => {
-  console.log('ADD CAT ACTION');
-  console.log(action);
+
+  let newState = [...state];
+
   switch(action.type){
     case "ADD_CATEGORY":
       return [
@@ -38,8 +39,13 @@ const categories = (state = initialCategories, action) => {
         }
       ];
     case 'UPDATE_CATEGORY_COLOR':
-      let newState = [...state];
-      newState[action.category].color = action.color.hex;
+      newState[action.category].color = action.color;
+      return newState;
+    case 'UPDATE_CATEGORY_NAME':
+      newState[action.category].name = action.name;
+      return newState;
+    case 'UPDATE_CATEGORY_HOURS':
+      newState[action.category].hours = action.hours;
       return newState;
     default:
       return state;

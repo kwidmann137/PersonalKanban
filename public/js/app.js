@@ -10228,7 +10228,7 @@ exports.default = (0, _memoizeOne2.default)(function (droppable, draggables) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateCategoryHours = exports.updateCategoryColor = exports.addCategory = exports.updateUser = exports.updateItemPriority = exports.updateItemStage = exports.updateItem = exports.toggleAddItem = exports.updateStickyNoteSorting = exports.updateStickyNoteStage = exports.addItem = undefined;
+exports.updateCategoryName = exports.updateCategoryHours = exports.updateCategoryColor = exports.addCategory = exports.updateUser = exports.updateItemPriority = exports.updateItemStage = exports.updateItem = exports.toggleAddItem = exports.updateStickyNoteSorting = exports.updateStickyNoteStage = exports.addItem = undefined;
 
 var _index = __webpack_require__(467);
 
@@ -10331,6 +10331,14 @@ var updateCategoryHours = exports.updateCategoryHours = function updateCategoryH
   return {
     type: 'UPDATE_CATEGORY_HOURS',
     hours: hours,
+    category: category
+  };
+};
+
+var updateCategoryName = exports.updateCategoryName = function updateCategoryName(name, category) {
+  return {
+    type: 'UPDATE_CATEGORY_NAME',
+    name: name,
     category: category
   };
 };
@@ -40938,6 +40946,29 @@ var store = (0, _redux.createStore)(_index2.default);
 
 exports.default = store;
 
+//
+// let currentValue;
+//
+// function select(state) {
+//   return state.categories
+// }
+//
+// function listenForChange() {
+//   let previousValue = currentValue
+//   currentValue = select(store.getState())
+//
+//   if (previousValue !== currentValue) {
+//     console.log(
+//       'Categories changed',
+//       previousValue,
+//       'to',
+//       currentValue
+//     )
+//   }
+// }
+//
+// let unsubscribe = store.subscribe(listenForChange)
+
 /***/ }),
 /* 468 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -47252,8 +47283,9 @@ var categories = function categories() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialCategories;
   var action = arguments[1];
 
-  console.log('ADD CAT ACTION');
-  console.log(action);
+
+  var newState = [].concat(_toConsumableArray(state));
+
   switch (action.type) {
     case "ADD_CATEGORY":
       return [].concat(_toConsumableArray(state), [{
@@ -47262,8 +47294,13 @@ var categories = function categories() {
         hours: [0, 0, 0, 0, 0, 0, 0]
       }]);
     case 'UPDATE_CATEGORY_COLOR':
-      var newState = [].concat(_toConsumableArray(state));
-      newState[action.category].color = action.color.hex;
+      newState[action.category].color = action.color;
+      return newState;
+    case 'UPDATE_CATEGORY_NAME':
+      newState[action.category].name = action.name;
+      return newState;
+    case 'UPDATE_CATEGORY_HOURS':
+      newState[action.category].hours = action.hours;
       return newState;
     default:
       return state;
@@ -61898,15 +61935,16 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     updateColor: function updateColor(color, category) {
       return dispatch((0, _Actions.updateCategoryColor)(color, category));
     },
+    updateName: function updateName(name, category) {
+      return dispatch((0, _Actions.updateCategoryName)(name, category));
+    },
     updateHours: function updateHours(hours, category) {
       return dispatch((0, _Actions.updateCategoryHours)(hours, category));
     }
   };
 };
 
-var AccountInfo = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_CategoriesPane2.default);
-
-exports.default = AccountInfo;
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_CategoriesPane2.default);
 
 /***/ }),
 /* 772 */
@@ -61940,6 +61978,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var CategoriesPane = function CategoriesPane(_ref) {
   var categories = _ref.categories,
       updateColor = _ref.updateColor,
+      updateName = _ref.updateName,
       updateHours = _ref.updateHours,
       addCategory = _ref.addCategory;
   return _react2.default.createElement(
@@ -61955,8 +61994,9 @@ var CategoriesPane = function CategoriesPane(_ref) {
       return _react2.default.createElement(_CategoriesTableRow2.default, { key: index,
         category: category,
         categoryIndex: index,
-        updateColor: updateColor,
-        updateHours: updateHours
+        updateName: updateName,
+        updateHours: updateHours,
+        updateColor: updateColor
       });
     }),
     _react2.default.createElement(
@@ -62004,10 +62044,11 @@ var style = {
     borderBottom: '1px solid #ccc'
   },
   titleColumn: {
-    minWidth: '30%'
+    minWidth: '25%'
   },
   dayColumn: {
-    flexGrow: 1
+    flexGrow: 1,
+    textAlign: 'center'
   }
 };
 
@@ -62103,6 +62144,8 @@ var _ColorPickerDropDown2 = _interopRequireDefault(_ColorPickerDropDown);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -62130,8 +62173,21 @@ var CategoriesTableRow = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (CategoriesTableRow.__proto__ || Object.getPrototypeOf(CategoriesTableRow)).call(this, props));
 
-    _this.updateColor = function (color, evt) {
-      return _this.props.updateColor(color, _this.props.categoryIndex);
+    _this.updateColor = function (color) {
+      _this.props.updateColor(color.hex, _this.props.categoryIndex);
+    };
+
+    _this.updateInput = function (evt, value) {
+      _this.props.updateName(value, _this.props.categoryIndex);
+    };
+
+    _this.updateHours = function (evt, value) {
+      if (value > 0 || value === '') {
+        if (value === '') value = 0;
+        var newHours = [].concat(_toConsumableArray(_this.props.category.hours));
+        newHours[evt.target.name] = value;
+        _this.props.updateHours(newHours, _this.props.categoryIndex);
+      }
     };
 
     return _this;
@@ -62149,8 +62205,8 @@ var CategoriesTableRow = function (_Component) {
           'div',
           { style: style.titleColumn },
           _react2.default.createElement(_TextField2.default, {
-            onChange: this.props.updateInput,
-            name: 'categoryName',
+            onChange: this.updateInput,
+            name: 'name',
             value: this.props.category.name,
             style: { width: 'auto' }
             // errorText={this.props.errors.firstName}
@@ -62163,11 +62219,14 @@ var CategoriesTableRow = function (_Component) {
         ),
         this.props.category.hours.map(function (hours, index) {
           return _react2.default.createElement(_TextField2.default, {
+            className: 'center-placeholder',
             key: index,
             style: style.dayColumn,
-            onChange: _this2.props.updateInput,
+            inputStyle: { textAlign: 'center' },
+            onChange: _this2.updateHours,
             name: index.toString(),
-            value: hours
+            hintText: '0',
+            value: hours === 0 ? '' : hours
             // errorText={this.props.errors.firstName}
           });
         })
@@ -62191,13 +62250,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _DropDownMenu = __webpack_require__(526);
+var _RaisedButton = __webpack_require__(192);
 
-var _DropDownMenu2 = _interopRequireDefault(_DropDownMenu);
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+var _Popover = __webpack_require__(934);
+
+var _Popover2 = _interopRequireDefault(_Popover);
 
 var _ColorPicker = __webpack_require__(780);
 
@@ -62205,40 +62270,86 @@ var _ColorPicker2 = _interopRequireDefault(_ColorPicker);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var style = {
   height: 30,
-  width: 30
+  width: 30,
+  margin: 10
 };
 
-var menuStyle = {
-  background: 'transparent',
-  boxShadow: 'none'
-};
+var ColorPickerDropDown = function (_Component) {
+  _inherits(ColorPickerDropDown, _Component);
 
-var anchorOrigin = {
-  vertical: 'center',
-  horizontal: 'left'
-};
+  function ColorPickerDropDown(props) {
+    _classCallCheck(this, ColorPickerDropDown);
 
-var ColorPickerDropDown = function ColorPickerDropDown(_ref) {
-  var color = _ref.color,
-      onChange = _ref.onChange;
+    var _this = _possibleConstructorReturn(this, (ColorPickerDropDown.__proto__ || Object.getPrototypeOf(ColorPickerDropDown)).call(this, props));
 
-  return _react2.default.createElement(
-    _DropDownMenu2.default,
-    {
-      className: 'color-picker-dropdown',
-      iconButton: _react2.default.createElement('div', null),
-      iconStyle: Object.assign({}, style, { backgroundColor: color }),
-      menuStyle: menuStyle,
-      anchorOrigin: anchorOrigin,
-      value: color
-    },
-    _react2.default.createElement(_ColorPicker2.default, { onChange: onChange })
-  );
-};
+    _this.handleUpdate = function (color, evt) {
+      console.log(color, evt);
+      _this.props.onChange(color);
+      _this.handleRequestClose();
+    };
+
+    _this.handleTouchTap = function (event) {
+      // This prevents ghost click.
+      event.preventDefault();
+      _this.setState({
+        open: true,
+        anchorEl: event.currentTarget
+      });
+    };
+
+    _this.handleRequestClose = function () {
+      _this.setState({
+        open: false
+      });
+    };
+
+    _this.state = {
+      open: false
+    };
+    return _this;
+  }
+
+  _createClass(ColorPickerDropDown, [{
+    key: 'render',
+    value: function render() {
+      console.log(this.props.color);
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_RaisedButton2.default, {
+          onClick: this.handleTouchTap,
+          label: ' ',
+          buttonStyle: Object.assign({}, style, { backgroundColor: this.props.color }),
+          style: { minWidth: 30, boxShadow: 'none' }
+        }),
+        _react2.default.createElement(
+          _Popover2.default,
+          {
+            open: this.state.open,
+            anchorEl: this.state.anchorEl,
+            anchorOrigin: { horizontal: 'left', vertical: 'bottom' },
+            targetOrigin: { horizontal: 'left', vertical: 'top' },
+            onRequestClose: this.handleRequestClose
+          },
+          _react2.default.createElement(_ColorPicker2.default, { onChange: this.handleUpdate })
+        )
+      );
+    }
+  }]);
+
+  return ColorPickerDropDown;
+}(_react.Component);
 
 exports.default = ColorPickerDropDown;
+;
 
 /***/ }),
 /* 776 */
@@ -63130,18 +63241,11 @@ var _reactColor = __webpack_require__(781);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var style = {
-  border: 'none',
-  boxShadow: 'none'
-};
-
 var ColorPicker = function ColorPicker(_ref) {
   var onChange = _ref.onChange;
 
-  return _react2.default.createElement(_reactColor.GithubPicker
-  // triangle='hide'
-  // style={style}
-  , { onChange: onChange });
+  return _react2.default.createElement(_reactColor.GithubPicker, {
+    onChange: onChange });
 };
 
 exports.default = ColorPicker;
@@ -71314,7 +71418,7 @@ var EditableStickyNote = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var backgroundColor = this.state.category === "" ? '#FAEE76' : this.props.categories[this.state.category].color;
+      var backgroundColor = this.state.category === "" ? '#FFF' : this.props.categories[this.state.category].color;
 
       return _react2.default.createElement(
         _Paper2.default,
@@ -75106,6 +75210,88 @@ SelectField.propTypes = process.env.NODE_ENV !== "production" ? {
 } : {};
 exports.default = SelectField;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 878 */,
+/* 879 */,
+/* 880 */,
+/* 881 */,
+/* 882 */,
+/* 883 */,
+/* 884 */,
+/* 885 */,
+/* 886 */,
+/* 887 */,
+/* 888 */,
+/* 889 */,
+/* 890 */,
+/* 891 */,
+/* 892 */,
+/* 893 */,
+/* 894 */,
+/* 895 */,
+/* 896 */,
+/* 897 */,
+/* 898 */,
+/* 899 */,
+/* 900 */,
+/* 901 */,
+/* 902 */,
+/* 903 */,
+/* 904 */,
+/* 905 */,
+/* 906 */,
+/* 907 */,
+/* 908 */,
+/* 909 */,
+/* 910 */,
+/* 911 */,
+/* 912 */,
+/* 913 */,
+/* 914 */,
+/* 915 */,
+/* 916 */,
+/* 917 */,
+/* 918 */,
+/* 919 */,
+/* 920 */,
+/* 921 */,
+/* 922 */,
+/* 923 */,
+/* 924 */,
+/* 925 */,
+/* 926 */,
+/* 927 */,
+/* 928 */,
+/* 929 */,
+/* 930 */,
+/* 931 */,
+/* 932 */,
+/* 933 */,
+/* 934 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.PopoverAnimationVertical = exports.Popover = undefined;
+
+var _Popover2 = __webpack_require__(362);
+
+var _Popover3 = _interopRequireDefault(_Popover2);
+
+var _PopoverAnimationVertical2 = __webpack_require__(527);
+
+var _PopoverAnimationVertical3 = _interopRequireDefault(_PopoverAnimationVertical2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.Popover = _Popover3.default;
+exports.PopoverAnimationVertical = _PopoverAnimationVertical3.default;
+exports.default = _Popover3.default;
 
 /***/ })
 /******/ ]);

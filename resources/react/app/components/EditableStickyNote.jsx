@@ -49,7 +49,7 @@ export default class EditableStickyNote extends React.Component{
 
   render(){
 
-    let backgroundColor = (this.state.category === "") ? '#FAEE76' : this.props.categories[this.state.category].color;
+    let backgroundColor = (this.state.category === "") ? '#FFF' : this.props.categories[this.state.category].color;
 
     return(
       <Paper style={Object.assign({}, {backgroundColor: backgroundColor}, style)} zDepth={3}>

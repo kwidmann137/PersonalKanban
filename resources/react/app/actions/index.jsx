@@ -97,3 +97,11 @@ export const updateCategoryHours = (hours, category) => {
     category
   }
 };
+
+export const updateCategoryName = (name, category) => {
+  return {
+    type: 'UPDATE_CATEGORY_NAME',
+    name,
+    category
+  }
+};

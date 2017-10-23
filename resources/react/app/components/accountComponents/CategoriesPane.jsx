@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import CategoriesTableHeader from "./CategoriesTableHeader";
 import CategoriesTableRow from "./CategoriesTableRow";
 import RaisedButton from 'material-ui/RaisedButton';
 
-const CategoriesPane =({categories, updateColor, updateHours, addCategory}) => (
+const CategoriesPane = ({categories, updateColor, updateName, updateHours, addCategory}) => (
   <div>
     <h2>Categories</h2>
     <CategoriesTableHeader/>
@@ -12,8 +12,9 @@ const CategoriesPane =({categories, updateColor, updateHours, addCategory}) => (
         <CategoriesTableRow key={index}
                             category={category}
                             categoryIndex={index}
-                            updateColor={updateColor}
+                            updateName={updateName}
                             updateHours={updateHours}
+                            updateColor={updateColor}
         />
       ))
     }
