@@ -10,7 +10,7 @@ const sectionColors = [
 
 const mapStateToProps = (state) => {
   return {
-    sections: getSections(state.items, state.stages),
+    sections: getSections(state.items, state.boardStages),
     totalCount: state.items.length
   }
 };
@@ -19,10 +19,6 @@ const CurrentProgressBar = ({sections, totalCount}) => (
   <ProgressBar>
     {
       sections.map((section, index) => {
-        console.log(section);
-        console.log(sectionColors[index]);
-        console.log((section.count/totalCount) * 100);
-        console.log(10 - section.index);
         if(index === sections.length - 1){
           return;
         }

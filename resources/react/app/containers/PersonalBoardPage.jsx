@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import DragDropBoard from 'Components/DragDropBoard';
 import DroppableColumn from "../components/sortComponents/DroppableColumn";
 import DraggableStickyNote from "../components/DraggableStickyNote";
-import { stickyNoteDragged } from "../actions/index";
+import { updateStickyNoteStage } from "../actions/index";
 
 const mapStateToProps = (state) => {
   return {
-    itemsByStage: sortItemsByStage(state.items, state.stages),
+    itemsByStage: sortItemsByStage(state.items, state.boardStages),
     categories: state.categories,
-    stages: state.stages
+    stages: state.boardStages
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDragEnd: (result) => dispatch(stickyNoteDragged(result))
+    onDragEnd: (result) => dispatch(updateStickyNoteStage(result))
   }
 };
 

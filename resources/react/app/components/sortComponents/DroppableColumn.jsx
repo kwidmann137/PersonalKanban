@@ -20,10 +20,6 @@ const DroppableColumn = ({children, id, title, style}) => (
         ref={provided.innerRef}
         style={getListStyle(snapshot.isDraggingOver)}
       >
-        {console.log(children)}
-        {console.log(id)}
-        {console.log(title)}
-        {console.log(style)}
         <h1 style={{textAlign: 'center'}}>{title}</h1>
         <div style={Object.assign({}, borderStyle, style)}>
           {children}

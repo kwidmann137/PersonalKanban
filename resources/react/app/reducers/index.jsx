@@ -2,13 +2,15 @@ import { combineReducers } from 'redux';
 import items from './items';
 import categories from './categories';
 import user from './user';
-import stages from './stages';
+import boardStages from './boardStages';
+import sortingStages from './sortingStages';
 
 const AppStore = combineReducers({
   user,
   items,
   categories,
-  stages,
+  boardStages,
+  sortingStages,
 });
 
 export default AppStore

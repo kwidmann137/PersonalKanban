@@ -3,6 +3,8 @@ import SideMenu from 'Components/SideMenu';
 import TopMenu from 'Components/TopMenu';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PersonalBoardPage from "Containers/PersonalBoardPage";
+import SortPage from "Containers/SortPage";
+import SchedulePage from "Containers/SchedulePage";
 // import ActiveView from "Containers/ActiveView";
 import AddItem from 'Containers/AddItem';
 
@@ -31,6 +33,14 @@ export default class App extends React.Component{
           {
             this.state.activeView === 'personalBoard' &&
               <PersonalBoardPage />
+          }
+          {
+            this.state.activeView === 'sortItems' &&
+              <SortPage />
+          }
+          {
+            this.state.activeView === 'schedule' &&
+              <SchedulePage />
           }
           {this.state.addingItem &&
             <AddItem toggleAddItem={this.toggleAddItem}/>

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import PropTypes from 'prop-types'
 import LoaderBackground from 'Components/LoaderBackground';
-import EditableItem from 'Components/EditableItem';
+import EditableStickyNote from 'Components/EditableStickyNote';
 import { addItem } from 'Actions/index';
 
 const mapStateToProps = (state) => {
@@ -20,7 +20,7 @@ let AddItem = ({toggleAddItem, addItem}) => {
   return (
     <div>
       <LoaderBackground>
-        <EditableItem addItem={addItem} toggleAddItem={toggleAddItem}/>
+        <EditableStickyNote addItem={addItem} toggleAddItem={toggleAddItem}/>
       </LoaderBackground>
     </div>
   )

@@ -6,8 +6,8 @@ const itemsArray = [
     estimatedTime: 6,
     stage: 0,
     stageIndex: 0,
-    priority: 0,
-    priorityIndex: 0,
+    sortingStage: 0,
+    sortingIndex: 0,
   },
   {
     text: 'Make index cards for OO',
@@ -16,8 +16,8 @@ const itemsArray = [
     estimatedTime: 1,
     stage: 2,
     stageIndex: 0,
-    priority: 0,
-    priorityIndex: 0,
+    sortingStage: 0,
+    sortingIndex: 0,
   },
   {
     text: 'Make index cards for CA',
@@ -26,8 +26,8 @@ const itemsArray = [
     estimatedTime: 2,
     stage: 1,
     stageIndex: 0,
-    priority: 0,
-    priorityIndex: 0,
+    sortingStage: 0,
+    sortingIndex: 0,
   },
   {
     text: 'Read chapter 3.1 for CA',
@@ -36,8 +36,8 @@ const itemsArray = [
     estimatedTime: 1,
     stage: 0,
     stageIndex: 1,
-    priority: 0,
-    priorityIndex: 0,
+    sortingStage: 0,
+    sortingIndex: 0,
   },
   {
     text: 'Turn in labs for Cloud Security',
@@ -46,8 +46,8 @@ const itemsArray = [
     estimatedTime: 1,
     stage: 1,
     stageIndex: 1,
-    priority: 0,
-    priorityIndex: 0,
+    sortingStage: 0,
+    sortingIndex: 0,
   },
   {
     text: 'Sign timesheet for work',
@@ -56,12 +56,15 @@ const itemsArray = [
     estimatedTime: 1,
     stage: 0,
     stageIndex: 2,
-    priority: 0,
-    priorityIndex: 0,
+    sortingStage: 0,
+    sortingIndex: 0,
   },
 ];
 
 const items = ( state = itemsArray, action) => {
+
+  let fromStage, fromIndex, toStage, toIndex, sortedItems, note, newItems;
+
   switch(action.type){
     case "ADD_ITEM":
       return [
@@ -71,42 +74,69 @@ const items = ( state = itemsArray, action) => {
           category: action.category,
           estimatedTime: action.estimatedTime,
           stage: 0,
-          priority: 0,
-          priorityIndex: 0,
+          sortingStage: 0,
+          sortingIndex: 0,
         },
         ...state
       ];
-    case "STICKY_NOTE_DRAGGED":
+    case "UPDATE_STICKY_NOTE_STAGE":
 
       //check if source == dest, if so just update index
-      let fromStage = parseInt(action.result.source.droppableId);
-      let fromIndex = action.result.source.index;
-      let toStage = parseInt(action.result.destination.droppableId);
-      let toIndex = action.result.destination.index;
+      fromStage = parseInt(action.result.source.droppableId);
+      fromIndex = action.result.source.index;
+      toStage = parseInt(action.result.destination.droppableId);
+      toIndex = action.result.destination.index;
 
-      let sortedItems = [];
-
-      action.stages.map((stage, stageIndex) => {
+      action.boardStages.map((stage, stageIndex) => {
         sortedItems[stageIndex] = state.filter((item) => (item.stage === stageIndex));
         sortedItems[stageIndex].sort((a, b) => (a.stageIndex - b.stageIndex));
       });
 
-      let note = sortedItems[fromStage].slice(fromIndex, fromIndex + 1)[0];
+      sortedItems = [];
+
+      note = sortedItems[fromStage].slice(fromIndex, fromIndex + 1)[0];
       sortedItems[fromStage].splice(fromIndex, 1);
       note.stage = toStage;
       note.stageIndex = toIndex;
       sortedItems[toStage].splice(toIndex, 0, note);
 
-      let newItems = [];
+      newItems = [];
 
-      for(let stage = 0; stage < sortedItems.length; stage++){
+      for(let stage = 0; stage < action.boardStages.length; stage++){
         sortedItems[stage].forEach((note, noteIndex) => (note.stageIndex = noteIndex));
         newItems = newItems.concat(sortedItems[stage]);
       }
 
       return newItems;
-    case "STICKY_NOTE_SORTED":
+    case "UPDATE_STICKY_NOTE_SORTING":
+      //ToDo: Refactor to remove duplicate code from update stage
+      //check if source == dest, if so just update index
+      fromStage = parseInt(action.result.source.droppableId);
+      fromIndex = action.result.source.index;
+      toStage = parseInt(action.result.destination.droppableId);
+      toIndex = action.result.destination.index;
 
+      sortedItems = [];
+
+      action.sortingStages.map((stage, stageIndex) => {
+        sortedItems[stageIndex] = state.filter((item) => (item.sortingStage === stageIndex));
+        sortedItems[stageIndex].sort((a, b) => (a.sortingIndex - b.sortingIndex));
+      });
+
+      note = sortedItems[fromStage].slice(fromIndex, fromIndex + 1)[0];
+      sortedItems[fromStage].splice(fromIndex, 1);
+      note.sortingStage = toStage;
+      note.sortingIndex = toIndex;
+      sortedItems[toStage].splice(toIndex, 0, note);
+
+      newItems = [];
+
+      for(let stage = 0; stage < action.sortingStages.length; stage++){
+        sortedItems[stage].forEach((note, noteIndex) => (note.sortingIndex = noteIndex));
+        newItems = newItems.concat(sortedItems[stage]);
+      }
+
+      return newItems;
     default:
       return state;
   }

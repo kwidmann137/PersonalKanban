@@ -7,14 +7,14 @@ const initialStages = [
   },
   {
     name: "Done",
-  },
+  }
 ];
 
-const stages = (state = initialStages, action) => {
+const boardStages = (state = initialStages, action) => {
   switch (action.type){
     default:
       return state;
   }
 };
 
-export default stages;
+export default boardStages;

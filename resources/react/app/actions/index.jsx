@@ -10,14 +10,24 @@ export const addItem = (text, category, estimatedTime, dueDate, ) => {
   }
 };
 
-export const stickyNoteDragged = (result) => {
+export const updateStickyNoteStage = (result) => {
 
-  const { stages } = store.getState();
+  const { boardStages } = store.getState();
 
   return {
-    type: "STICKY_NOTE_DRAGGED",
+    type: "UPDATE_STICKY_NOTE_STAGE",
     result,
-    stages
+    boardStages
+  }
+};
+
+export const updateStickyNoteSorting = (result) => {
+  const { sortingStages } = store.getState();
+
+  return {
+    type: "UPDATE_STICKY_NOTE_SORTING",
+    result,
+    sortingStages
   }
 };
 

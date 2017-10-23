@@ -18,7 +18,7 @@ const style = {
   backgroundColor: '#FAEE76',
 };
 
-export default class EditableItem extends React.Component{
+export default class EditableStickyNote extends React.Component{
 
   constructor(props){
     super(props);
@@ -42,7 +42,7 @@ export default class EditableItem extends React.Component{
 
   saveItem = () => {
     let state = this.state;
-    this.props.addItem(state.title, state.category, state.estimatedTime, state.dueDate);
+    this.props.addItem(state.title, state.category, state.estimatedTime/2, state.dueDate);
     this.props.toggleAddItem();
   };
 
@@ -73,14 +73,22 @@ export default class EditableItem extends React.Component{
           fullWidth={true}
           onChange={this.updateTime}
         >
-          <MenuItem value={1} primaryText="1 Hour" />
-          <MenuItem value={2} primaryText="2 Hours" />
-          <MenuItem value={3} primaryText="3 Hours" />
-          <MenuItem value={4} primaryText="4 Hours" />
-          <MenuItem value={5} primaryText="5 Hours" />
-          <MenuItem value={6} primaryText="6 Hours" />
-          <MenuItem value={7} primaryText="7 Hours" />
-          <MenuItem value={8} primaryText="8 Hours" />
+          <MenuItem value={1} primaryText="1/2 Hour" />
+          <MenuItem value={2} primaryText="1 Hour" />
+          <MenuItem value={3} primaryText="1.5 Hour" />
+          <MenuItem value={4} primaryText="2 Hours" />
+          <MenuItem value={5} primaryText="2.5 Hours" />
+          <MenuItem value={6} primaryText="3 Hours" />
+          <MenuItem value={7} primaryText="3.5 Hours" />
+          <MenuItem value={8} primaryText="4 Hours" />
+          <MenuItem value={9} primaryText="4.5 Hours" />
+          <MenuItem value={10} primaryText="5 Hours" />
+          <MenuItem value={11} primaryText="5.5 Hours" />
+          <MenuItem value={12} primaryText="6 Hours" />
+          <MenuItem value={13} primaryText="6.5 Hours" />
+          <MenuItem value={14} primaryText="7 Hours" />
+          <MenuItem value={15} primaryText="7.5 Hours" />
+          <MenuItem value={16} primaryText="8 Hours" />
         </SelectField>
 
         <SelectField
