@@ -35,7 +35,6 @@ module.exports = {
       Reducers: path.resolve(__dirname, 'resources/react/app/reducers')
     },
     extensions: [".js", ".jsx"]
-  },
-  watch: true,
+  }
 };
 
