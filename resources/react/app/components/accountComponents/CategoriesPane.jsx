@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import CategoriesTableHeader from "./CategoriesTableHeader";
 import CategoriesTableRow from "./CategoriesTableRow";
 import RaisedButton from 'material-ui/RaisedButton';
-
+import SavedIndicator from "../../../common/components/SavedIndicator";
 
 const newCategory = {
   name: '',
@@ -12,6 +12,10 @@ const newCategory = {
   ]
 };
 
+const buttonStyle = {
+  margin: 10
+};
+
 export default class  CategoriesPane extends Component {
 
   constructor(props) {
@@ -19,6 +23,7 @@ export default class  CategoriesPane extends Component {
 
     this.state = {
       categories: [...props.categories],
+      saving: false,
     };
 
   }
@@ -33,30 +38,48 @@ export default class  CategoriesPane extends Component {
     let categories = [...this.state.categories];
     categories[category].name = name;
     this.setState({categories: categories});
-    // this.props.updateName(value, this.props.categoryIndex);
   };
 
   updateHours = (category, hours) => {
     let categories = [...this.state.categories];
     categories[category].hours = hours;
     this.setState({categories: categories});
-    // if(value > 0 || value === ''){
-    //   if(value === '') value = 0;
-    //   let newHours = [...this.props.category.hours];
-    //   newHours[evt.target.name] = value;
-    //   this.props.updateHours(newHours, this.props.categoryIndex);
-    // }
   };
 
   addCategory = () => this.setState({categories: [...this.state.categories, {...newCategory}]});
 
-  saveCategories = () => this.props.saveCategories(this.state.categories);
+  saveCategories = () => {
+    // validateCategories();
+    this.props.saveCategories(this.state.categories);
+    this.setState({saving: true});
+    setInterval(() => {
+      this.setState({saving: false})
+    }, 2000);
+  };
+
+  validateCategories = () => {
+    let valid = true;
+    let errors = '';
+    this.state.categories.forEach((category) => {
+      if(category.name.length < 3){
+        errors += "The name must be at least 3 characters long<br/>";
+      }
+      category.hours.forEach((hour) => {
+        if(hour === ''){
+          errors += 'You must enter '
+        }
+      })
+    });
+    return valid;
+  };
 
   render() {
-    console.log(this.state);
-    console.log(this.props);
     return (
       <div>
+        {
+          this.state.saving &&
+            <SavedIndicator />
+        }
         <h2>Categories</h2>
         <small>Set a category name, color, and how many hours per day you plan to spend on it.</small>
         <br/>
@@ -73,15 +96,16 @@ export default class  CategoriesPane extends Component {
           ))
         }
         <div className="text-right">
-          <br/>
           <RaisedButton
             label="Add Category"
             default={true}
+            style={buttonStyle}
             onClick={this.addCategory}
           />
           <RaisedButton
             label="Save"
             primary={true}
+            style={buttonStyle}
             onClick={this.saveCategories}
           />
         </div>

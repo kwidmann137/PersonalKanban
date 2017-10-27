@@ -17,7 +17,7 @@ const getItemStyle = (draggableStyle, isDragging) => ({
   ...draggableStyle
 });
 
-const DraggableStickyNote = ({id, note, style}) => (
+const DraggableStickyNote = ({id, deleteNote, noteIndex, note, style}) => (
     <Draggable
       key={id}
       draggableId={id}
@@ -34,6 +34,7 @@ const DraggableStickyNote = ({id, note, style}) => (
           >
             <StickyNote
               note={note}
+              deleteNote={deleteNote}
               style={style}
               ref={provided.innerRef}
               {...provided.dragHandleProps}

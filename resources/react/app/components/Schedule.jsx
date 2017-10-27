@@ -1,5 +1,6 @@
 import React from 'react';
 import Timeline from 'react-visjs-timeline';
+import NoItemsMessage from './NoItemsMessage';
 
 const options = {
   width: '100%',
@@ -19,10 +20,16 @@ const options = {
 
 const Schedule = ({items}) => (
   <div>
-    <h1>Timeline</h1>
-    <Timeline
-      items={items}
-    />
+    {
+      items.length < 1 &&
+      <NoItemsMessage />
+    }
+    {
+      items.length > 0 &&
+      <Timeline
+        items={items}
+      />
+    }
   </div>
 );
 

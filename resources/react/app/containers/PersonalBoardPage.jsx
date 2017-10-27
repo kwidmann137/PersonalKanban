@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import DragDropBoard from 'Components/DragDropBoard';
 import DroppableColumn from "../components/sortComponents/DroppableColumn";
 import DraggableStickyNote from "../components/DraggableStickyNote";
-import { updateStickyNoteStage } from "../actions/index";
+import { updateStickyNoteStage, deleteItem } from "../actions/index";
+import NoItemsMessage from '../components/NoItemsMessage';
 
 const mapStateToProps = (state) => {
   return {
@@ -16,20 +17,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDragEnd: (result) => dispatch(updateStickyNoteStage(result))
+    onDragEnd: (result) => dispatch(updateStickyNoteStage(result)),
+    deleteNote: (index) => dispatch(deleteItem(index))
   }
 };
 
-const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, onDragEnd}) => {
-  console.log(hasItems);
+const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, deleteNote, onDragEnd}) => {
   return (
     <DragDropBoard onDragEnd={onDragEnd}>
       {
         !hasItems &&
-          <div className="text-center" style={{width: '100%', marginTop: 20}}>
-            <h1>It looks like you do not have any items yet.
-              <br/>Use the <img src="assets/AddItemIcon.png" alt="add item icon" style={iconStyle}/> icon to add your first item.</h1>
-          </div>
+          <NoItemsMessage />
       }
       {
         hasItems &&
@@ -41,6 +39,7 @@ const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, onDragEn
                     key={noteIndex}
                     id={stageIndex + '-' + noteIndex}
                     note={note}
+                    deleteNote={deleteNote}
                     style={getNoteStyle(categories[note.category].color)}
                   />
                 ))
@@ -65,11 +64,6 @@ const sortItemsByStage = (items, stages) => {
     sortedItems[stage].sort((a, b) => (a.stageIndex - b.stageIndex));
   }
   return sortedItems;
-};
-
-const iconStyle = {
-  width: 40,
-  height: 40
 };
 
 const getNoteStyle = (color) => {

@@ -1,0 +1,10 @@
+ToDo: 
+Add in validation for note and category creation
+Add in prompt before deleting note
+Add in delete category and prompt before delete
+Add in user name and email validation
+Add in avatar update functionality
+Add in schedule page view for no items
+Add in sorting page view for no items
+Add in sorting page tips/helpers
+Set up logic for board to only pull certain items based on sorting/due dates

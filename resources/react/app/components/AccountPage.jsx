@@ -28,11 +28,11 @@ const style = {
   }
 };
 
-const Account = () => (
+const Account = ({initialIndex = 0}) => (
   <div style={style.default}>
     <h2>Manage Account</h2>
     <Paper style={style.paper} zDepth={3} rounded={false}>
-      <Tabs inkBarStyle={style.inkBar} tabItemContainerStyle={style.tabs}>
+      <Tabs inkBarStyle={style.inkBar} tabItemContainerStyle={style.tabs} initialSelectedIndex={initialIndex}>
         <Tab
           icon={<PermIdentity/>}
           label="ACCOUNT"

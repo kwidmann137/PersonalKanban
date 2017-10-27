@@ -4,12 +4,14 @@ import DragDropBoard from 'Components/DragDropBoard';
 import DroppableColumn from "../components/sortComponents/DroppableColumn";
 import DraggableStickyNote from "../components/DraggableStickyNote";
 import { updateStickyNoteSorting } from "../actions/index";
+import NoItemsMessage from '../components/NoItemsMessage';
 
 const mapStateToProps = (state) => {
   return {
     itemsByStage: sortItemsByStage(state.items, state.sortingStages),
     categories: state.categories,
-    stages: state.sortingStages
+    stages: state.sortingStages,
+    hasItems: state.items.length > 0,
   };
 };
 
@@ -19,30 +21,39 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-const SortPage= ({itemsByStage, categories, stages, onDragEnd}) => {
+const SortPage= ({itemsByStage, categories, stages, hasItems, onDragEnd}) => {
   return (
     <div>
-      <h1 className="text-center"> Priority</h1>
-      <DragDropBoard onDragEnd={onDragEnd}>
+      {
+        !hasItems &&
+          <NoItemsMessage />
+      }
+      {
+        hasItems &&
+          <div>
+            <h1 className="text-center"> Priority</h1>
+            <DragDropBoard onDragEnd={onDragEnd}>
 
-        {
-          stages.map((stage, stageIndex) => (
-              <DroppableColumn key={stageIndex} id={stageIndex} title={stage.name} style={{}}>
-                {
-                  itemsByStage[stageIndex].map((note, noteIndex) => (
-                    <DraggableStickyNote
-                      key={noteIndex}
-                      id={stageIndex + '-' + noteIndex}
-                      note={note}
-                      style={getNoteStyle(categories[note.category].color)}
-                    />
-                  ))
-                }
-              </DroppableColumn>
-            )
-          )
-        }
-      </DragDropBoard>
+              {
+                stages.map((stage, stageIndex) => (
+                    <DroppableColumn key={stageIndex} id={stageIndex} title={stage.name} style={{}}>
+                      {
+                        itemsByStage[stageIndex].map((note, noteIndex) => (
+                          <DraggableStickyNote
+                            key={noteIndex}
+                            id={stageIndex + '-' + noteIndex}
+                            note={note}
+                            style={getNoteStyle(categories[note.category].color)}
+                          />
+                        ))
+                      }
+                    </DroppableColumn>
+                  )
+                )
+              }
+            </DragDropBoard>
+          </div>
+      }
     </div>
   )
 };

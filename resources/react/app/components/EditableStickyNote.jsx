@@ -61,7 +61,7 @@ export default class EditableStickyNote extends React.Component{
                 <a href="#"
                    onClick={(e) => {
                      e.preventDefault();
-                     this.props.updateView('account');
+                     this.props.updateView('categories');
                      this.props.toggleAddItem()
                    }}>Click here</a> to add some.
               </h3>

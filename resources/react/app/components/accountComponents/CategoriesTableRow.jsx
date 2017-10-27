@@ -5,13 +5,14 @@ import ColorPickerDropDown from './ColorPickerDropDown';
 const style = {
   row:{
     display: 'flex',
+    flexWrap: 'wrap',
     borderBottom: '1px dotted #eee',
   },
   titleColumn: {
-    minWidth: '25%',
+    width: '28%',
   },
   dayColumn: {
-    flexGrow: 1
+    width: '9%',
   }
 };
 
@@ -22,8 +23,6 @@ export default class CategoriesTableRow extends Component{
   }
 
   updateColor = (color) => {
-    console.log("UPDATE COLOR");
-    console.log(this.props.categoryIndex);
     this.props.updateColor(this.props.categoryIndex, color.hex);
   };
 
@@ -32,11 +31,12 @@ export default class CategoriesTableRow extends Component{
   };
 
   updateHours = (evt, value) => {
-    console.log(this.props.category.hours);
-    let newHours = [...this.props.category.hours];
-    newHours[evt.target.name] = value;
-    console.log(newHours);
-    this.props.updateHours(this.props.categoryIndex, newHours);
+    if(value >= 0 || value === '') {
+      if(value === '' ) value = 0;
+      let newHours = [...this.props.category.hours];
+      newHours[evt.target.name] = value;
+      this.props.updateHours(this.props.categoryIndex, newHours);
+    }
   };
 
   render(){
@@ -58,10 +58,8 @@ export default class CategoriesTableRow extends Component{
         {
           this.props.category.hours.map((hours, index) => (
             <TextField
-              className="center-placeholder"
               key={index}
               style={style.dayColumn}
-              inputStyle={{textAlign: 'center'}}
               onChange={this.updateHours}
               name={index.toString()}
               hintText="0"

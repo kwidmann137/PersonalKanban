@@ -45,7 +45,11 @@ export default class App extends React.Component{
           }
           {
             this.state.activeView === 'account' &&
-            <AccountPage />
+              <AccountPage />
+          }
+          {
+            this.state.activeView === 'categories' &&
+            <AccountPage initialIndex={1}/>
           }
           {this.state.addingItem &&
             <AddItem toggleAddItem={this.toggleAddItem} updateView={this.updateView}/>

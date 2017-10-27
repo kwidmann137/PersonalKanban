@@ -10,6 +10,13 @@ export const addItem = (text, category, estimatedTime, dueDate, ) => {
   }
 };
 
+export const deleteItem = (index) => {
+  return {
+    type: 'DELETE_ITEM',
+    index
+  }
+};
+
 export const updateStickyNoteStage = (result) => {
 
   const { boardStages } = store.getState();

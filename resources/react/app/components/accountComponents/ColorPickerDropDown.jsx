@@ -6,7 +6,7 @@ import ColorPicker from "./ColorPicker";
 const style = {
   height: 30,
   width: 30,
-  margin: 10
+  margin: '10px 5px',
 };
 
 export default class ColorPickerDropDown extends Component{
