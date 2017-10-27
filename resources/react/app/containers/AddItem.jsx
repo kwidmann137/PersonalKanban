@@ -5,9 +5,10 @@ import LoaderBackground from 'Components/LoaderBackground';
 import EditableStickyNote from 'Components/EditableStickyNote';
 import { addItem } from 'Actions/index';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     categories: state.categories,
+    updateView: ownProps.updateView
   };
 };
 
@@ -18,14 +19,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-let AddItem = ({toggleAddItem, addItem, categories}) => {
+let AddItem = ({toggleAddItem, addItem, categories, updateView}) => {
   return (
     <div>
       <LoaderBackground>
         <EditableStickyNote
           categories={categories}
           addItem={addItem}
-          toggleAddItem={toggleAddItem}/>
+          toggleAddItem={toggleAddItem}
+          updateView={updateView}
+        />
       </LoaderBackground>
     </div>
   )

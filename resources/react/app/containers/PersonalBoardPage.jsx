@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
   return {
     itemsByStage: sortItemsByStage(state.items, state.boardStages),
     categories: state.categories,
-    stages: state.boardStages
+    stages: state.boardStages,
+    hasItems: state.items.length > 0
   };
 };
 
@@ -19,10 +20,19 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-const PersonalBoardPage = ({itemsByStage, categories, stages, onDragEnd}) => {
+const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, onDragEnd}) => {
+  console.log(hasItems);
   return (
     <DragDropBoard onDragEnd={onDragEnd}>
       {
+        !hasItems &&
+          <div className="text-center" style={{width: '100%', marginTop: 20}}>
+            <h1>It looks like you do not have any items yet.
+              <br/>Use the <img src="assets/AddItemIcon.png" alt="add item icon" style={iconStyle}/> icon to add your first item.</h1>
+          </div>
+      }
+      {
+        hasItems &&
         stages.map((stage, stageIndex) => (
             <DroppableColumn key={stageIndex} id={stageIndex} title={stage.name} style={{}}>
               {
@@ -55,6 +65,11 @@ const sortItemsByStage = (items, stages) => {
     sortedItems[stage].sort((a, b) => (a.stageIndex - b.stageIndex));
   }
   return sortedItems;
+};
+
+const iconStyle = {
+  width: 40,
+  height: 40
 };
 
 const getNoteStyle = (color) => {

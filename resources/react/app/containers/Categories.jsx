@@ -1,9 +1,6 @@
 import { connect } from 'react-redux';
 import CategoriesPane from 'Components/accountComponents/CategoriesPane';
-import { addCategory } from 'Actions';
-import { updateCategoryColor } from 'Actions';
-import { updateCategoryHours } from 'Actions';
-import { updateCategoryName } from 'Actions';
+import { saveCategories } from 'Actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -13,10 +10,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCategory: () => dispatch(addCategory()),
-    updateColor: (color, category) => dispatch(updateCategoryColor(color, category)),
-    updateName: (name, category) => dispatch(updateCategoryName(name, category)),
-    updateHours: (hours, category) => dispatch(updateCategoryHours(hours, category)),
+    saveCategories: (categories) => dispatch(saveCategories(categories)),
+    // addCategory: () => dispatch(addCategory()),
+    // updateColor: (color, category) => dispatch(updateCategoryColor(color, category)),
+    // updateName: (name, category) => dispatch(updateCategoryName(name, category)),
+    // updateHours: (hours, category) => dispatch(updateCategoryHours(hours, category)),
   };
 };
 

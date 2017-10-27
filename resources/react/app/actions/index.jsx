@@ -82,6 +82,13 @@ export const addCategory = () => {
   }
 };
 
+export const saveCategories = (categories) => {
+  return {
+    type: 'SAVE_CATEGORIES',
+    categories,
+  }
+};
+
 export const updateCategoryColor = (color, category) => {
   return {
     type: 'UPDATE_CATEGORY_COLOR',

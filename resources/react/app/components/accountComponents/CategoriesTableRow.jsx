@@ -22,20 +22,21 @@ export default class CategoriesTableRow extends Component{
   }
 
   updateColor = (color) => {
-    this.props.updateColor(color.hex, this.props.categoryIndex);
+    console.log("UPDATE COLOR");
+    console.log(this.props.categoryIndex);
+    this.props.updateColor(this.props.categoryIndex, color.hex);
   };
 
-  updateInput = (evt, value) => {
-    this.props.updateName(value, this.props.categoryIndex);
+  updateName = (evt, value) => {
+    this.props.updateName(this.props.categoryIndex, value);
   };
 
   updateHours = (evt, value) => {
-    if(value > 0 || value === ''){
-      if(value === '') value = 0;
-      let newHours = [...this.props.category.hours];
-      newHours[evt.target.name] = value;
-      this.props.updateHours(newHours, this.props.categoryIndex);
-    }
+    console.log(this.props.category.hours);
+    let newHours = [...this.props.category.hours];
+    newHours[evt.target.name] = value;
+    console.log(newHours);
+    this.props.updateHours(this.props.categoryIndex, newHours);
   };
 
   render(){
@@ -43,10 +44,11 @@ export default class CategoriesTableRow extends Component{
       <div style={style.row}>
         <div style={style.titleColumn}>
           <TextField
-            onChange={this.updateInput}
+            onChange={this.updateName}
             name="name"
             value={this.props.category.name}
             style={{width: 'auto'}}
+            hintText="Work, School etc."
             // errorText={this.props.errors.firstName}
           />
         </div>

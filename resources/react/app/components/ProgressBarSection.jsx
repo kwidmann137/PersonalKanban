@@ -2,7 +2,7 @@ import React from 'react';
 
 const sectionStyle = (color, width, zDepth) => {
   let lighterColor = LightenColor(color, 20);
-  return {
+  let style = {
     position: 'absolute',
     backgroundColor: '#' + color,
     backgroundImage: 'linear-gradient(to bottom, #' + lighterColor + ', #' + color + ')',
@@ -11,7 +11,14 @@ const sectionStyle = (color, width, zDepth) => {
     borderTopLeftRadius: '50px',
     borderBottomLeftRadius: '50px',
     width: width + '%',
+  };
+
+  if(width >= 100){
+    style.borderTopRightRadius = '50px';
+    style.borderBottomRightRadius = '50px';
   }
+
+  return style;
 };
 
 const LightenColor = (color, percent) => {

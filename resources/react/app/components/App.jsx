@@ -48,7 +48,7 @@ export default class App extends React.Component{
             <AccountPage />
           }
           {this.state.addingItem &&
-            <AddItem toggleAddItem={this.toggleAddItem}/>
+            <AddItem toggleAddItem={this.toggleAddItem} updateView={this.updateView}/>
           }
         </div>
       </MuiThemeProvider>

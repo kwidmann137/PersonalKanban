@@ -18,8 +18,7 @@ export default class ColorPickerDropDown extends Component{
     }
   }
 
-  handleUpdate = (color, evt) => {
-    console.log(color, evt);
+  handleUpdate = (color) => {
     this.props.onChange(color);
     this.handleRequestClose();
   };
@@ -40,7 +39,6 @@ export default class ColorPickerDropDown extends Component{
   };
 
   render(){
-    console.log(this.props.color);
     return (
       <div>
         <RaisedButton
