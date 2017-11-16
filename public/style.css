@@ -1,0 +1,52 @@
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  -webkit-font-feature-settings: "kern", "liga", "pnum";
+  -moz-font-feature-settings: "kern", "liga", "pnum";
+  -ms-font-feature-settings: "kern", "liga", "pnum";
+  font-feature-settings: "kern", "liga", "pnum";
+  -webkit-font-smoothing: antialiased;
+  font-weight: lighter;
+  background: #ffffff;
+  color: #777;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+@font-face {
+  font-family: Architects Daughter;
+  src: url('/fonts/Architects_Daughter/ArchitectsDaughter-Regular.ttf');
+}
+
+.hover-group > *:hover{
+  cursor: pointer;
+}
+
+body .vis-item.vis-range, body .vis-item .vis-item-content {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.center-placeholder input{
+
+}
+
+.center-placeholder input::placeholder { /* Chrome/Opera/Safari */
+  text-align: center;
+}
+
+.center-placeholder input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  text-align: center;
+}
+.center-placeholder input::-moz-placeholder { /* Firefox 19+ */
+  text-align: center;
+}
+.center-placeholder input:-ms-input-placeholder { /* IE 10+ */
+  text-align: center;
+}
+.center-placeholder input:-moz-placeholder { /* Firefox 18- */
+  text-align: center;
+}

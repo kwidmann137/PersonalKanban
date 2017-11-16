@@ -1,0 +1,68 @@
+{
+  "name": "adonis-fullstack-app",
+  "version": "4.0.0",
+  "adonis-version": "4.0.0",
+  "description": "The fullstack application boilerplate for Adonisjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node ace test",
+    "build:dev": "webpack --display-error-details --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "keywords": [
+    "adonisjs",
+    "adonis-app"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@adonisjs/ace": "^4.0.7",
+    "@adonisjs/auth": "^2.0.10",
+    "@adonisjs/bodyparser": "^1.0.8",
+    "@adonisjs/cors": "^1.0.2",
+    "@adonisjs/fold": "^4.0.5",
+    "@adonisjs/framework": "^4.0.27",
+    "@adonisjs/ignitor": "^1.0.14",
+    "@adonisjs/lucid": "^4.0.23",
+    "@adonisjs/session": "^1.0.19",
+    "@adonisjs/shield": "^1.0.4",
+    "@adonisjs/validator": "^4.0.6",
+    "@adonisjs/vow": "^1.0.13",
+    "@adonisjs/vow-browser": "^1.0.5",
+    "babel-core": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "japa": "^1.0.5",
+    "material-ui": "^0.19.2",
+    "mysql": "^2.14.1",
+    "npm-cli": "^0.1.0",
+    "react": "^15.6.1",
+    "react-beautiful-dnd": "^2.4.0",
+    "react-color": "^2.13.8",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "react-visjs-timeline": "^1.4.0",
+    "redux": "^3.7.2",
+    "vis": "^4.20.1",
+    "youch": "^2.0.4"
+  },
+  "devDependencies": {
+    "axios": "^0.16.2",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.7",
+    "lovefield": "^2.1.12",
+    "nodemon": "^1.11.0",
+    "standard": "^10.0.1",
+    "style-loader": "^0.19.0",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.6.0",
+    "webpack-merge": "^4.1.0"
+  },
+  "autoload": {
+    "App": "./app"
+  }
+}
