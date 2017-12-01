@@ -2,7 +2,7 @@
 
 class UserValidator{
 
-  static get rules () {
+  static get userRules () {
     return {
       first_name: 'required|alpha|min:1',
       last_name: 'required|alpha|min:1',
@@ -12,7 +12,7 @@ class UserValidator{
     }
   }
 
-  static get messages(){
+  static get userMessages(){
     return {
       'first_name.required': "First name is required",
       'last_name.required': "Last name is required",

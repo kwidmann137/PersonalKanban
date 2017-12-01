@@ -6,9 +6,7 @@ import PersonalBoardPage from "Containers/PersonalBoardPage";
 import SortPage from "Containers/SortPage";
 import SchedulePage from "Containers/SchedulePage";
 import AccountPage from "Components/AccountPage";
-// import ActiveView from "Containers/ActiveView";
 import AddItem from 'Containers/AddItem';
-
 
 export default class App extends React.Component{
 

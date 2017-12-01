@@ -1,26 +1,8 @@
-const initialCategories = [
-  // {
-  //   name: 'Home',
-  //   color: '#FAEE76',
-  //   hours: [
-  //     1, 1, 1, 1, 1, 3, 3
-  //   ]
-  // },
-  // {
-  //   name: 'Work',
-  //   color: '#FD892C',
-  //   hours: [
-  //     8, 8, 8, 8, 8, 0, 0
-  //   ]
-  // },
-  // {
-  //   name: 'School',
-  //   color: '#86CBFB',
-  //   hours: [
-  //     6, 6, 6, 6, 6, 6, 6
-  //   ]
-  // }
-];
+import Api from '../../helpers/Api';
+import store from '../index';
+import {saveCategories} from "../actions/index";
+
+let initialCategories = [];
 
 const categories = (state = initialCategories, action) => {
 
@@ -31,6 +13,7 @@ const categories = (state = initialCategories, action) => {
       return [
         ...state,
         {
+          id: null,
           name: '',
           color: '#FAEE76',
           hours: [
@@ -55,3 +38,12 @@ const categories = (state = initialCategories, action) => {
 };
 
 export default categories;
+
+Api.get('/getCategories')
+  .then(resp => {
+    console.log(resp);
+    store.dispatch(saveCategories(resp.data));
+  })
+  .catch(err => {
+    console.log(err);
+  });

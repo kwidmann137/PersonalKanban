@@ -3,8 +3,10 @@ import CategoriesTableHeader from "./CategoriesTableHeader";
 import CategoriesTableRow from "./CategoriesTableRow";
 import RaisedButton from 'material-ui/RaisedButton';
 import SavedIndicator from "../../../common/components/SavedIndicator";
+import Api from '../../../helpers/Api';
 
 const newCategory = {
+  id: null,
   name: '',
   color: '#FAEE76',
   hours: [
@@ -25,33 +27,45 @@ export default class  CategoriesPane extends Component {
       categories: [...props.categories],
       saving: false,
     };
-
   }
 
   updateColor = (category, color) => {
     let categories = [...this.state.categories];
     categories[category].color =  color;
+    console.log("UPDATE COLOR SET STATE");
     this.setState({categories: categories});
   };
 
   updateName = (category, name) => {
     let categories = [...this.state.categories];
     categories[category].name = name;
+    console.log("UPDATE NAME SET STATE");
     this.setState({categories: categories});
   };
 
   updateHours = (category, hours) => {
     let categories = [...this.state.categories];
     categories[category].hours = hours;
+    console.log("UPDATE HOURS SET STATE");
     this.setState({categories: categories});
   };
 
-  addCategory = () => this.setState({categories: [...this.state.categories, {...newCategory}]});
+  addCategory = () => {
+    console.log("ADD CATEGORY SET STATE");
+    this.setState({categories: [...this.state.categories, {...newCategory}]});
+  };
 
   saveCategories = () => {
-    // validateCategories();
-    this.props.saveCategories(this.state.categories);
     this.setState({saving: true});
+    Api.post('/updateCategories', this.state.categories)
+      .then(resp =>{
+        console.log(resp);
+        this.props.saveCategories(this.state.categories);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
     setInterval(() => {
       this.setState({saving: false})
     }, 2000);

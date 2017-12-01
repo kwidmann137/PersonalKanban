@@ -75,7 +75,7 @@ export default class RegisterForm extends React.Component{
     this.setState({loading: true});
 
     axios.post("/register", user)
-      .then(function(){
+      .then(function(resp){
 
         self.clearErrors();
         self.setState({loading: false});

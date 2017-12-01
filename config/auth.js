@@ -13,7 +13,7 @@ module.exports = {
   | Available Serializers - lucid, database
   |
   */
-  authenticator: 'session',
+  authenticator: 'jwt',
 
   /*
   |--------------------------------------------------------------------------
@@ -72,4 +72,4 @@ module.exports = {
       secret: 'self::app.appKey'
     }
   }
-}
+};

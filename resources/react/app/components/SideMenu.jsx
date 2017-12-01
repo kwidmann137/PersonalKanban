@@ -4,12 +4,14 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import Dehaze from 'material-ui/svg-icons/image/dehaze';
+import axios from 'axios';
 
 const menuButtonStyle = {
   position: 'absolute',
   minWidth: 60,
   width: 60,
-  padding: 10
+  padding: 10,
+  zIndex: 99999
 };
 
 const portraitStyle = {
@@ -68,7 +70,7 @@ export default class SideMenu extends React.Component {
             <MenuItem onClick={() => this.updateView('schedule')}>Schedule</MenuItem>
             <MenuItem onClick={() => this.updateView('sortItems')}>Sort Items</MenuItem>
             <MenuItem onClick={() => this.updateView('categories')}>Categories</MenuItem>
-            <MenuItem onClick={() => this.handleClose}>Logout</MenuItem>
+            <MenuItem onClick={() => window.location.href = "/logout"}>Logout</MenuItem>
           </Drawer>
         </div>
         <div>

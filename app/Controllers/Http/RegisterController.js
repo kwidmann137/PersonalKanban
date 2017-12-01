@@ -3,7 +3,7 @@
 const Logger = use('Logger');
 const User = use('App/Models/User');
 const {validateAll} = use('Validator');
-const { rules, messages } = use('App/Validators/UserValidator');
+const { userRules, userMessages } = use('App/Validators/User');
 
 Logger.transport('file');
 
@@ -21,7 +21,7 @@ class RegisterController {
 
     try{
 
-      const validation = await validateAll(user, rules, messages);
+      const validation = await validateAll(user, userRules, userMessages);
 
       if(validation.fails()){
         return response.status(405).json(validation.messages());

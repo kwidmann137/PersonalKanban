@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
+import Api from '../../helpers/Api';
 
 const style = {
   height: 400,
@@ -43,6 +44,15 @@ export default class EditableStickyNote extends React.Component{
 
   saveItem = () => {
     let state = this.state;
+
+    Api.post('/addItem', state)
+      .then(resp => {
+        console.log(resp);
+      })
+      .catch(err => {
+        console.log(err)
+      });
+
     this.props.addItem(state.title, state.category, state.estimatedTime/2, state.dueDate);
     this.props.toggleAddItem();
   };

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const User = use('App/Models/User');
 const Hash = use('Hash');
@@ -12,7 +12,7 @@ test('Test valid user registration', async ({ client, assert }) => {
   const newUser = {
     first_name: 'John',
     last_name: 'Smith',
-    email: 'test@example.com',
+    email: 'test2@example.com',
     password: 'abcd1234',
     confirm_password: 'abcd1234'
   };
@@ -24,7 +24,7 @@ test('Test valid user registration', async ({ client, assert }) => {
   response.assertStatus(201);
   response.assertText("User created");
 
-  let user = await User.findBy("email", "test@example.com");
+  let user = await User.findBy("email", "test2@example.com");
 
   assert.equal(newUser.first_name, user.first_name);
   assert.equal(newUser.last_name, user.last_name);
@@ -33,7 +33,7 @@ test('Test valid user registration', async ({ client, assert }) => {
 
 });
 
-test('Test missing name', async({client, assert}) => {
+test('Test register with missing name', async({client, assert}) => {
 
   const newUser = {
     email: 'test@example.com',

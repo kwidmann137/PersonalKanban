@@ -15,6 +15,8 @@
 
 const Route = use('Route');
 
+const Logger = use('Logger');
+
 Route.get('/', ({view}) => view.render('landingPage'));
 
 Route.get('/register', ({view}) => view.render('register'));
@@ -25,8 +27,12 @@ Route.get('/login', ({view}) => view.render('login'));
 
 Route.post('/login', 'LoginController.login');
 
-Route.post('/logout', 'LoginController.logout');
+Route.get('/logout', 'LoginController.logout');
 
-Route.group('/api/v1', async () => {
-  Route.post('/addTask', 'ApiController.addTask');
-});
+Route.get('/app', ({view}) => view.render('app')).middleware(['JwtAuth']);
+
+Route.group(() => {
+  Route.post('/addItem', 'ApiController.addItem');
+  Route.post('/updateCategories', 'ApiController.updateCategories');
+  Route.get('/getCategories', 'ApiController.getCategories');
+}).prefix('/api/v1').middleware(['auth']);

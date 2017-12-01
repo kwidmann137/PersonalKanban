@@ -1,8 +1,9 @@
 import React from 'react';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import TextField from 'material-ui/TextField';
-import Card from 'material-ui/Card';
+import { Card, CardHeader } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import axios from 'axios';
 
 const cardStyle = {
   maxWidth: '500px',
@@ -29,10 +30,21 @@ export default class LoginForm extends React.Component{
     }
   };
 
-  updateInput = (evt, value) => {
-    let { user } = this.state;
+  updateUser = (evt, value) => {
+    let user = {...this.state.user};
     user[evt.target.name] = value;
     this.setState({user: user});
+  };
+
+  login = () => {
+    let user = this.state.user;
+    axios.post('/login', user)
+      .then(() => {
+        window.location.href = '/app';
+      })
+      .catch(error => {
+        console.log(error);
+      })
   };
 
   render(){
@@ -43,36 +55,39 @@ export default class LoginForm extends React.Component{
           <LoadingIndicator/>
         }
         <Card style={cardStyle}>
-          <h1>Login</h1>
+          <CardHeader
+            textStyle={{paddingRight: 0}}
+            title="Login"
+          />
           {
             this.state.error &&
               <small style={{color: 'red'}}>{this.state.error}</small>
           }
-          <TextField
-            hintText="Email"
-            floatingLabelText="Email"
-            onChange={this.updateInput}
-            name="first_name"
-            value={this.state.user.email}
-          />
-          <TextField
-            hintText="Password"
-            floatingLabelText="Password"
-            onChange={this.updateInput}
-            name="last_name"
-            type="password"
-            value={this.state.user.password}
-          />
-
-          <div style={{marginTop: 24, marginBottom: 12}}>
-            <RaisedButton
-              label="Login"
-              primary={true}
-              onClick={this.login}
-              name="login"
+          {/*<form method="post" action="/login" name="login">*/}
+            <TextField
+              hintText="Email"
+              floatingLabelText="Email"
+              name="email"
+              onChange={this.updateUser}
             />
-          </div>
+            <TextField
+              hintText="Password"
+              floatingLabelText="Password"
+              name="password"
+              type="password"
+              onChange={this.updateUser}
+            />
 
+            <div style={{marginTop: 24, marginBottom: 12}}>
+              <RaisedButton
+                label="Login"
+                primary={true}
+                onClick={this.login}
+                name="login"
+                // type="submit"
+              />
+            </div>
+          {/*</form>*/}
         </Card>
       </div>
     )

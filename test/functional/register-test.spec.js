@@ -1,10 +1,10 @@
 'use strict';
 
-const { test, trait } = use('Test/Suite')('RegisterTests');
+const { test, trait } = use('Test/Suite')('Registration User Tests');
 
 trait('Test/Browser');
 
-test('Register with missing names', async ({ browser }) => {
+test('Register with missing names', async ({ browser}) => {
 
   const page = await browser.visit('/register');
 
@@ -28,4 +28,4 @@ test('Register with missing names', async ({ browser }) => {
   await page.assertHas("First name is required");
   await page.assertHas("Last name is required");
 
-});
+}).timeout(0);
