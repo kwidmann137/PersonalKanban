@@ -21,8 +21,8 @@ test('Test adding an item', async ({ client, assert }) => {
 
   let addedItem = {
     id: null,
-    text: "New item",
-    due_date: new Date(),
+    text: "New Item",
+    due_date: new Date().toISOString().slice(0,10),
     category_id: categories[0].id,
     estimated_time: "01:00:00",
     index: 0,
@@ -48,6 +48,7 @@ test('Test adding an item', async ({ client, assert }) => {
   delete addedItem.id;
 
   const newItem = newItems[newItems.length - 1];
+
   assert.deepInclude(newItem, addedItem);
 
 });
@@ -58,7 +59,7 @@ test('Test adding an item with missing text', async ({client, assert}) => {
   let addedItem = {
     id: null,
     text: '',
-    due_date: new Date(),
+    due_date: new Date().toISOString(),
     category_id: categories[0].id,
     estimated_time: "01:00:00",
     index: 0,
@@ -74,8 +75,6 @@ test('Test adding an item with missing text', async ({client, assert}) => {
       item: addedItem
     })
     .end();
-
-  // console.log(response.error);
 
   response.assertStatus(400);
   response.assertJSONSubset(
@@ -112,16 +111,16 @@ test('Test adding an item with missing category', async ({client, assert}) => {
     })
     .end();
 
-  // console.log(response.error);
-
-  response.assertStatus(201);
-
-  let newItems = await user.itemsAsJSON()
-
-  delete addedItem.id;
-
-  const newItem = newItems[newItems.length - 1];
-  assert.deepInclude(newItem, addedItem);
+  response.assertStatus(400);
+  response.assertJSONSubset(
+    [
+      {
+        field: 'category_id',
+        validation: 'required',
+        message: "A category is required"
+      }
+    ]
+  );
 });
 
 test('Test adding an item with missing time', async ({client, assert}) => {
@@ -147,18 +146,16 @@ test('Test adding an item with missing time', async ({client, assert}) => {
     })
     .end();
 
-  // console.log(response.error);
-
   response.assertStatus(400);
-  // response.assertJSONSubset(
-  //   [
-  //     {
-  //       field: 'text',
-  //       validation: 'required',
-  //       message: "A description is required"
-  //     }
-  //   ]
-  // );
+  response.assertJSONSubset(
+    [
+      {
+        field: 'text',
+        validation: 'required',
+        message: "A description is required"
+      }
+    ]
+  );
 });
 
 test('Test adding an item with missing due date', async ({client, assert}) => {
@@ -184,18 +181,16 @@ test('Test adding an item with missing due date', async ({client, assert}) => {
     })
     .end();
 
-  // console.log(response.error);
-
   response.assertStatus(400);
-  // response.assertJSONSubset(
-  //   [
-  //     {
-  //       field: 'text',
-  //       validation: 'required',
-  //       message: "A description is required"
-  //     }
-  //   ]
-  // );
+  response.assertJSONSubset(
+    [
+      {
+        field: 'text',
+        validation: 'required',
+        message: "A description is required"
+      }
+    ]
+  );
 });
 
 test('Test updating an item', async ({client, assert}) => {

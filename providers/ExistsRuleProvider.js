@@ -3,6 +3,8 @@ const { ServiceProvider } = require('@adonisjs/fold');
 class ExistsRuleProvider extends ServiceProvider {
   async existsFn (data, field, message, args, get) {
 
+    const Database = use('Database');
+
     const value = get(data, field)
 
     if (!value) {
@@ -16,6 +18,7 @@ class ExistsRuleProvider extends ServiceProvider {
     const [table, column] = args;
 
     const row = await Database.table(table).where(column, value).first();
+
     if (!row) {
       throw message
     }

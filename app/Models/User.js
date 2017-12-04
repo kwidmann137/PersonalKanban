@@ -34,6 +34,8 @@ class User extends Model {
   async itemsAsJSON(){
     let items = await this.items().fetch();
     items = items.toJSON();
+    //ToDo: See if you can stop DB from manipulating date string on query
+    items.forEach(item => item.due_date = new Date(item.due_date).toISOString().slice(0,10));
     return items;
   }
 

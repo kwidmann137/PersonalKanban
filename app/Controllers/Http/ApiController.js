@@ -79,6 +79,7 @@ class ApiController {
   }
 
   async addItem({request, response, auth}){
+
     const { item } = request.post();
 
     if(!item){
