@@ -1,17 +1,12 @@
 'use strict'
 
 const Logger = use('Logger');
+const Item = use('App/Models/Item');
 const { validateAll } = use('Validator');
-const { categoryRules, categoryMessages, categoryValidateHours } = use('App/Validators/Category');
+const { categoryRules, categoryMessages, categoryValidateHours, categoryValidateMaxDailyHoursNotExceded } = use('App/Validators/Category');
 const { itemRules, itemMessages } = use('App/Validators/Item');
 
 class ApiController {
-
-  async addTask({request, response}){
-    const task = request.post();
-    Logger.info(task);
-    response.status(200).send("Task Added");
-  }
 
   async updateCategories({request, response, auth}){
 
@@ -35,6 +30,12 @@ class ApiController {
       if(hourErrors.length !== 0){
         return response.status(405).json(hourErrors);
       }
+
+      // let maxHourErrors = categoryValidateMaxDailyHoursNotExceded(data.categories);
+      //
+      // if(maxHourErrors.length !== 0){
+      //   return response.status(405).json(maxHourErrors);
+      // }
 
       let user = await auth.getUser();
 
@@ -60,9 +61,7 @@ class ApiController {
           });
       });
 
-      let temp = await user.categories().fetch();
-
-      response.send();
+      response.send(await user.categoriesAsJSON());
 
     }catch(e){
       Logger.error("Failed to update categories: %s", e);
@@ -70,12 +69,27 @@ class ApiController {
     }
   }
 
+  async deleteCategory({request, auth}){
+    const user = await auth.getUser();
+    const { category } = request.post();
+
+    await user
+      .items()
+      .where('category_id', category.id)
+      .delete();
+
+    await user
+      .categories()
+      .where('id', category.id)
+      .delete();
+
+    return;
+  };
+
   async getCategories({response, auth}){
     let user = await auth.getUser();
-    let categories = await user.categories().fetch();
-    categories.rows.forEach(category => category.hours = JSON.parse(category.hours))
+    let categories = await user.categoriesAsJSON();
     return response.send(categories);
-
   }
 
   async addItem({request, response, auth}){
@@ -89,16 +103,55 @@ class ApiController {
     const validation = await validateAll(item, itemRules, itemMessages);
 
     if(validation.fails()){
-      // Logger.info(item);
-      // Logger.error(validation.messages());
       return response.status(400).json(validation.messages());
     }
 
     const user = await auth.getUser();
 
-    await user.items().create(item);
+    const newItem = await user.items().create(item);
 
-    return response.status(201).send("Item added");
+    return response.status(201).send(newItem.toJSON());
+  }
+
+  async updateItem({request, response, auth}){
+
+    const { item } = request.post();
+
+    if(!item){
+      return response.status(400).send("No item supplied");
+    }
+
+    const validation = await validateAll(item, itemRules, itemMessages);
+
+    if(validation.fails()){
+      return response.status(400).json(validation.messages());
+    }
+
+    const user = await auth.getUser();
+
+    try{
+      await user.items()
+        .where('id', item.id)
+        .update(item);
+    }catch(err){
+      Logger.error(err);
+    }
+
+    const newItem = await Item.find(item.id);
+
+    return response.status(200).send(newItem.toJSON());
+
+  }
+
+  async getItems({response, auth}){
+    let user = await auth.getUser();
+    let items = await user.itemsAsJSON();
+    items.forEach(item => {
+      delete item.user_id;
+      delete item.updated_at;
+      delete item.created_at;
+    });
+    return response.send(items);
   }
 
 }

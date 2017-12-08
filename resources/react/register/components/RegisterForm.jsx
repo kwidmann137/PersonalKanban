@@ -80,8 +80,7 @@ export default class RegisterForm extends React.Component{
         self.clearErrors();
         self.setState({loading: false});
 
-        //ToDo: Redirect to dashboard
-
+        window.location.href = "/app";
       })
       .catch(function (error){
 

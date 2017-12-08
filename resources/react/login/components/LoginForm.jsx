@@ -43,7 +43,14 @@ export default class LoginForm extends React.Component{
         window.location.href = '/app';
       })
       .catch(error => {
-        console.log(error);
+        if(error.response.status === 401){
+          if(this.state.error === ''){
+            this.setState({error: error.response.data});
+            setInterval( () => {
+              this.setState({error: ''});
+            },3000)
+          }
+        }
       })
   };
 
@@ -61,9 +68,8 @@ export default class LoginForm extends React.Component{
           />
           {
             this.state.error &&
-              <small style={{color: 'red'}}>{this.state.error}</small>
+              <small id="error" style={{color: 'red'}}>{this.state.error}</small>
           }
-          {/*<form method="post" action="/login" name="login">*/}
             <TextField
               hintText="Email"
               floatingLabelText="Email"
@@ -84,10 +90,8 @@ export default class LoginForm extends React.Component{
                 primary={true}
                 onClick={this.login}
                 name="login"
-                // type="submit"
               />
             </div>
-          {/*</form>*/}
         </Card>
       </div>
     )

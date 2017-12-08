@@ -22,7 +22,7 @@ export default class LoadingIndicator extends React.Component{
 
   render(){
     return (
-      <div style={loader}>
+      <div id="loading" style={loader}>
         <RefreshIndicator
           size={50}
           left={70}

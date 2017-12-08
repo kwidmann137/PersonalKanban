@@ -22,3 +22,36 @@ test('Test valid login', async ({ client }) => {
   response.assertText('Authenticated');
 
 });
+
+
+test('Test invalid login with missing email', async ({ client }) => {
+
+  const loginUser ={
+    email: '',
+    password: 'password'
+  };
+
+  const response = await client.post('/login')
+    .send(loginUser)
+    .end();
+
+  response.assertStatus(401);
+  response.assertText('Invalid username or password');
+
+});
+
+test('Test invalid login with missing password', async ({ client }) => {
+
+  const loginUser ={
+    email: 'test@example.com',
+    password: ''
+  };
+
+  const response = await client.post('/login')
+    .send(loginUser)
+    .end();
+
+  response.assertStatus(401);
+  response.assertText('Invalid username or password');
+
+});

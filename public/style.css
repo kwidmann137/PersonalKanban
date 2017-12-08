@@ -30,6 +30,10 @@ body .vis-item.vis-range, body .vis-item .vis-item-content {
   background-color: transparent;
 }
 
+.error{
+  color: rgb(244, 67, 54);
+}
+
 .center-placeholder input{
 
 }

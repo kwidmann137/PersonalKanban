@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import CategoriesPane from 'Components/accountComponents/CategoriesPane';
-import { saveCategories } from 'Actions';
+import { saveCategories, deleteCategory } from 'Actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     saveCategories: (categories) => dispatch(saveCategories(categories)),
+    deleteCategory: (category) => dispatch(deleteCategory(category)),
     // addCategory: () => dispatch(addCategory()),
     // updateColor: (color, category) => dispatch(updateCategoryColor(color, category)),
     // updateName: (name, category) => dispatch(updateCategoryName(name, category)),

@@ -1,42 +1,5 @@
 import store from '../index';
 
-export const addItem = (text, category, estimatedTime, dueDate, ) => {
-  return {
-    type: 'ADD_ITEM',
-    text,
-    category,
-    estimatedTime,
-    dueDate
-  }
-};
-
-export const deleteItem = (index) => {
-  return {
-    type: 'DELETE_ITEM',
-    index
-  }
-};
-
-export const updateStickyNoteStage = (result) => {
-
-  const { boardStages } = store.getState();
-
-  return {
-    type: "UPDATE_STICKY_NOTE_STAGE",
-    result,
-    boardStages
-  }
-};
-
-export const updateStickyNoteSorting = (result) => {
-  const { sortingStages } = store.getState();
-
-  return {
-    type: "UPDATE_STICKY_NOTE_SORTING",
-    result,
-    sortingStages
-  }
-};
 
 export const toggleAddItem = () => {
   return {
@@ -44,9 +7,38 @@ export const toggleAddItem = () => {
   }
 };
 
+export const setItems = (items) => {
+  return {
+    type: 'SET_ITEMS',
+    APIReducer: 'items',
+    items
+  }
+};
+
+export const addItem = (description, category_id, estimated_time, due_date, ) => {
+  return {
+    type: 'ADD_ITEM',
+    APIReducer: 'items',
+    description,
+    category_id,
+    estimated_time,
+    due_date
+  }
+};
+
+export const deleteItem = (index) => {
+  return {
+    type: 'DELETE_ITEM',
+    APIReducer: 'items',
+    index
+  }
+};
+
+
 export const updateItem = (id, text, category,  estimatedTime, dueDate) => {
   return {
     type: 'UPDATE_ITEM',
+    APIReducer: 'items',
     id,
     text,
     category,
@@ -55,22 +47,27 @@ export const updateItem = (id, text, category,  estimatedTime, dueDate) => {
   }
 };
 
-export const updateItemStage = (item, stage) => {
+export const updateItemStage = (result) => {
+
+  const { boardStages } = store.getState();
+
   return {
-    type: 'UPDATE_ITEM_STAGE',
-    item,
-    stage
+    type: "UPDATE_ITEM_STAGE",
+    APIReducer: 'items',
+    result,
+    boardStages
   }
 };
 
-export const updateItemPriority =  (list, startColumn, startIndex, endColumn, endIndex) => {
+export const updateItemSorting = (result) => {
+
+  const { sortingStages } = store.getState();
+
   return {
-    type: 'UPDATE_ITEM_PRIORITY',
-    list,
-    startColumn,
-    startIndex,
-    endColumn,
-    endIndex
+    type: "UPDATE_ITEM_SORTING",
+    APIReducer: 'items',
+    result,
+    sortingStages
   }
 };
 
@@ -83,39 +80,30 @@ export const updateUser = (firstName, lastName, email) => {
   }
 };
 
-export const addCategory = () => {
-  return {
-    type: 'ADD_CATEGORY',
-  }
-};
-
 export const saveCategories = (categories) => {
   return {
     type: 'SAVE_CATEGORIES',
+    APIReducer: 'categories',
     categories,
   }
 };
 
-export const updateCategoryColor = (color, category) => {
+export const deleteCategory = category => {
   return {
-    type: 'UPDATE_CATEGORY_COLOR',
-    color,
-    category
+    type: 'DELETE_CATEGORY',
+    APIReducer: 'categories',
+    category,
   }
 };
 
-export const updateCategoryHours = (hours, category) => {
+export const loading = () => {
   return {
-    type: 'UPDATE_CATEGORY_HOURS',
-    hours,
-    category
+    type: 'LOADING',
   }
 };
 
-export const updateCategoryName = (name, category) => {
+export const doneLoading = () => {
   return {
-    type: 'UPDATE_CATEGORY_NAME',
-    name,
-    category
+    type: 'DONE_LOADING',
   }
 };

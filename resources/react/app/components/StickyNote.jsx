@@ -34,14 +34,14 @@ export default class StickyNote extends React.Component {
         {
           this.state.delete &&
             <DeleteDialog
-              message={"Are you sure you want to delete " + this.props.note.text}
+              message={"Are you sure you want to delete " + this.props.note.description}
               handleCancel={this.togglePrompt}
               handleConfirm={this.deleteNote}
             />
         }
         <Paper style={this.props.style} zDepth={1}>
-          <p>{this.props.note.text}</p>
-          <p>{this.props.note.dueDate}</p>
+          <p>{this.props.note.description}</p>
+          <p>{this.props.note.due_date}</p>
           <div className="text-center hover-group" style={deleteStyle}>
             <Delete onClick={this.togglePrompt}/>
           </div>

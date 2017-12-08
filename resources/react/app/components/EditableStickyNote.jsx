@@ -25,48 +25,109 @@ export default class EditableStickyNote extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      title: "",
-      dueDate: new Date(),
-      estimatedTime: "",
-      category: "",
-      subTask: false,
+      item: {
+        description: "",
+        due_date: new Date(),
+        estimated_time: "",
+        estimated_time_hours: "",
+        estimated_time_minutes: "",
+        category: "",
+        category_id: "",
+        index: 0,
+        stage: 0,
+        stage_index: 0,
+        sorting_stage: 0,
+        sorting_index: 0
+      },
+      errors: {
+        description: "",
+        due_date: "",
+        estimated_time: "",
+        category_id: "",
+      }
     }
   }
 
-  updateInput = (evt, value) => this.setState({[evt.target.name]: value});
+  updateItem = (field, value) => this.setState(({item}) => (
+    {
+      item: {
+        ...item,
+        [field]: value
+      }
+    }
+  ));
 
-  updateTime = (evt, index, value) => this.setState({estimatedTime: value});
+  updateInput = (evt, value) => this.updateItem(evt.target.name, value);
 
-  updateCategory = (evt, index, value) => this.setState({category: value});
+  updateTime = (evt, value) => {
+    if(!isNaN(value)){
+      this.updateItem(evt.target.name, value);
+    }
+  };
+
+  updateCategory = (evt, index, value) => {
+    this.updateItem('category', value);
+    this.updateItem('category_id', this.props.categories[value].id);
+  };
 
   //evt is always null
-  updateDate = (evt, date) => this.setState({dueDate: date});
+  updateDate = (evt, date) => this.updateItem('due_date', date);
+
+  setErrors = (errors) => {
+    this.setState(({errors}) => ({
+      errors: {
+        description: "",
+        due_date: "",
+        estimated_time: "",
+        category_id: "",
+      }
+    }));
+
+    errors.forEach( error => {
+      this.setState(({errors}) => ({
+          errors: {
+            ...errors,
+            [error.field]: error.message
+          }
+        })
+      )
+    })
+  };
 
   saveItem = () => {
-    let state = this.state;
+    let formattedItem = {...this.state.item};
 
-    Api.post('/addItem', state)
+    formattedItem.estimated_time = formattedItem.estimated_time_hours + ':' + formattedItem.estimated_time_minutes;
+    formattedItem.due_date = new Date(formattedItem.due_date).toISOString().slice(0,10);
+    delete formattedItem.estimated_time_hours;
+    delete formattedItem.estimated_time_minutes;
+    delete formattedItem.category;
+
+    Api.post('/addItem', {
+      item: formattedItem
+    })
       .then(resp => {
-        console.log(resp);
+        this.props.addItem(formattedItem.description, formattedItem.category_id, formattedItem.estimated_time, formattedItem.due_date);
+        this.props.toggleAddItem();
       })
-      .catch(err => {
-        console.log(err)
+      .catch(error => {
+        console.log(error);
+        if( error.response && error.response.status === 400){
+          this.setErrors(error.response.data);
+        }
       });
-
-    this.props.addItem(state.title, state.category, state.estimatedTime/2, state.dueDate);
-    this.props.toggleAddItem();
   };
 
   render(){
 
-    let backgroundColor = (this.state.category === "") ? '#FAEE76' : this.props.categories[this.state.category].color;
+    let backgroundColor = (this.state.item.category === "") ? '#FAEE76' : this.props.categories[this.state.item.category].color;
 
     return(
       <Paper style={Object.assign({}, {backgroundColor: backgroundColor}, style)} zDepth={3}>
         {
           this.props.categories.length < 1 &&
             <div>
-              <h3>It looks like you do not have any categories set up.
+              <h3>You do not have any categories set up.
                 <br/>
                 <a href="#"
                    onClick={(e) => {
@@ -81,54 +142,80 @@ export default class EditableStickyNote extends React.Component{
           this.props.categories.length > 0 &&
             <div>
               <TextField
-                hintText="Title"
-                floatingLabelText="Title"
+                hintText="Description"
+                floatingLabelText="Description"
                 onChange={this.updateInput}
-                name="title"
+                name="description"
                 multiLine={true}
-                rows={3}
-                value={this.state.title}
+                rows={1}
+                rowsMax={3}
+                value={this.state.item.description}
                 fullWidth={true}
-                // errorText={this.props.errors.firstName}
+                errorText={this.state.errors.description}
               />
               <DatePicker
                 hintText="dueDate"
-                value={this.state.dueDate}
+                value={this.state.item.due_date}
                 floatingLabelText="Due Date"
                 fullWidth={true}
                 onChange={this.updateDate}
                 formatDate={formatDate}
+                errorText={this.state.errors.due_date}
               />
 
-              <SelectField
-                floatingLabelText="Estimated Time"
-                value={this.state.estimatedTime}
-                fullWidth={true}
-                onChange={this.updateTime}
-              >
-                <MenuItem value={1} primaryText="1/2 Hour" />
-                <MenuItem value={2} primaryText="1 Hour" />
-                <MenuItem value={3} primaryText="1.5 Hour" />
-                <MenuItem value={4} primaryText="2 Hours" />
-                <MenuItem value={5} primaryText="2.5 Hours" />
-                <MenuItem value={6} primaryText="3 Hours" />
-                <MenuItem value={7} primaryText="3.5 Hours" />
-                <MenuItem value={8} primaryText="4 Hours" />
-                <MenuItem value={9} primaryText="4.5 Hours" />
-                <MenuItem value={10} primaryText="5 Hours" />
-                <MenuItem value={11} primaryText="5.5 Hours" />
-                <MenuItem value={12} primaryText="6 Hours" />
-                <MenuItem value={13} primaryText="6.5 Hours" />
-                <MenuItem value={14} primaryText="7 Hours" />
-                <MenuItem value={15} primaryText="7.5 Hours" />
-                <MenuItem value={16} primaryText="8 Hours" />
-              </SelectField>
+              <div id="time_container"
+              style={{
+                position: 'relative',
+                display: 'flex'
+              }}>
+                <TextField
+                  floatingLabelText="Estimated Time"
+                  floatingLabelFixed={true}
+                  name="estimated_time"
+                  value={this.state.item.estimated_time}
+                  fullWidth={true}
+                  underlineShow={false}
+                  inputStyle={{visibility:'hidden', zIndex: -1000}}
+                  style={{position: 'absolute'}}
+
+                />
+                <TextField
+                  hintText="Hours"
+                  floatingLabelText="Hours"
+                  name="estimated_time_hours"
+                  value={this.state.item.estimated_time_hours}
+                  onChange={this.updateTime}
+                  style={{
+                    width: '50%',
+                    display: 'block',
+                    marginTop: 10
+                  }}
+                  errorText={this.state.errors.estimated_time}
+                  // errorText={this.state.errors.estimated_time}
+                />
+                <TextField
+                  hintText="Minutes"
+                  floatingLabelText="Minutes"
+                  name="estimated_time_minutes"
+                  value={this.state.item.estimated_time_minutes}
+                  onChange={this.updateTime}
+                  style={{
+                    width: '50%',
+                    display: 'block',
+                    marginTop: 10
+                  }}
+                  errorStyle={{fontSize: 0}}
+                  errorText={this.state.errors.estimated_time}
+                />
+
+              </div>
 
               <SelectField
                 floatingLabelText="Category"
-                value={this.state.category}
+                value={this.state.item.category}
                 fullWidth={true}
                 onChange={this.updateCategory}
+                errorText={this.state.errors.category_id}
               >
                 {
                   this.props.categories.map((category, index) => (
@@ -148,3 +235,7 @@ export default class EditableStickyNote extends React.Component{
   }
 
 }
+
+const timeFormatter = (time) => {
+
+};

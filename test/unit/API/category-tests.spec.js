@@ -36,7 +36,7 @@ test('Test adding categories', async ({ client, assert }) => {
     })
     .end();
 
-  response.assertStatus(204);
+  response.assertStatus(200);
 
   let userCategories = await user.categoriesAsJSON();
 
@@ -67,7 +67,7 @@ test('Test updating categories', async ({ client, assert }) => {
     })
     .end();
 
-  response.assertStatus(204);
+  response.assertStatus(200);
 
   let userCategories = await user.categoriesAsJSON();
 
@@ -173,6 +173,76 @@ test('Test updating category invalid color', async ({ client }) => {
   );
 
 });
+
+test('Test category totals more than 18 hours per day for all days', async ({ client }) => {
+
+  let originalUserCategories = await user.categoriesAsJSON();
+
+  let higherHourCategories = [];
+  originalUserCategories.forEach(category => {
+    category.hours.forEach((hour,index,hours) => hours[index] = (18/originalUserCategories.length) + 1);
+    higherHourCategories.push(category);
+  });
+
+  const response = await client.post('/api/v1/updateCategories')
+    .loginVia(user, 'jwt')
+    .send({
+      categories: higherHourCategories
+    })
+    .end();
+
+  response.assertStatus(405);
+  response.assertJSONSubset(
+    [
+      {
+        field: 'categories',
+        validation: 'maxHours',
+        message: "The following days total more than 18 hours of work: (Mon,Tues,Wed,Thurs,Fri,Sat,Sun).\nMake sure you're totals are not higher than 18 hours per day so you can sleep!"
+      }
+    ]
+  );
+
+});
+
+
+test('Test category totals more than 18 hours per day for select days', async ({ client }) => {
+
+  let originalUserCategories = await user.categoriesAsJSON();
+
+  let higherHourCategories = [];
+  originalUserCategories.forEach(category => {
+    category.hours.forEach((hour,index,hours) => {
+      if(index % 2 === 0){
+        hours[index] = (18/originalUserCategories.length) + 1
+      }
+    });
+    higherHourCategories.push(category);
+  });
+
+  const response = await client.post('/api/v1/updateCategories')
+    .loginVia(user, 'jwt')
+    .send({
+      categories: higherHourCategories
+    })
+    .end();
+
+  response.assertStatus(405);
+  response.assertJSONSubset(
+    [
+      {
+        field: 'categories',
+        validation: 'maxHours',
+        message: "The following days total more than 18 hours of work: (Mon,Wed,Fri,Sun).\nMake sure you're totals are not higher than 18 hours per day so you can sleep!"
+      }
+    ]
+  );
+
+});
+
+test('Delete category and make sure items are deleted', async ({browser}) => {
+
+});
+
 
 before(async () => {
   user = await User.findBy('email', 'test@example.com');

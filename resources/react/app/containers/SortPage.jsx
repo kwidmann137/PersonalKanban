@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import DragDropBoard from 'Components/DragDropBoard';
 import DroppableColumn from "../components/sortComponents/DroppableColumn";
 import DraggableStickyNote from "../components/DraggableStickyNote";
-import { updateStickyNoteSorting } from "../actions/index";
+import { updateItemSorting } from "../actions/index";
 import NoItemsMessage from '../components/NoItemsMessage';
 
 const mapStateToProps = (state) => {
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDragEnd: (result) => dispatch(updateStickyNoteSorting(result))
+    onDragEnd: (result) => dispatch(updateItemSorting(result))
   }
 };
 

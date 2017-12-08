@@ -3,11 +3,10 @@
 class Item {
   static get itemRules () {
     return {
-      text: 'required|min:1',
+      description: 'required|min:1',
       due_date: 'required|date_format:YYYY-MM-DD',
       category_id: 'required|integer|exists:categories, id',
-      estimated_time: "required|regex:^[0-9]{2}:[0-9]{2}:[0-9]{2}$",
-      index: 'required|integer',
+      estimated_time: 'required|itemTime',
       stage: 'required|integer',
       stage_index: 'required|integer',
       sorting_stage: 'required|integer',
@@ -17,26 +16,15 @@ class Item {
 
   static get itemMessages() {
     return {
-      'text.required': "A description is required",
-      'text.min': '',
-      'due_date.required': '',
-      'due_date.date_format': '',
-      'category_id.required': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
-      '': '',
+      'description.required': "A description is required",
+      'description.min': 'The description must be at least 1 character',
+      'due_date.required': 'Due date is required',
+      'due_date.date_format': 'Invalid date format supplied.  Must be YYYY-MM-DD',
+      'category_id.required': 'A category is required',
+      'category_id.integer': 'Invalid category given',
+      'category_id.exists': 'Category does not exist',
+      'estimated_time.required': 'Estimated time is required',
+      'estimated_time.itemTime': 'Invalid format for estimated time',
     }
   }
 }

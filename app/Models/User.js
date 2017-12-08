@@ -27,6 +27,7 @@ class User extends Model {
     categories = categories.toJSON();
     categories.forEach(category => {
       category.hours = JSON.parse(category.hours);
+      delete category.user_id;
     });
     return categories
   }
@@ -35,7 +36,10 @@ class User extends Model {
     let items = await this.items().fetch();
     items = items.toJSON();
     //ToDo: See if you can stop DB from manipulating date string on query
-    items.forEach(item => item.due_date = new Date(item.due_date).toISOString().slice(0,10));
+    items.forEach(item => {
+      item.estimated_time = item.estimated_time.slice(0,5);
+      item.due_date = new Date(item.due_date).toISOString().slice(0,10);
+    });
     return items;
   }
 

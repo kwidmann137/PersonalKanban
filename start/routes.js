@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 |
 | Http routes are entry points to your web application. You can create
-| routes for different URL's and bind Controller actions to them.
+| routes for different URL's and bind Controller APIReducers to them.
 |
 | A complete guide on routing is available here.
 | http://adonisjs.com/guides/routing
@@ -32,7 +32,13 @@ Route.get('/logout', 'LoginController.logout');
 Route.get('/app', ({view}) => view.render('app')).middleware(['JwtAuth']);
 
 Route.group(() => {
+
+  Route.get('/getItems', 'ApiController.getItems');
   Route.post('/addItem', 'ApiController.addItem');
-  Route.post('/updateCategories', 'ApiController.updateCategories');
+  Route.post('/updateItem', 'ApiController.updateItem');
+
   Route.get('/getCategories', 'ApiController.getCategories');
+  Route.post('/updateCategories', 'ApiController.updateCategories');
+  Route.post('/deleteCategory', 'ApiController.deleteCategory');
+
 }).prefix('/api/v1').middleware(['auth']);

@@ -15,14 +15,11 @@ class LoginController {
       response.status(200).send("Authenticated");
     }catch(error){
 
-      Logger.error(error);
-      Logger.info(await Hash.make(password));
-
       await response.clearCookie('token');
 
       response
         .status(401)
-        .send("Invalid login credentials");
+        .send("Invalid username or password");
     }
   }
 

@@ -9,7 +9,7 @@ Logger.transport('file');
 
 class RegisterController {
 
-  async registerUser({request, response}){
+  async registerUser({request, response, auth}){
 
     let user = request.only([
       'first_name',
@@ -30,7 +30,21 @@ class RegisterController {
       delete user.confirm_password;
 
       await User.create(user);
-      return response.status(201).send("User created");
+
+      try{
+        const jwt = await auth.attempt(user.email, user.password);
+
+        await response.plainCookie('token', JSON.stringify(jwt));
+
+        response.status(201).send("Created and authenticated");
+      }catch(error){
+
+        await response.clearCookie('token');
+
+        response
+          .status(401)
+          .send("Invalid login credentials");
+      }
 
     }catch(e){
       Logger.error("Failed to create user: %s", e);

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import DragDropBoard from 'Components/DragDropBoard';
 import DroppableColumn from "../components/sortComponents/DroppableColumn";
 import DraggableStickyNote from "../components/DraggableStickyNote";
-import { updateStickyNoteStage, deleteItem } from "../actions/index";
+import { updateItemStage, deleteItem } from "../actions/index";
 import NoItemsMessage from '../components/NoItemsMessage';
 
 const mapStateToProps = (state) => {
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onDragEnd: (result) => dispatch(updateStickyNoteStage(result)),
+    onDragEnd: (result) => dispatch(updateItemStage(result)),
     deleteNote: (index) => dispatch(deleteItem(index))
   }
 };
@@ -30,7 +30,8 @@ const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, deleteNo
           <NoItemsMessage />
       }
       {
-        hasItems &&
+        //ToDo: Remove the categories.length check and fix loading initial state before render
+        hasItems && categories.length > 0 &&
         stages.map((stage, stageIndex) => (
             <DroppableColumn key={stageIndex} id={stageIndex} title={stage.name} style={{}}>
               {
@@ -40,7 +41,7 @@ const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, deleteNo
                     id={stageIndex + '-' + noteIndex}
                     note={note}
                     deleteNote={deleteNote}
-                    style={getNoteStyle(categories[note.category].color)}
+                    style={getNoteStyle(note.category_id, categories)}
                   />
                 ))
               }
@@ -66,7 +67,12 @@ const sortItemsByStage = (items, stages) => {
   return sortedItems;
 };
 
-const getNoteStyle = (color) => {
+const getNoteStyle = (category_id, categories) => {
+  let category = categories.filter(category => category.id === category_id)[0];
+  let color = 'transparent';
+  if(category){
+    color = category.color;
+  }
   return {
     height: 300,
     width: 300,

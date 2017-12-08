@@ -35,11 +35,10 @@ class TestSeeder {
       endDate.setDate(currDate.getDate() + numberDaysToAdd);
 
       return {
-        text: faker.sentence(),
+        description: faker.sentence(),
         due_date: randomDate(currDate, endDate),
-        estimated_time: faker.hour() + ':' + faker.minute() + ':00',
+        estimated_time: faker.hour() + ':' + faker.minute(),
         category_id: categories[i % 3].id,
-        index: 0,
         stage: 0,
         stage_index: 0,
         sorting_stage: 0,

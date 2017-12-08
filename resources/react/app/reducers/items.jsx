@@ -1,79 +1,20 @@
-const itemsArray = [
-  // {
-  //   text: 'LISP Programming Assignment 1',
-  //   dueDate: new Date('10/23/2017').toDateString(),
-  //   category: 2,
-  //   estimatedTime: 6,
-  //   stage: 0,
-  //   stageIndex: 0,
-  //   sortingStage: 0,
-  //   sortingIndex: 0,
-  // },
-  // {
-  //   text: 'Make index cards for OO',
-  //   dueDate: new Date('10/23/2017').toDateString(),
-  //   category: 2,
-  //   estimatedTime: 1,
-  //   stage: 2,
-  //   stageIndex: 0,
-  //   sortingStage: 0,
-  //   sortingIndex: 0,
-  // },
-  // {
-  //   text: 'Make index cards for CA',
-  //   dueDate: new Date('10/23/2017').toDateString(),
-  //   category: 2,
-  //   estimatedTime: 2,
-  //   stage: 1,
-  //   stageIndex: 0,
-  //   sortingStage: 0,
-  //   sortingIndex: 0,
-  // },
-  // {
-  //   text: 'Read chapter 3.1 for CA',
-  //   dueDate: new Date('10/25/2017').toDateString(),
-  //   category: 2,
-  //   estimatedTime: 1,
-  //   stage: 0,
-  //   stageIndex: 1,
-  //   sortingStage: 0,
-  //   sortingIndex: 0,
-  // },
-  // {
-  //   text: 'Turn in labs for Cloud Security',
-  //   dueDate: new Date('10/20/2017').toDateString(),
-  //   category: 2,
-  //   estimatedTime: 1,
-  //   stage: 1,
-  //   stageIndex: 1,
-  //   sortingStage: 0,
-  //   sortingIndex: 0,
-  // },
-  // {
-  //   text: 'Sign timesheet for work',
-  //   dueDate: new Date('10/27/2017').toDateString(),
-  //   category: 1,
-  //   estimatedTime: 1,
-  //   stage: 0,
-  //   stageIndex: 2,
-  //   sortingStage: 0,
-  //   sortingIndex: 0,
-  // },
-];
+const itemsArray = [];
 
 const items = ( state = itemsArray, action) => {
 
   let fromStage, fromIndex, toStage, toIndex, sortedItems, note, newItems;
 
   switch(action.type){
+    case "SET_ITEMS":
+      return action.items;
     case "ADD_ITEM":
       newItems = [
         {
-          text: action.text,
-          dueDate: action.dueDate.toDateString(),
-          category: action.category,
-          estimatedTime: action.estimatedTime,
-          index: 0,
+          description: action.description,
+          due_date: new Date(action.due_date).toDateString(),
+          category_id: action.category_id,
+          estimated_time: action.estimated_time,
+          // index: 0,
           stage: 0,
           stageIndex: 0,
           sortingStage: 0,
@@ -81,14 +22,24 @@ const items = ( state = itemsArray, action) => {
         },
         ...state
       ];
-      newItems.forEach((item, index) => (item.index = index));
+      // newItems.forEach((item, index) => (item.index = index));
       return newItems;
+
     case "DELETE_ITEM":
-      let newItems = [...state];
-      newItems.splice(action.index, 1);
-      newItems.forEach((item, index) => (item.index = index));
+      newItems = [...state];
+      newItems = newItems.filter(item => item.id !== action.item.id);
+      // newItems.forEach((item, index) => (item.index = index));
       return newItems;
-    case "UPDATE_STICKY_NOTE_STAGE":
+
+    case "DELETE_ITEMS_BY_CATEGORY":
+      /**
+       * This is only called by the API Middleware when a category is deleted
+       */
+      newItems = [...state];
+      newItems = newItems.filter(item => item.category_id !== action.category.id);
+      return newItems;
+
+    case "UPDATE_ITEM_STAGE":
 
       if(!action.result.destination) return state;
 
@@ -118,9 +69,10 @@ const items = ( state = itemsArray, action) => {
         newItems = newItems.concat(sortedItems[stage]);
       }
 
-      newItems.forEach((item, index) => (item.index = index));
+      // newItems.forEach((item, index) => (item.index = index));
       return newItems;
-    case "UPDATE_STICKY_NOTE_SORTING":
+
+    case "UPDATE_ITEM_SORTING":
 
       if(!action.result.destination) return state;
 
@@ -151,7 +103,7 @@ const items = ( state = itemsArray, action) => {
         newItems = newItems.concat(sortedItems[stage]);
       }
 
-      newItems.forEach((item, index) => (item.index = index));
+      // newItems.forEach((item, index) => (item.index = index));
       return newItems;
     default:
       return state;

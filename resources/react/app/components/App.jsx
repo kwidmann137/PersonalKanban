@@ -7,6 +7,7 @@ import SortPage from "Containers/SortPage";
 import SchedulePage from "Containers/SchedulePage";
 import AccountPage from "Components/AccountPage";
 import AddItem from 'Containers/AddItem';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 export default class App extends React.Component{
 
@@ -27,6 +28,10 @@ export default class App extends React.Component{
     return (
       <MuiThemeProvider>
         <div>
+          {
+            this.state.loading &&
+              <LoadingIndicator/>
+          }
           <SideMenu updateView={this.updateView}/>
           <TopMenu activeView={this.state.activeView} updateView={this.updateView} toggleAddItem={this.toggleAddItem}/>
           {
