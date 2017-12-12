@@ -1,4 +1,4 @@
-import Api from '../../../../helpers/Api';
+import Api from '../../../../util/Api';
 import { loading, doneLoading } from "../../../actions/index";
 
 export const categories = (action, next, store) => {

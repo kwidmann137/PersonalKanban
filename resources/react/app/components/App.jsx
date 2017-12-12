@@ -2,12 +2,10 @@ import React from 'react'
 import SideMenu from 'Components/SideMenu';
 import TopMenu from 'Components/TopMenu';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import PersonalBoardPage from "Containers/PersonalBoardPage";
-import SortPage from "Containers/SortPage";
-import SchedulePage from "Containers/SchedulePage";
-import AccountPage from "Components/AccountPage";
 import AddItem from 'Containers/AddItem';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '../core/components/LoadingIndicator';
+import ActiveView from '../containers/ActiveView';
+import Alerts from '../containers/Alerts';
 
 export default class App extends React.Component{
 
@@ -19,6 +17,15 @@ export default class App extends React.Component{
     }
   }
 
+  //ToDo: Use component will mount lifecycle hook to load initial state via API
+  componentDidMount(){
+    window.onbeforeunload = this.handleAppExit;
+  }
+
+  handleAppExit = () => {
+    return "Are you sure you want to leave?";
+  };
+
   updateView = (view) => {this.setState({activeView: view})};
 
   toggleAddItem = () => this.setState({addingItem: !this.state.addingItem});
@@ -28,32 +35,19 @@ export default class App extends React.Component{
     return (
       <MuiThemeProvider>
         <div>
+
           {
             this.state.loading &&
               <LoadingIndicator/>
           }
+
           <SideMenu updateView={this.updateView}/>
           <TopMenu activeView={this.state.activeView} updateView={this.updateView} toggleAddItem={this.toggleAddItem}/>
-          {
-            this.state.activeView === 'personalBoard' &&
-              <PersonalBoardPage />
-          }
-          {
-            this.state.activeView === 'sortItems' &&
-              <SortPage />
-          }
-          {
-            this.state.activeView === 'schedule' &&
-              <SchedulePage />
-          }
-          {
-            this.state.activeView === 'account' &&
-              <AccountPage />
-          }
-          {
-            this.state.activeView === 'categories' &&
-            <AccountPage initialIndex={1}/>
-          }
+
+          <Alerts updateView={this.updateView}/>
+
+          <ActiveView view={this.state.activeView}/>
+
           {this.state.addingItem &&
             <AddItem toggleAddItem={this.toggleAddItem} updateView={this.updateView}/>
           }

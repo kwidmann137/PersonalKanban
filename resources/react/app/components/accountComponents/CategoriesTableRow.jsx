@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import ColorPickerDropDown from './ColorPickerDropDown';
 import Delete from 'material-ui/svg-icons/action/delete';
-import DeleteDialog from '../DeleteDialog';
+import DeleteDialog from '../core/dialogs/DeleteDialog';
 
 
 const style = {

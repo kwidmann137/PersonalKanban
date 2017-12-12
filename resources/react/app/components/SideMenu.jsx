@@ -11,7 +11,7 @@ const menuButtonStyle = {
   minWidth: 60,
   width: 60,
   padding: 10,
-  zIndex: 99999
+  zIndex: 999
 };
 
 const portraitStyle = {

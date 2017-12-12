@@ -4,18 +4,16 @@ import ReactDOMServer from 'react-dom/server';
 import NoItemsMessage from './NoItemsMessage';
 
 const options = {
-  width: '100%',
-  minHeight: '200px',
-  stack: false,
-  showMajorLabels: true,
-  showCurrentTime: true,
-  zoomMin: 1000000,
-  type: 'background',
-  format: {
-    minorLabels: {
-      minute: 'h:mma',
-      hour: 'ha'
-    }
+  minHeight: '300px',
+};
+
+const styles = {
+  doneIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 20,
+    height: 20
   }
 };
 
@@ -27,9 +25,11 @@ const colors = {
   },
 };
 
-const Schedule = ({items}) => {
+const Schedule = ({items, categories}) => {
 
-  let formattedItems = formatItems(items);
+  let formattedItems = formatItems(items, categories);
+
+  //ToDo: Loading indicator
 
   return(
     <div>
@@ -40,7 +40,8 @@ const Schedule = ({items}) => {
       {
         formattedItems.length > 0 &&
         <Timeline
-          items={items}
+          items={formattedItems}
+          options={options}
         />
       }
     </div>
@@ -61,38 +62,42 @@ const formatItems = (items, categories) => {
     newItem.end = endDate;
     newItem.status = getItemStatus(newItem.start, newItem.end, currentDate);
     newItem.content = getItemContent(item, newItem.status, categories);
+    newItem.title = item.description;
     newItems.push(newItem);
   });
-
-  console.log(newItems);
 
   return newItems;
 };
 
 const getItemStartDate = (item, endDate) => {
   let startDate = new Date(endDate);
-  console.log(startDate);
   let time = item.estimated_time.split(':');
   let hours = parseInt(time[0]);
   let numDaysToComplete = Math.ceil(hours / 2);
-  console.log(numDaysToComplete);
   startDate.setDate(startDate.getDate() - numDaysToComplete);
-  console.log(startDate);
+
   return startDate;
 };
 
 const getItemContent = (item, status, categories) => {
   let color = categories.filter(category => category.id === item.category_id)[0].color;
+
   let itemStyle = {
     borderRadius: 10,
     padding: 10,
     backgroundColor: color + '77',
-    border: '3px solid ' + colors.status[status]
+    border: item.completed ? 'none' : '3px solid ' + colors.status[status]
   };
 
   return ReactDOMServer.renderToString(
     <div>
-      <div style={itemStyle}>{item.description}</div>
+      <div style={itemStyle}>
+        {
+          item.completed &&
+            <img src="/assets/CheckMark.png" alt="Done Check Mark" style={styles.doneIcon}/>
+        }
+        {item.description}
+      </div>
     </div>
   );
 };

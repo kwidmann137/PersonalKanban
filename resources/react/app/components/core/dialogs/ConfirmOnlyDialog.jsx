@@ -1,7 +1,7 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types'
 
 /**
  * Dialog with action buttons. The APIReducers are passed in as an array of React objects,
@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
  *
  * You can also close this dialog by clicking outside the dialog, or with the 'Esc' key.
  */
-export default class DeleteDialog extends React.Component {
+export default class ConfirmOnlyDialog extends React.Component {
 
   state = {
     open: true,
@@ -31,12 +31,7 @@ export default class DeleteDialog extends React.Component {
   render() {
     const actions = [
       <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={this.props.handleCancel}
-      />,
-      <FlatButton
-        label="Delete"
+        label={this.props.confirmText}
         secondary={true}
         keyboardFocused={true}
         onClick={this.handleConfirm}
@@ -45,14 +40,20 @@ export default class DeleteDialog extends React.Component {
 
     return (
       <Dialog
-        title="Are you sure?"
+        title={this.props.title}
         actions={actions}
         modal={false}
         open={this.state.open}
-        onRequestClose={this.handleClose}
       >
         {this.props.message}
       </Dialog>
     );
   }
 }
+
+ConfirmOnlyDialog.propTypes = {
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  confirmText: PropTypes.string.isRequired,
+  handleConfirm: PropTypes.func.isRequired,
+};

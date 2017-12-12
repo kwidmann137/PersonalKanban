@@ -15,35 +15,43 @@ export const setItems = (items) => {
   }
 };
 
-export const addItem = (description, category_id, estimated_time, due_date, ) => {
+export const addItem = (item) => {
   return {
     type: 'ADD_ITEM',
     APIReducer: 'items',
-    description,
-    category_id,
-    estimated_time,
-    due_date
+    item
   }
 };
 
-export const deleteItem = (index) => {
+export const addItems = (items) => {
+  return {
+    type: 'ADD_ITEMS',
+    APIReducer: 'items',
+    items
+  }
+};
+
+export const deleteItem = (item) => {
   return {
     type: 'DELETE_ITEM',
     APIReducer: 'items',
-    index
+    item
   }
 };
 
-
-export const updateItem = (id, text, category,  estimatedTime, dueDate) => {
+export const updateItem = (item) => {
   return {
     type: 'UPDATE_ITEM',
     APIReducer: 'items',
-    id,
-    text,
-    category,
-    estimatedTime,
-    dueDate
+    item
+  }
+};
+
+export const updateItems = (items) => {
+  return {
+    type: 'UPDATE_ITEMS',
+    APIReducer: 'items',
+    items
   }
 };
 
@@ -105,5 +113,21 @@ export const loading = () => {
 export const doneLoading = () => {
   return {
     type: 'DONE_LOADING',
+  }
+};
+
+export const setAlert = (text, condition, action) => {
+  return {
+    type:'SET_ALERT',
+    text,
+    condition,
+    action,
+  }
+};
+
+export const clearAlert = (id) => {
+  return {
+    type: 'CLEAR_ALERT',
+    id
   }
 };

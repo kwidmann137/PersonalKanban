@@ -22,7 +22,8 @@ const providers = [
   '@adonisjs/session/providers/SessionProvider',
   '@adonisjs/auth/providers/AuthProvider',
   '@adonisjs/validator/providers/ValidatorProvider',
-  path.join(__dirname, '..', 'providers', 'ExistsRuleProvider')
+  path.join(__dirname, '..', 'providers', 'ExistsRuleProvider'),
+  // path.join(__dirname, '..', 'providers', 'HttpStatusCodes/Provider')
 ];
 
 /*

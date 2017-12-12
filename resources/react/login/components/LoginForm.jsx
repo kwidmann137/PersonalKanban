@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '../../app/core/components/LoadingIndicator';
 import TextField from 'material-ui/TextField';
 import { Card, CardHeader } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';

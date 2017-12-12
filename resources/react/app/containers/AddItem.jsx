@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 import PropTypes from 'prop-types'
 import LoaderBackground from 'Components/LoaderBackground';
-import EditableStickyNote from 'Components/EditableStickyNote';
-import { addItem } from 'Actions/index';
+import { addItem, addItems } from 'Actions/index';
+import AddItemWizard from "../components/stickyNote/addItemWizard/index";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -15,19 +15,21 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     toggleAddItem: () => ownProps.toggleAddItem(),
-    addItem: (text, category, estimatedTime, dueDate) => dispatch(addItem(text, category, estimatedTime, dueDate))
+    addItem: (item) => dispatch(addItem(item)),
+    addItems: (items) => dispatch(addItems(items))
   };
 };
 
-let AddItem = ({toggleAddItem, addItem, categories, updateView}) => {
+let AddItem = ({toggleAddItem, addItem, addItems, categories, updateView}) => {
   return (
     <div>
       <LoaderBackground>
-        <EditableStickyNote
+        <AddItemWizard
+          updateView={updateView}
+          toggleAddItem={toggleAddItem}
           categories={categories}
           addItem={addItem}
-          toggleAddItem={toggleAddItem}
-          updateView={updateView}
+          addItems={addItems}
         />
       </LoaderBackground>
     </div>

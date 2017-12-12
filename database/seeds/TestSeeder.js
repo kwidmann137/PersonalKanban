@@ -42,7 +42,9 @@ class TestSeeder {
         stage: 0,
         stage_index: 0,
         sorting_stage: 0,
-        sorting_index: 0
+        sorting_index: 0,
+        completed: false,
+        completed_date: null
       }
 
     });

@@ -3,9 +3,9 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import AppStore from './reducers/index'
-import App from './components/App'
+import App from './containers/App'
 import APIMiddleware from "./middleware/APIMiddleware/index";
-import Api from '../helpers/Api';
+import Api from '../util/Api';
 import { setItems } from "./actions/index";
 import { saveCategories } from "./actions/index";
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import CategoriesTableHeader from "./CategoriesTableHeader";
 import CategoriesTableRow from "./CategoriesTableRow";
 import RaisedButton from 'material-ui/RaisedButton';
-import SavedIndicator from "../../../common/components/SavedIndicator";
+import SavedIndicator from "../../core/components/SavedIndicator";
 
 const newCategory = {
   id: null,

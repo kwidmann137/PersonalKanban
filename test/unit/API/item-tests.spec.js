@@ -61,7 +61,6 @@ test('Test adding an item with missing description', async ({client, assert}) =>
     due_date: new Date().toISOString().slice(0,10),
     category_id: categories[0].id,
     estimated_time: "01:00",
-
     stage: 0,
     stage_index: 0,
     sorting_stage: 0,
@@ -74,6 +73,8 @@ test('Test adding an item with missing description', async ({client, assert}) =>
       item: addedItem
     })
     .end();
+
+  console.log(response.error);
 
   response.assertStatus(400);
   response.assertJSONSubset(
@@ -107,6 +108,8 @@ test('Test adding an item with missing category', async ({client, assert}) => {
       item: addedItem
     })
     .end();
+
+  console.log(response.error);
 
   response.assertStatus(400);
   response.assertJSONSubset(

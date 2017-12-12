@@ -5,7 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import RegisterFormSteps from './RegisterFormSteps';
 import axios from 'axios';
-import LoadingIndicator from '../../common/components/LoadingIndicator';
+import LoadingIndicator from '../../app/core/components/LoadingIndicator';
 
 const cardStyle = {
   maxWidth: '500px',

@@ -26,13 +26,13 @@ export default class CategoriesTableHeader extends Component{
 
         </div>
         <div style={style.dayColumn}>Color</div>
+        <div style={style.dayColumn}>Sun</div>
         <div style={style.dayColumn}>Mon</div>
         <div style={style.dayColumn}>Tu</div>
         <div style={style.dayColumn}>Wed</div>
         <div style={style.dayColumn}>Thu</div>
         <div style={style.dayColumn}>Fri</div>
         <div style={style.dayColumn}>Sat</div>
-        <div style={style.dayColumn}>Sun</div>
       </div>
     )
   }

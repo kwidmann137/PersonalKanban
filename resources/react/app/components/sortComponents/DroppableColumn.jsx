@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
-import SortingStickyNote from 'Components/sortComponents/SortingStickyNote';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import React from 'react';
+import { Droppable } from 'react-beautiful-dnd';
 
 const borderStyle = {
   borderTop: '1px solid #eee',
@@ -20,7 +19,7 @@ const DroppableColumn = ({children, id, title, style}) => (
         ref={provided.innerRef}
         style={getListStyle(snapshot.isDraggingOver)}
       >
-        <h1 style={{textAlign: 'center'}}>{title}</h1>
+        <h3 style={{textAlign: 'center'}}>{title}</h3>
         <div style={Object.assign({}, borderStyle, style)}>
           {children}
         </div>

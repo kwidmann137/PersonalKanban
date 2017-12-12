@@ -6,6 +6,7 @@ import { addItem } from 'Actions/index';
 const mapStateToProps = state => {
   return {
     loading: state.loading,
+    alerts: state.alerts
   };
 };
 

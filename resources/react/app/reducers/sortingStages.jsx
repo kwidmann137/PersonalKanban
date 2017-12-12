@@ -5,8 +5,8 @@ const initialStages = [
   {name: "3"},
   {name: "5"},
   {name: "8"},
-  {name: "13"},
-  {name: "21"},
+  // {name: "13"},
+  // {name: "21"},
 ];
 
 

@@ -9,26 +9,21 @@ const items = ( state = itemsArray, action) => {
       return action.items;
     case "ADD_ITEM":
       newItems = [
-        {
-          description: action.description,
-          due_date: new Date(action.due_date).toDateString(),
-          category_id: action.category_id,
-          estimated_time: action.estimated_time,
-          // index: 0,
-          stage: 0,
-          stageIndex: 0,
-          sortingStage: 0,
-          sortingIndex: 0,
-        },
+        action.item,
         ...state
       ];
-      // newItems.forEach((item, index) => (item.index = index));
+      return newItems;
+
+    case "ADD_ITEMS":
+      newItems = [
+        action.items,
+        ...state
+      ];
       return newItems;
 
     case "DELETE_ITEM":
       newItems = [...state];
       newItems = newItems.filter(item => item.id !== action.item.id);
-      // newItems.forEach((item, index) => (item.index = index));
       return newItems;
 
     case "DELETE_ITEMS_BY_CATEGORY":
@@ -51,23 +46,34 @@ const items = ( state = itemsArray, action) => {
 
       sortedItems = [];
 
-      action.boardStages.map((stage, stageIndex) => {
-        sortedItems[stageIndex] = state.filter((item) => (item.stage === stageIndex));
-        sortedItems[stageIndex].sort((a, b) => (a.stageIndex - b.stageIndex));
+      action.boardStages.map((stage, stage_index) => {
+        sortedItems[stage_index] = state.filter((item) => (item.stage === stage_index));
+        sortedItems[stage_index].sort((a, b) => (a.stage_index - b.stage_index));
       });
 
       note = sortedItems[fromStage].slice(fromIndex, fromIndex + 1)[0];
       sortedItems[fromStage].splice(fromIndex, 1);
       note.stage = toStage;
-      note.stageIndex = toIndex;
+      note.stage_index = toIndex;
+      note.completed = (note.stage === action.boardStages.length - 1);
+      if(note.completed && fromStage !== action.boardStages.length - 1){
+        note.completed_date = new Date().toISOString().slice(0,10);
+        console.log(note);
+      }else{
+        note.completed_date = null
+      }
       sortedItems[toStage].splice(toIndex, 0, note);
 
       newItems = [];
 
+
+
       for(let stage = 0; stage < action.boardStages.length; stage++){
-        sortedItems[stage].forEach((note, noteIndex) => (note.stageIndex = noteIndex));
+        sortedItems[stage].forEach((note, noteIndex) => (note.stage_index = noteIndex));
         newItems = newItems.concat(sortedItems[stage]);
       }
+
+
 
       // newItems.forEach((item, index) => (item.index = index));
       return newItems;
@@ -85,21 +91,21 @@ const items = ( state = itemsArray, action) => {
 
       sortedItems = [];
 
-      action.sortingStages.map((stage, stageIndex) => {
-        sortedItems[stageIndex] = state.filter((item) => (item.sortingStage === stageIndex));
-        sortedItems[stageIndex].sort((a, b) => (a.sortingIndex - b.sortingIndex));
+      action.sortingStages.map((stage, stage_index) => {
+        sortedItems[stage_index] = state.filter((item) => (item.sorting_stage === stage_index));
+        sortedItems[stage_index].sort((a, b) => (a.sorting_index - b.sorting_index));
       });
 
       note = sortedItems[fromStage].slice(fromIndex, fromIndex + 1)[0];
       sortedItems[fromStage].splice(fromIndex, 1);
-      note.sortingStage = toStage;
-      note.sortingIndex = toIndex;
+      note.sorting_stage = toStage;
+      note.sorting_index = toIndex;
       sortedItems[toStage].splice(toIndex, 0, note);
 
       newItems = [];
 
       for(let stage = 0; stage < action.sortingStages.length; stage++){
-        sortedItems[stage].forEach((note, noteIndex) => (note.sortingIndex = noteIndex));
+        sortedItems[stage].forEach((note, noteIndex) => (note.sorting_index = noteIndex));
         newItems = newItems.concat(sortedItems[stage]);
       }
 

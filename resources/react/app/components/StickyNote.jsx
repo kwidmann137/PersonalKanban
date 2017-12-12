@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import Delete from 'material-ui/svg-icons/action/delete';
-import DeleteDialog from "./DeleteDialog";
+import DeleteDialog from "./core/dialogs/DeleteDialog";
 
 const deleteStyle = {
   position: 'absolute',
@@ -24,7 +24,11 @@ export default class StickyNote extends React.Component {
   };
 
   deleteNote = () => {
-    this.props.deleteNote(this.props.note.index)
+    this.props.deleteItem(this.props.note)
+      .then(resp => {
+      }).catch(error => {
+        //ToDo: Raise alert, failed to delete item;
+      });
   };
 
   render(){
@@ -34,14 +38,14 @@ export default class StickyNote extends React.Component {
         {
           this.state.delete &&
             <DeleteDialog
-              message={"Are you sure you want to delete " + this.props.note.description}
+              message={"Are you sure you want to delete \"" + this.props.note.description + "\""}
               handleCancel={this.togglePrompt}
               handleConfirm={this.deleteNote}
             />
         }
         <Paper style={this.props.style} zDepth={1}>
           <p>{this.props.note.description}</p>
-          <p>{this.props.note.due_date}</p>
+          <p>{new Date(this.props.note.due_date).toDateString()}</p>
           <div className="text-center hover-group" style={deleteStyle}>
             <Delete onClick={this.togglePrompt}/>
           </div>

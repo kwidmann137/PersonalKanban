@@ -20,6 +20,10 @@ body {
   src: url('/fonts/Architects_Daughter/ArchitectsDaughter-Regular.ttf');
 }
 
+.hover:hover{
+  cursor:pointer;
+}
+
 .hover-group > *:hover{
   cursor: pointer;
 }

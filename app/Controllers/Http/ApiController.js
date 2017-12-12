@@ -1,10 +1,9 @@
 'use strict'
 
 const Logger = use('Logger');
-const Item = use('App/Models/Item');
 const { validateAll } = use('Validator');
 const { categoryRules, categoryMessages, categoryValidateHours, categoryValidateMaxDailyHoursNotExceded } = use('App/Validators/Category');
-const { itemRules, itemMessages } = use('App/Validators/Item');
+const { itemRules, itemMessages, itemArrayRules, itemArrayMessages } = use('App/Validators/Item');
 
 class ApiController {
 
@@ -25,17 +24,12 @@ class ApiController {
         return response.status(405).json(validation.messages());
       }
 
+      //ToDo: Turn this into a custom rule
       let hourErrors = categoryValidateHours(data.categories);
 
       if(hourErrors.length !== 0){
         return response.status(405).json(hourErrors);
       }
-
-      // let maxHourErrors = categoryValidateMaxDailyHoursNotExceded(data.categories);
-      //
-      // if(maxHourErrors.length !== 0){
-      //   return response.status(405).json(maxHourErrors);
-      // }
 
       let user = await auth.getUser();
 
@@ -61,7 +55,7 @@ class ApiController {
           });
       });
 
-      response.send(await user.categoriesAsJSON());
+      response.status(201).send(await user.categoriesAsJSON());
 
     }catch(e){
       Logger.error("Failed to update categories: %s", e);
@@ -69,7 +63,7 @@ class ApiController {
     }
   }
 
-  async deleteCategory({request, auth}){
+  async deleteCategory({request, response, auth}){
     const user = await auth.getUser();
     const { category } = request.post();
 
@@ -83,7 +77,7 @@ class ApiController {
       .where('id', category.id)
       .delete();
 
-    return;
+    return response.status(200);
   };
 
   async getCategories({response, auth}){
@@ -113,15 +107,15 @@ class ApiController {
     return response.status(201).send(newItem.toJSON());
   }
 
-  async updateItem({request, response, auth}){
+  async addItems({request, response, auth}){
 
-    const { item } = request.post();
+    const { items } = request.post();
 
-    if(!item){
+    if(!items){
       return response.status(400).send("No item supplied");
     }
 
-    const validation = await validateAll(item, itemRules, itemMessages);
+    const validation = await validateAll(items, itemArrayRules, itemArrayMessages);
 
     if(validation.fails()){
       return response.status(400).json(validation.messages());
@@ -129,28 +123,63 @@ class ApiController {
 
     const user = await auth.getUser();
 
-    try{
-      await user.items()
-        .where('id', item.id)
-        .update(item);
-    }catch(err){
-      Logger.error(err);
+    const newItems = await user.items().createMany(items);
+    const responseItems = newItems.map(item => item.toJSON());
+
+    return response.status(201).send(responseItems);
+  }
+
+  async updateItems({request, response, auth}){
+
+    const { items } = request.post();
+
+    if(!items){
+      return response.status(400).send("No item supplied");
     }
 
-    const newItem = await Item.find(item.id);
+    const validation = await validateAll(items, itemArrayRules, itemArrayMessages);
 
-    return response.status(200).send(newItem.toJSON());
+    if(validation.fails()){
+      return response.status(400).json(validation.messages());
+    }
+
+    try{
+      const user = await auth.getUser();
+
+      items.forEach(async item => {
+        await user
+          .items()
+          .where('id', item.id)
+          .update(item);
+      });
+      return response.status(200).send();
+    }catch(error){
+      return response.status(400).send("Failed to update items");
+    }
 
   }
+
+  async deleteItem({request, response, auth}){
+    const user = await auth.getUser();
+    const { item } = request.post();
+
+    await user
+      .items()
+      .where('id', item.id)
+      .delete();
+
+  };
 
   async getItems({response, auth}){
     let user = await auth.getUser();
     let items = await user.itemsAsJSON();
+    items = items.filter(item => item.completed_date === null || new Date(item.completed_date).setHours(0,0,0,0) === new Date().setHours(0,0,0,0) );
     items.forEach(item => {
       delete item.user_id;
       delete item.updated_at;
       delete item.created_at;
     });
+
     return response.send(items);
   }
 

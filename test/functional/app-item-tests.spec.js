@@ -1,6 +1,6 @@
 'use strict'
 
-const { test, trait } = use('Test/Suite')('Functional Item Tests');
+const { test, trait, before } = use('Test/Suite')('Functional Item Tests');
 const User = use('App/Models/User');
 
 trait('Test/Browser');
@@ -14,8 +14,12 @@ before(async () => {
 
 test('Add item and ensure it is displayed on board', async ({browser}) => {
 
-  
 
-  await browser.visit('/app');
+
+  const page = await browser
+    .loginVia(user, 'jwt')
+    .visit('/app');
+
+  await page.assertHas("Today's Progress");
 
 }).timeout(0);

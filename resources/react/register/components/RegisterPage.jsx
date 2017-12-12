@@ -1,5 +1,5 @@
 import React from 'react'
-import TopMenuBar from '../../common/components/TopMenuBar';
+import TopMenuBar from '../../app/core/components/TopMenuBar';
 import RegisterForm from './RegisterForm';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 

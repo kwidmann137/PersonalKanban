@@ -35,7 +35,9 @@ Route.group(() => {
 
   Route.get('/getItems', 'ApiController.getItems');
   Route.post('/addItem', 'ApiController.addItem');
-  Route.post('/updateItem', 'ApiController.updateItem');
+  Route.post('/addItems', 'ApiController.addItems');
+  Route.post('/deleteItem', 'ApiController.deleteItem');
+  Route.post('/updateItems', 'ApiController.updateItems');
 
   Route.get('/getCategories', 'ApiController.getCategories');
   Route.post('/updateCategories', 'ApiController.updateCategories');

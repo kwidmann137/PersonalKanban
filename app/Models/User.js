@@ -39,6 +39,7 @@ class User extends Model {
     items.forEach(item => {
       item.estimated_time = item.estimated_time.slice(0,5);
       item.due_date = new Date(item.due_date).toISOString().slice(0,10);
+      item.completed = item.completed === 1;
     });
     return items;
   }

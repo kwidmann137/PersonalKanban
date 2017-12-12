@@ -1,43 +1,24 @@
 import React from 'react';
-import Account from "Components/pages/Account";
-import Schedule from "Containers/Schedule";
-import SortItems from "Containers/SortItems";
-import PersonalBoard from "Containers/PersonalBoard";
+import PersonalBoardPage from "Containers/PersonalBoardPage";
+import SortPage from "Containers/SortPage";
+import SchedulePage from "Containers/SchedulePage";
+import AccountPage from "Components/AccountPage";
 
-export default class ActiveView extends React.Component{
+const ActiveView = ({view}) => {
 
-  constructor(props){
-    super(props);
+  switch(view)
+  {
+    case 'personalBoard':
+      return <PersonalBoardPage />;
+    case 'account':
+      return <AccountPage />;
+    case 'schedule':
+      return <SchedulePage />;
+    case 'sortItems':
+      return <SortPage />;
+    case 'categories':
+      return <AccountPage initialIndex={1} />;
   }
+};
 
-  render(){
-
-    let activeItem = null;
-
-    switch(this.props.activeView)
-    {
-      case 'personalBoard':
-        activeItem = <PersonalBoard />;
-        break;
-      case 'account':
-        activeItem = <Account />;
-        break;
-      case 'schedule':
-        activeItem = <Schedule />;
-        break;
-      case 'sortItems':
-        activeItem = <SortItems />;
-        break;
-      case 'categories':
-        activeItem = <Account />;
-        break;
-    }
-
-    return(
-      <div>
-        {activeItem}
-      </div>
-    )
-  }
-
-}
+export default ActiveView;

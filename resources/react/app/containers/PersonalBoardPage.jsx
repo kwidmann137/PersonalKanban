@@ -18,11 +18,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onDragEnd: (result) => dispatch(updateItemStage(result)),
-    deleteNote: (index) => dispatch(deleteItem(index))
+    deleteItem: (item) => dispatch(deleteItem(item))
   }
 };
 
-const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, deleteNote, onDragEnd}) => {
+const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, deleteItem, onDragEnd}) => {
   return (
     <DragDropBoard onDragEnd={onDragEnd}>
       {
@@ -40,7 +40,7 @@ const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, deleteNo
                     key={noteIndex}
                     id={stageIndex + '-' + noteIndex}
                     note={note}
-                    deleteNote={deleteNote}
+                    deleteItem={deleteItem}
                     style={getNoteStyle(note.category_id, categories)}
                   />
                 ))
@@ -62,7 +62,7 @@ const sortItemsByStage = (items, stages) => {
   let sortedItems = [];
   for(let stage = 0; stage < stages.length; stage++){
     sortedItems[stage] = items.filter(item => item.stage === stage);
-    sortedItems[stage].sort((a, b) => (a.stageIndex - b.stageIndex));
+    sortedItems[stage].sort((a, b) => (a.stage_index - b.stage_index));
   }
   return sortedItems;
 };
