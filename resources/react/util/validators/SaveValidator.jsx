@@ -1,4 +1,5 @@
-import store from '../../app/index';
+import { store } from '../../app/index';
+import {getWorstCaseCategoryHours} from "../ItemHelpers";
 
 export default class SaveValidator{
 
@@ -7,10 +8,11 @@ export default class SaveValidator{
     this.error = null;
   }
 
-  validateItemSave = (item) => {
+  validateItemSave = (item, items = store.getState().items) => {
 
     this.error = null;
     this.data = {};
+    this.data.worstCaseAvailability = getWorstCaseCategoryHours(item, items, item.category_id);
 
     const { categories } = store.getState();
 
@@ -34,10 +36,10 @@ export default class SaveValidator{
     this.data.category = categories.filter(category => category.id === item.category_id)[0];
     this.data.totalDaysWithTimeAllotted = dayOccurrencesInRange.reduce((prev, curr) => prev + curr);
     this.data.totalCategoryTime = this.data.category.hours.reduce((sum, hours, index) => sum + (hours * dayOccurrencesInRange[index]), 0);
-    this.data.avgCategoryTime = this.data.totalCategoryTime / this.data.totalDaysWithTimeAllotted;
+    this.data.availableCategoryTime = Object.values(this.data.worstCaseAvailability).reduce((prev, curr) => prev + curr);
+    this.data.avgCategoryTime = this.data.availableCategoryTime / Object.keys(this.data.worstCaseAvailability).length;
     this.data.itemTotalTime = parseInt(item.estimated_time_hours) + parseInt(item.estimated_time_minutes)/60;
-    const timesInRange = this.data.category.hours.filter((hour, index) => dayOccurrencesInRange[index] !== 0 );
-    this.data.maxCategoryTime = timesInRange.reduce((prev, curr) => Math.max(prev, curr));
+    this.data.maxCategoryTime = Object.values(this.data.worstCaseAvailability).reduce((prev, curr) => Math.max(prev, curr));
 
     if(!this.categoryHasEnoughTime()){
       return false;
@@ -86,18 +88,7 @@ export default class SaveValidator{
 
   canFitItemIntoSchedule = (item, items = store.getState().items) => {
 
-    const sameCategoryItems = items.filter(otherItem => {
-      return (
-        otherItem.id !== item.id &&
-        otherItem.category_id === item.category_id &&
-        new Date(otherItem.due_date).setHours(0,0,0,0) <= new Date(item.due_date).setHours(0,0,0,0)
-      )
-    });
-
-    const usedCategoryTime = sameCategoryItems.reduce((sum, item) => sum + (parseInt(item.estimated_time.split(":")[0]) + parseInt(item.estimated_time.split(":")[1])/60), 0);
-    this.data.availableTime = this.data.totalCategoryTime - usedCategoryTime;
-
-    if(this.data.itemTotalTime > this.data.availableTime){
+    if(this.data.itemTotalTime > this.data.availableCategoryTime){
       this.error = 'ITEMS_CONFLICT';
       return false;
     }

@@ -19,7 +19,7 @@ export default class App extends React.Component{
 
   //ToDo: Use component will mount lifecycle hook to load initial state via API
   componentDidMount(){
-    window.onbeforeunload = this.handleAppExit;
+    // window.onbeforeunload = this.handleAppExit;
   }
 
   handleAppExit = () => {

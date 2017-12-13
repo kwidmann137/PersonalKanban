@@ -28,6 +28,8 @@ class User extends Model {
     categories.forEach(category => {
       category.hours = JSON.parse(category.hours);
       delete category.user_id;
+      delete category.created_at;
+      delete category.updated_at;
     });
     return categories
   }
@@ -40,6 +42,8 @@ class User extends Model {
       item.estimated_time = item.estimated_time.slice(0,5);
       item.due_date = new Date(item.due_date).toISOString().slice(0,10);
       item.completed = item.completed === 1;
+      delete item.created_at;
+      delete item.updated_at;
     });
     return items;
   }

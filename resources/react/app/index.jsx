@@ -10,7 +10,7 @@ import { setItems } from "./actions/index";
 import { saveCategories } from "./actions/index";
 
 
-const store = createStore(
+export const store = createStore(
   AppStore,
   applyMiddleware(APIMiddleware)
 );
@@ -19,6 +19,7 @@ const store = createStore(
 Api.get('/getCategories')
   .then(resp => {
     store.dispatch(saveCategories(resp.data));
+    console.log('categories set');
   })
   .catch(err => {
     console.log(err);
@@ -27,6 +28,12 @@ Api.get('/getCategories')
 Api.get('/getItems')
   .then(resp => {
     store.dispatch(setItems(resp.data));
+    console.log("items set");
+    setTimeout(() => {
+      // getCategoryHours(null, store.getState().items);
+      // sortItemsForScheduling(store.getState().items);
+      // setEarliestPossibleStartDate(store.getState().items);
+    }, 1000);
   })
   .catch(err => {
     console.log(err);
@@ -38,8 +45,6 @@ render(
   </Provider>,
   document.getElementById('root')
 );
-
-export default store;
 
 //
 // let currentValue;

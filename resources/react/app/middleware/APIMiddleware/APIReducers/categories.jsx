@@ -13,7 +13,7 @@ export const categories = (action, next, store) => {
           .then(resp =>{
             action.categories = resp.data;
             next(action);
-            resolve();
+            resolve(resp);
             store.dispatch(doneLoading());
           })
           .catch(error => {

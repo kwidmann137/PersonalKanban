@@ -52,10 +52,10 @@ export default class SplitItemWizard extends React.Component{
   }
 }
 
-const getSplitOptions = splitData => {
+const getSplitOptions = (splitData, item) => {
   const splitOptions = [];
-  const minSplits = getMinSplits(splitData);
-  const maxSplits = getMaxSplits(splitData);
+  const minSplits = getMinSplits(splitData, item);
+  const maxSplits = getMaxSplits(splitData, item);
   for(let option = minSplits; option <= maxSplits; option++){
     splitOptions.push(option);
   }
@@ -67,13 +67,15 @@ const getMinSplits = (splitData) => {
   const minSplits = 2;
   let splits = 0;
   let totalCategoryTime = 0;
-  let today = new Date();
-  let currIndex = today.getDay() % 7;
-  while(totalCategoryTime < splitData.itemTotalTime){
-    totalCategoryTime += splitData.category.hours[currIndex];
-    splits++;
-    currIndex = (currIndex + 1) % 7;
-  }
+
+  console.log(splitData);
+
+  Object.keys(splitData.worstCaseAvailability).forEach(date => {
+    if(totalCategoryTime < splitData.itemTotalTime){
+      splits ++;
+      totalCategoryTime += splitData.worstCaseAvailability[date];
+    }
+  });
 
   return splits < minSplits ? minSplits : splits;
 };
@@ -85,13 +87,23 @@ const getRecommendedSplits = (splitData) => {
     splits = Math.floor(splitData.itemTotalTime);
   }
 
-  return splits;
+  const minSplits = getMinSplits(splitData);
+
+  return splits > minSplits ? splits : minSplits;
 
 };
 
 const getMaxSplits = (splitData) => {
 
-  return splitData.totalDaysWithTimeAllotted
+  let splits = 0;
+  let totalCategoryTime = 0;
+
+  Object.keys(splitData.worstCaseAvailability).forEach(date => {
+    splits ++;
+    totalCategoryTime += splitData.worstCaseAvailability[date];
+  });
+
+  return splits;
 
 };
 

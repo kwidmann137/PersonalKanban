@@ -2,6 +2,7 @@ import React from 'react';
 import Timeline from 'react-visjs-timeline';
 import ReactDOMServer from 'react-dom/server';
 import NoItemsMessage from './NoItemsMessage';
+import {setEarliestPossibleStartDate} from "../../util/ItemHelpers";
 
 const options = {
   minHeight: '300px',
@@ -51,20 +52,24 @@ const Schedule = ({items, categories}) => {
 export default Schedule;
 
 const formatItems = (items, categories) => {
+
+  let formattedItems = setEarliestPossibleStartDate(items);
+  console.log(items);
+
   let newItems = [];
   let newItem;
-  let currentDate = new Date();
-  items.forEach((item) => {
-    let endDate = new Date(item.due_date);
-    endDate.setDate(endDate.getDate() + 1);
+  formattedItems.forEach((item) => {
+    console.log(item);
     newItem = {};
-    newItem.start = getItemStartDate(item, endDate);
-    newItem.end = endDate;
-    newItem.status = getItemStatus(newItem.start, newItem.end, currentDate);
-    newItem.content = getItemContent(item, newItem.status, categories);
+    newItem.start = item.start;
+    newItem.end = item.end;
+    newItem.content = getItemContent(item, categories);
     newItem.title = item.description;
     newItems.push(newItem);
+    console.log(newItems);
   });
+
+  console.log(newItems);
 
   return newItems;
 };
@@ -79,14 +84,14 @@ const getItemStartDate = (item, endDate) => {
   return startDate;
 };
 
-const getItemContent = (item, status, categories) => {
+const getItemContent = (item, categories) => {
   let color = categories.filter(category => category.id === item.category_id)[0].color;
 
   let itemStyle = {
     borderRadius: 10,
     padding: 10,
     backgroundColor: color + '77',
-    border: item.completed ? 'none' : '3px solid ' + colors.status[status]
+    // border: item.completed ? 'none' : '3px solid ' + colors.status[status]
   };
 
   return ReactDOMServer.renderToString(

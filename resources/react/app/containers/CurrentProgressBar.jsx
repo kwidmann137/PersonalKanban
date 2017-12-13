@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProgressBar from 'Components/ProgressBar';
 import ProgressBarSection from "../components/ProgressBarSection";
+import {getScheduledItems} from "../../util/ItemHelpers";
 
 const sectionColors = [
   '33b440',
@@ -11,7 +12,7 @@ const sectionColors = [
 const mapStateToProps = (state) => {
   return {
     sections: getSections(state.items, state.boardStages),
-    totalCount: state.items.length
+    totalCount: getScheduledItems(state.items).length
   }
 };
 

@@ -81,9 +81,12 @@ export default class ItemTable extends React.Component{
   saveItems = () => {
 
     let items = this.state.items.filter(item => item.dirty === true);
-    items.forEach(item => delete item.dirty);
 
-    this.props.updateItems(items)
+    let formattedItems = [...items];
+    formattedItems.forEach(item => delete item.dirty);
+    formattedItems.forEach(item => item.due_date = item.due_date.toISOString().slice(0,10));
+
+    this.props.updateItems(formattedItems)
       .then(resp => {
         this.props.resolveConflict();
       })
@@ -121,8 +124,8 @@ export default class ItemTable extends React.Component{
                           <div>
                             Item does not fit into the category before the due date.<br/>
                             The category has <strong>{`${Math.floor(this.saveValidator.data.totalCategoryTime)} hours `}</strong> before the due date<br/>
-                            The category has <strong>{`${Math.floor(this.saveValidator.data.availableTime)} hours
-                      ${Math.ceil((this.saveValidator.data.availableTime - Math.floor(this.saveValidator.data.availableTime)) * 60)} minutes`}</strong> available<br/>
+                            The category has <strong>{`${Math.floor(this.saveValidator.data.availableCategoryTime)} hours
+                      ${Math.ceil((this.saveValidator.data.availableCategoryTime - Math.floor(this.saveValidator.data.availableCategoryTime)) * 60)} minutes`}</strong> available<br/>
                           </div>
                           <div>
                             You can either adjust due dates to free up time or adjust estimated time for items.

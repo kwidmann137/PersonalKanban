@@ -5,10 +5,11 @@ import DroppableColumn from "../components/sortComponents/DroppableColumn";
 import DraggableStickyNote from "../components/DraggableStickyNote";
 import { updateItemStage, deleteItem } from "../actions/index";
 import NoItemsMessage from '../components/NoItemsMessage';
+import {getScheduledItems} from "../../util/ItemHelpers";
 
 const mapStateToProps = (state) => {
   return {
-    itemsByStage: sortItemsByStage(state.items, state.boardStages),
+    itemsByStage: sortItemsByStage(state.items, state.categories, state.boardStages),
     categories: state.categories,
     stages: state.boardStages,
     hasItems: state.items.length > 0
@@ -23,6 +24,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const PersonalBoardPage = ({itemsByStage, categories, stages, hasItems, deleteItem, onDragEnd}) => {
+  console.log(itemsByStage);
   return (
     <DragDropBoard onDragEnd={onDragEnd}>
       {
@@ -58,12 +60,23 @@ export default connect(
   mapDispatchToProps
 )(PersonalBoardPage);
 
-const sortItemsByStage = (items, stages) => {
+const sortItemsByStage = (items, categories, stages) => {
+  if(items.length > 0 && categories.length > 0){
+    items = getScheduledItems(items);
+    console.log("got items from helper");
+    console.log(items);
+  }
   let sortedItems = [];
   for(let stage = 0; stage < stages.length; stage++){
     sortedItems[stage] = items.filter(item => item.stage === stage);
     sortedItems[stage].sort((a, b) => (a.stage_index - b.stage_index));
   }
+  console.log("returning sorted items by stage");
+  console.log(sortedItems);
+  sortedItems.forEach(item => {
+    delete item.start;
+    delete item.end;
+  });
   return sortedItems;
 };
 

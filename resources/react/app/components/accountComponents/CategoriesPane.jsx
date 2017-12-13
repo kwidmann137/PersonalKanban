@@ -31,6 +31,8 @@ export default class CategoriesPane extends Component {
     };
   }
 
+  //ToDo: Hook into comp will unmount to check if dirty and ask to save
+
   updateColor = (category, color) => {
     // console.log("update color in categories pane");
     let categories = [...this.state.categories];
@@ -90,10 +92,11 @@ export default class CategoriesPane extends Component {
 
   saveCategories = () => {
     this.props.saveCategories(this.state.categories)
-      .then(() => {
+      .then((resp) => {
         this.clearErrors();
         this.setState({saved: true});
-        setInterval( () => {
+        this.setState({categories: resp.data});
+        setTimeout( () => {
           this.setState({saved:false});
         }, 2000);
       })
@@ -104,6 +107,8 @@ export default class CategoriesPane extends Component {
   };
 
   deleteCategory = (category) => {
+
+    console.log(category);
 
     this.props.deleteCategory(category)
       .then(resp => {

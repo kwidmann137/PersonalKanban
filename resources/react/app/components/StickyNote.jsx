@@ -45,7 +45,7 @@ export default class StickyNote extends React.Component {
         }
         <Paper style={this.props.style} zDepth={1}>
           <p>{this.props.note.description}</p>
-          <p>{new Date(this.props.note.due_date).toDateString()}</p>
+          <p>{new Date(new Date(this.props.note.due_date).getTime() + new Date().getTimezoneOffset() * 60 * 1000).toDateString()}</p>
           <div className="text-center hover-group" style={deleteStyle}>
             <Delete onClick={this.togglePrompt}/>
           </div>

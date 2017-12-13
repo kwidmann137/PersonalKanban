@@ -67,17 +67,22 @@ class ApiController {
     const user = await auth.getUser();
     const { category } = request.post();
 
-    await user
-      .items()
-      .where('category_id', category.id)
-      .delete();
+    category.hours = JSON.stringify(category.hours);
 
-    await user
-      .categories()
-      .where('id', category.id)
-      .delete();
+    try{
+      await user
+        .items()
+        .where('category_id', category.id)
+        .delete();
 
-    return response.status(200);
+      await user
+        .categories()
+        .where('id', category.id)
+        .delete();
+    }catch(err){
+      Logger.error(err);
+    }
+
   };
 
   async getCategories({response, auth}){
@@ -125,6 +130,8 @@ class ApiController {
 
     const newItems = await user.items().createMany(items);
     const responseItems = newItems.map(item => item.toJSON());
+
+    Logger.info("%j", responseItems);
 
     return response.status(201).send(responseItems);
   }

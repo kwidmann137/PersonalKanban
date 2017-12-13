@@ -126,7 +126,7 @@ export default class AddItemWizard extends React.Component{
     this.saveItem(item);
   };
 
-  saveItem = (item = this.state.item) => {
+  saveItem = (item) => {
     let formattedItem = {...item};
 
     formattedItem.estimated_time = formattedItem.estimated_time_hours + ':' + formattedItem.estimated_time_minutes;
@@ -178,11 +178,9 @@ export default class AddItemWizard extends React.Component{
           message={"You said this item should take "
             + this.state.item.estimated_time_hours + " hours and "
             + this.state.item.estimated_time_minutes + " minutes to complete."
-            + "  But the category only has " + Math.floor(this.saveValidator.data.maxCategoryTime)
+            + "  But the category only has " + Math.floor(this.saveValidator.data.availableCategoryTime)
             + " hours before the due date.  Please move your due date back or add time to the category"
           }
-          cancelText=""
-          handleCancel={this.saveItem}
           confirmText="OK"
           handleConfirm={() => {
             this.setState({notEnoughTime: false});
@@ -196,13 +194,13 @@ export default class AddItemWizard extends React.Component{
           message={"You said this item should take "
             + this.state.item.estimated_time_hours + " hours and "
             + this.state.item.estimated_time_minutes + " minutes to complete."
-            + "  But your average time spent on this category during this time "
-            + " span is only " + Math.floor(this.saveValidator.data.avgCategoryTime) + " hours "
+            + "  But your average available time in this category before the due date "
+            + " is only " + Math.floor(this.saveValidator.data.avgCategoryTime) + " hours "
             + " and " + Math.floor((this.saveValidator.data.avgCategoryTime - Math.floor(this.saveValidator.data.avgCategoryTime))*60)
             + " minutes.  Would you like to split this into smaller tasks? We will help you do so."
           }
           cancelText="No"
-          handleCancel={this.saveItem}
+          handleCancel={() => this.saveItem(this.state.item)}
           confirmText="Yes! Split it up."
           handleConfirm={() => {
             this.setState({recommendSplit: false});

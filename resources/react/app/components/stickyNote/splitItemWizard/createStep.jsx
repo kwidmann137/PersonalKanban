@@ -206,71 +206,72 @@ export default class CreateStep extends React.Component{
               <div style={{textAlign: 'center'}}>
                 {`Creating ${this.state.items.length + 1} of ${this.state.itemsToCreate} items`}
               </div>
-              <TextField
-                hintText="Description"
-                floatingLabelText="Description"
-                onChange={this.updateInput}
-                name="description"
-                multiLine={true}
-                rows={1}
-                rowsMax={3}
-                value={this.state.currItem.description}
-                fullWidth={true}
-                errorText={this.state.errors.description}
-              />
-              <DatePicker
-                hintText="Due Date"
-                value={this.state.currItem.due_date}
-                floatingLabelText="Due Date"
-                fullWidth={true}
-                onChange={this.updateDate}
-                formatDate={(date) => new Date(date).toDateString()}
-                errorText={this.state.errors.due_date}
-              />
-
-              <div id="time_container"
-                   style={{
-                     position: 'relative',
-                     display: 'flex'
-                   }}>
+              <div>
                 <TextField
-                  floatingLabelText="Estimated Time"
-                  floatingLabelFixed={true}
-                  name="estimated_time"
-                  value={this.state.currItem.estimated_time}
+                  hintText="Description"
+                  floatingLabelText="Description"
+                  onChange={this.updateInput}
+                  name="description"
+                  multiLine={true}
+                  rowsMax={3}
+                  value={this.state.currItem.description}
                   fullWidth={true}
-                  underlineShow={false}
-                  inputStyle={{visibility:'hidden', zIndex: -1000}}
-                  style={{position: 'absolute'}}
+                  errorText={this.state.errors.description}
+                />
+                <DatePicker
+                  hintText="Due Date"
+                  value={this.state.currItem.due_date}
+                  floatingLabelText="Due Date"
+                  fullWidth={true}
+                  onChange={this.updateDate}
+                  formatDate={(date) => new Date(date).toDateString()}
+                  errorText={this.state.errors.due_date}
+                />
 
-                />
-                <TextField
-                  hintText="Hours"
-                  floatingLabelText="Hours"
-                  name="estimated_time_hours"
-                  value={this.state.currItem.estimated_time_hours}
-                  onChange={this.updateTime}
-                  style={{
-                    width: '50%',
-                    display: 'block',
-                    marginTop: 10
-                  }}
-                  errorText={this.state.errors.estimated_time}
-                />
-                <TextField
-                  hintText="Minutes"
-                  floatingLabelText="Minutes"
-                  name="estimated_time_minutes"
-                  value={this.state.currItem.estimated_time_minutes}
-                  onChange={this.updateTime}
-                  style={{
-                    width: '50%',
-                    display: 'block',
-                    marginTop: 10
-                  }}
-                  errorStyle={{fontSize: 0}}
-                  errorText={this.state.errors.estimated_time}
-                />
+                <div id="time_container"
+                     style={{
+                       position: 'relative',
+                       display: 'flex'
+                     }}>
+                  <TextField
+                    floatingLabelText="Estimated Time"
+                    floatingLabelFixed={true}
+                    name="estimated_time"
+                    value={this.state.currItem.estimated_time}
+                    fullWidth={true}
+                    underlineShow={false}
+                    inputStyle={{visibility:'hidden', zIndex: -1000}}
+                    style={{position: 'absolute'}}
+
+                  />
+                  <TextField
+                    hintText="Hours"
+                    floatingLabelText="Hours"
+                    name="estimated_time_hours"
+                    value={this.state.currItem.estimated_time_hours}
+                    onChange={this.updateTime}
+                    style={{
+                      width: '50%',
+                      display: 'block',
+                      marginTop: 10
+                    }}
+                    errorText={this.state.errors.estimated_time}
+                  />
+                  <TextField
+                    hintText="Minutes"
+                    floatingLabelText="Minutes"
+                    name="estimated_time_minutes"
+                    value={this.state.currItem.estimated_time_minutes}
+                    onChange={this.updateTime}
+                    style={{
+                      width: '50%',
+                      display: 'block',
+                      marginTop: 10
+                    }}
+                    errorStyle={{fontSize: 0}}
+                    errorText={this.state.errors.estimated_time}
+                  />
+                </div>
               </div>
             </div>
         }

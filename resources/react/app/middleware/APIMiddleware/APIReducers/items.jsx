@@ -67,6 +67,11 @@ export const items = (action, next, store) => {
       next(action);
       //API Call to update all items;
       let { items } = store.getState();
+      items = [...items];
+      items.forEach(item => {
+        delete item.start;
+        delete item.end;
+      });
       console.log("MIDDLEWARE ITEMS:");
       console.log(items);
       //ToDo: Consider putting this either on a timer to reduce traffic or somehow keeping data client side and sync periodically
