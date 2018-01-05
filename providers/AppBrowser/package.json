@@ -1,0 +1,63 @@
+{
+  "_from": "@adonisjs/vow-browser@^1.0.5",
+  "_id": "@adonisjs/vow-browser@1.0.5",
+  "_inBundle": false,
+  "_integrity": "sha512-jUPC7UKUU9Ro/q6vog7BMa+Tc9aj1JsJTuaRdSU4vG/jG2NKY9Bn4t39/d2tC3ciUlbnO6+5YPucSeD+IV61Bg==",
+  "_location": "/@adonisjs/vow-browser",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@adonisjs/vow-browser@^1.0.5",
+    "name": "@adonisjs/vow-browser",
+    "escapedName": "@adonisjs%2fvow-browser",
+    "scope": "@adonisjs",
+    "rawSpec": "^1.0.5",
+    "saveSpec": null,
+    "fetchSpec": "^1.0.5"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@adonisjs/vow-browser/-/vow-browser-1.0.5.tgz",
+  "_shasum": "5718a115fc3f4622837889c56fdefaca3ccea6fc",
+  "_spec": "@adonisjs/vow-browser@^1.0.5",
+  "_where": "/home/kyle/Node-JS-Projects/ToDo",
+  "author": "",
+  "bundleDependencies": false,
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "debug": "^3.1.0",
+    "lodash": "^4.17.4",
+    "p-series": "^1.0.0",
+    "puppeteer": "^0.12.0"
+  },
+  "deprecated": false,
+  "description": "Browser client on top of puppeteer for Adonisjs ",
+  "devDependencies": {
+    "@adonisjs/fold": "^4.0.5",
+    "@adonisjs/sink": "^1.0.13",
+    "cz-conventional-changelog": "^2.1.0",
+    "fs-extra": "^4.0.2",
+    "japa": "^1.0.5",
+    "japa-cli": "^1.0.1",
+    "macroable": "^1.0.0",
+    "node-cookie": "^2.0.2",
+    "standard": "^10.0.3"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "@adonisjs/vow-browser",
+  "scripts": {
+    "lint": "standard",
+    "pretest": "npm run lint",
+    "test": "npm run test:local",
+    "test:local": "japa --timeout=0",
+    "test:win": "node ./node_modules/japa-cli/index.js"
+  },
+  "version": "1.0.5"
+}

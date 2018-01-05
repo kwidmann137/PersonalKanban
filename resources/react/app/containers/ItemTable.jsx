@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ItemTable from '../components/stickyNote/addItemWizard/ItemTable';
+import ItemTable from '../components/wizards/addItemWizard/ItemTable';
 import {updateItems} from "../actions/index";
 
 const mapStateToProps = (state, ownProps) => {

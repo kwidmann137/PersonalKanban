@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import CategoriesPane from 'Components/accountComponents/CategoriesPane';
-import { saveCategories, deleteCategory } from 'Actions';
+import CategoriesPane from '../components/accountComponents/CategoriesPane';
+import { saveCategories, deleteCategory } from '../actions';
 
 const mapStateToProps = (state) => {
   return {

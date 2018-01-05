@@ -23,7 +23,7 @@ const providers = [
   '@adonisjs/auth/providers/AuthProvider',
   '@adonisjs/validator/providers/ValidatorProvider',
   path.join(__dirname, '..', 'providers', 'ExistsRuleProvider'),
-  // path.join(__dirname, '..', 'providers', 'HttpStatusCodes/Provider')
+  path.join(__dirname, '..', 'providers', 'AppBrowser/providers/AppBrowserProvider')
 ];
 
 /*

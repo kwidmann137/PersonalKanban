@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ProgressBar from 'Components/ProgressBar';
-import ProgressBarSection from "../components/ProgressBarSection";
+import ProgressBar from '../components/progressBar/ProgressBar';
+import ProgressBarSection from "../components/progressBar/ProgressBarSection";
 import {getScheduledItems} from "../../util/ItemHelpers";
 
 const sectionColors = [

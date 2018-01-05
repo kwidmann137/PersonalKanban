@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import DragDropBoard from 'Components/DragDropBoard';
-import DroppableColumn from "../components/sortComponents/DroppableColumn";
-import DraggableStickyNote from "../components/DraggableStickyNote";
+import DragDropBoard from '../components/boardComponents/DragDropBoard';
+import DroppableColumn from "../components/boardComponents/DroppableColumn";
+import DraggableStickyNote from "../components/stickyNote/DraggableStickyNote";
 import { updateItemStage, deleteItem } from "../actions/index";
-import NoItemsMessage from '../components/NoItemsMessage';
+import NoItemsMessage from '../components/messages/NoItemsMessage';
 import {getScheduledItems} from "../../util/ItemHelpers";
 
 const mapStateToProps = (state) => {

@@ -28,12 +28,6 @@ module.exports = {
     ]
   },
   resolve: {
-    alias: {
-      Actions: path.resolve(__dirname, 'resources/react/app/actions'),
-      Components: path.resolve(__dirname, 'resources/react/app/components'),
-      Containers: path.resolve(__dirname, 'resources/react/app/containers'),
-      Reducers: path.resolve(__dirname, 'resources/react/app/reducers')
-    },
     extensions: [".js", ".jsx"]
   }
 };

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import AccountInfoPane from 'Components/accountComponents/AccountInfoPane';
-import { updateUser } from "../actions/index";
+import AccountInfoPane from '../components/accountComponents/AccountInfoPane';
 
 const mapStateToProps = (state) => {
   return {

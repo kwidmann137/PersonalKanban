@@ -1,8 +1,8 @@
 import React from 'react';
-import PersonalBoardPage from "Containers/PersonalBoardPage";
-import SortPage from "Containers/SortPage";
-import SchedulePage from "Containers/SchedulePage";
-import AccountPage from "Components/AccountPage";
+import PersonalBoardPage from "./PersonalBoardPage";
+import SortPage from "./SortPage";
+import SchedulePage from "./SchedulePage";
+import AccountPage from "../components/accountComponents/AccountPage";
 
 const ActiveView = ({view}) => {
 

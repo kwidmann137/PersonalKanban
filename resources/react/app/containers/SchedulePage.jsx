@@ -1,5 +1,5 @@
 import React from 'react';
-import Schedule from 'Components/Schedule';
+import Schedule from '../components/schedule/Schedule';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {

@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import PropTypes from 'prop-types'
-import LoaderBackground from 'Components/LoaderBackground';
-import { addItem, addItems } from 'Actions/index';
-import AddItemWizard from "../components/stickyNote/addItemWizard/index";
+import LoaderBackground from '../components/core/LoaderBackground';
+import { addItem, addItems } from '../actions/index';
+import AddItemWizard from "../components/wizards/addItemWizard/index";
 
 const mapStateToProps = (state, ownProps) => {
   return {

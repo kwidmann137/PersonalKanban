@@ -15,7 +15,7 @@ before(async () => {
   user = await User.findBy('email', 'test@example.com');
 });
 
-test('Test adding a valid item', async ({ client, assert }) => {
+test('Test adding a valid item', async ({ client, assert}) => {
 
   let categories = await user.categoriesAsJSON();
 

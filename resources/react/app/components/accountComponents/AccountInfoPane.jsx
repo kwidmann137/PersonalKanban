@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-import {updateUser} from 'Actions';
+import {updateUser} from '../../actions';
 
 const style = {
    portraitStyle: {

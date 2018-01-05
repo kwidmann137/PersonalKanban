@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StickyNote from "Components/StickyNote";
+import StickyNote from "../stickyNote/StickyNote";
 
 const columnStyle = {
   flexGrow: 1,
